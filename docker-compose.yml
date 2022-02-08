@@ -30,8 +30,8 @@ services:
       context: ./frontend/
       dockerfile: Dockerfile
     volumes:
-      - ./frontend:/usr/src/app
-    command: sh -c "cd react-app && yarn start"
+      - ./frontend/react-app:/usr/src/app
+    command: sh -c "yarn start"
     ports:
       - "3000:3000"
 volumes:
