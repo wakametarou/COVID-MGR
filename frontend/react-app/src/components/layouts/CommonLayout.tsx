@@ -25,12 +25,12 @@ const CommonLayout = ({ children }: CommonLayoutProps) => {
         <Header />
       </header>
       <main>
-        <Container maxWidth="lg" className={classes.container}>
-          {/* <Grid container justify="center">
-            <Grid item> */}
-          {children}
-          {/* </Grid>
-          </Grid> */}
+        <Container maxWidth="lg" className={classes.container} >
+          <Grid container justifyContent="center">
+            <Grid item>
+              {children}
+            </Grid>
+          </Grid>
         </Container>
       </main>
     </>
