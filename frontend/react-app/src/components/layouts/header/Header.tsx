@@ -7,9 +7,14 @@ import { makeStyles, Theme } from "@material-ui/core/styles"
 import AppBar from "@material-ui/core/AppBar"
 import Toolbar from "@material-ui/core/Toolbar"
 import Typography from "@material-ui/core/Typography"
-import Button from "@material-ui/core/Button"
 import IconButton from "@material-ui/core/IconButton"
 import MenuIcon from "@material-ui/icons/Menu"
+
+// 追加
+import { theme } from "styles/layouts/Style"
+import { ThemeProvider } from "@material-ui/styles"
+import Hidden from '@material-ui/core/Hidden'
+import { AuthButtons } from "./Button"
 
 import { signOut } from "lib/api/auth"
 
@@ -30,7 +35,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 
 const Header: React.FC = () => {
-  const { loading, isSignedIn, setIsSignedIn } = useContext(AuthContext)
+  const { setIsSignedIn } = useContext(AuthContext)
   const classes = useStyles()
   const navigate = useNavigate()
 
@@ -56,70 +61,35 @@ const Header: React.FC = () => {
     }
   }
 
-  const AuthButtons = () => {
-    // 認証完了後はサインアウト用のボタンを表示
-    // 未認証時は認証用のボタンを表示
-    if (!loading) {
-      if (isSignedIn) {
-        return (
-          <Button
-            color="inherit"
-            className={classes.linkBtn}
-            onClick={handleSignOut}
-          >
-            Sign out
-          </Button>
-        )
-      } else {
-        return (
-          <>
-            <Button
-              component={Link}
-              to="/signin"
-              color="inherit"
-              className={classes.linkBtn}
-            >
-              Sign in
-            </Button>
-            <Button
-              component={Link}
-              to="/signup"
-              color="inherit"
-              className={classes.linkBtn}
-            >
-              Sign Up
-            </Button>
-          </>
-        )
-      }
-    } else {
-      return <></>
-    }
-  }
-
   return (
-    <>
-      <AppBar position="static">
+    <ThemeProvider theme={theme}>
+      <AppBar
+        position="static"
+      >
         <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.iconButton}
-            color="inherit"
-          >
-            <MenuIcon />
-          </IconButton>
           <Typography
             component={Link}
             to="/"
             variant="h6"
             className={classes.title}
           >
-            Sample
+            COVID-Mgr
           </Typography>
-          <AuthButtons />
+          <Hidden xsDown implementation="css">
+            <AuthButtons classes={classes} handleSignOut={handleSignOut} />
+          </Hidden>
+          <Hidden smUp implementation="css">
+            <IconButton
+              edge="start"
+              className={classes.iconButton}
+              color="inherit"
+            >
+              <MenuIcon />
+            </IconButton>
+          </Hidden>
         </Toolbar>
       </AppBar>
-    </>
+    </ThemeProvider>
   )
 }
 
