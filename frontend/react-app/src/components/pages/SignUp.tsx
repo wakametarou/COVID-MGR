@@ -14,6 +14,14 @@ import AlertMessage from "components/utils/AlertMessage"
 import { signUp } from "lib/api/auth"
 import { SignUpParams } from "interfaces/index"
 
+// ラジオボタン
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+// import FormControl from '@material-ui/core/FormControl';
+// import FormHelperText from '@material-ui/core/FormHelperText';
+// import FormLabel from '@material-ui/core/FormLabel';
+
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
     marginTop: theme.spacing(6)
@@ -43,7 +51,9 @@ const SignUp: React.FC = () => {
   const [email, setEmail] = useState<string>("")
   const [password, setPassword] = useState<string>("")
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>("")
+  const [patientOrDoctor, setPatientOrDoctor] = useState<boolean>(false)
   const [alertMessageOpen, setAlertMessageOpen] = useState<boolean>(false)
+
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
@@ -52,7 +62,9 @@ const SignUp: React.FC = () => {
       name: name,
       email: email,
       password: password,
-      passwordConfirmation: passwordConfirmation
+      passwordConfirmation: passwordConfirmation,
+      // 追加
+      patientOrDoctor: patientOrDoctor
     }
 
     try {
@@ -81,12 +93,36 @@ const SignUp: React.FC = () => {
     }
   }
 
+  // ラジオボタン
+  const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPatientOrDoctor(event.target.value === "true");
+    console.log(`条件判定: ${event.target.value === "true"}`)
+    console.log(`取得した値: ${event.target.value}`);
+  };
+
   return (
     <>
       <form noValidate autoComplete="off">
         <Card className={classes.card}>
           <CardHeader className={classes.header} title="Sign Up" />
           <CardContent>
+            <RadioGroup
+              aria-label="quiz"
+              name="quiz"
+              value="true"
+              onChange={handleRadioChange}
+            >
+              <FormControlLabel
+                value="true"
+                control={<Radio />}
+                label="患者様"
+              />
+              <FormControlLabel
+                value="false"
+                control={<Radio />}
+                label="医療従事者"
+              />
+            </RadioGroup>
             <TextField
               variant="outlined"
               required

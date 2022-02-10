@@ -4,6 +4,7 @@ export interface SignUpParams {
   email: string
   password: string
   passwordConfirmation: string
+  patientOrDoctor: boolean
 }
 
 // サインイン
