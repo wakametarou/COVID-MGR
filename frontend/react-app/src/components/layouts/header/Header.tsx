@@ -27,7 +27,8 @@ const useStyles = makeStyles((theme: Theme) => ({
   title: {
     flexGrow: 1,
     textDecoration: "none",
-    color: "inherit"
+    color: "inherit",
+    // width: 200
   },
   linkBtn: {
     textTransform: "none"
