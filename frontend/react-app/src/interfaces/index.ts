@@ -5,6 +5,15 @@ export interface SignUpParams {
   password: string
   passwordConfirmation: string
   patientOrDoctor: boolean
+  sex: boolean
+}
+
+export interface PatientParams {
+  room_number: number
+  phone_number: string
+  emergency_address: string
+  address: string
+  bilding: string
 }
 
 // サインイン
