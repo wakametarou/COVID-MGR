@@ -18,6 +18,7 @@ import { SignUpParams } from "interfaces/index"
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { Hidden } from "@material-ui/core"
 // import FormControl from '@material-ui/core/FormControl';
 // import FormHelperText from '@material-ui/core/FormHelperText';
 // import FormLabel from '@material-ui/core/FormLabel';
@@ -47,12 +48,16 @@ const SignUp: React.FC = () => {
 
   const { setIsSignedIn, setCurrentUser } = useContext(AuthContext)
 
+  // user
   const [name, setName] = useState<string>("")
   const [email, setEmail] = useState<string>("")
   const [password, setPassword] = useState<string>("")
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>("")
   const [patientOrDoctor, setPatientOrDoctor] = useState<boolean>(false)
+  const [sex, setSex] = useState<boolean>(false)
   const [alertMessageOpen, setAlertMessageOpen] = useState<boolean>(false)
+  // patient
+  const [room_number, setRoom_number] = useState<number>(0)
 
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -64,7 +69,8 @@ const SignUp: React.FC = () => {
       password: password,
       passwordConfirmation: passwordConfirmation,
       // 追加
-      patientOrDoctor: patientOrDoctor
+      patientOrDoctor: patientOrDoctor,
+      sex: sex
     }
 
     try {
@@ -94,11 +100,21 @@ const SignUp: React.FC = () => {
   }
 
   // ラジオボタン
-  const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePatientOrDoctorChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPatientOrDoctor(event.target.value === "true");
-    console.log(`条件判定: ${event.target.value === "true"}`)
-    console.log(`取得した値: ${event.target.value}`);
   };
+  const handleSexChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSex(event.target.value === "true");
+  };
+
+  const inputValid = (input: number) => {
+    return isNaN(input) ? 0 : input;
+
+    // if (isNaN(input)) {
+    //   return 0;
+    // }
+    // return input;
+  }
 
   return (
     <>
@@ -109,8 +125,7 @@ const SignUp: React.FC = () => {
             <RadioGroup
               aria-label="quiz"
               name="quiz"
-              value="true"
-              onChange={handleRadioChange}
+              onChange={handlePatientOrDoctorChange}
             >
               <FormControlLabel
                 value="true"
@@ -127,25 +142,54 @@ const SignUp: React.FC = () => {
               variant="outlined"
               required
               fullWidth
-              label="Name"
+              label="名前"
               value={name}
               margin="dense"
               onChange={event => setName(event.target.value)}
             />
+            <RadioGroup
+              aria-label="quiz"
+              name="quiz"
+              onChange={handleSexChange}
+            >
+              <FormControlLabel
+                value="true"
+                control={<Radio />}
+                label="男性"
+              />
+              <FormControlLabel
+                value="false"
+                control={<Radio />}
+                label="女性"
+              />
+            </RadioGroup>
             <TextField
               variant="outlined"
               required
               fullWidth
-              label="Email"
+              label="メールアドレス"
               value={email}
               margin="dense"
               onChange={event => setEmail(event.target.value)}
             />
+            {patientOrDoctor &&
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                label="部屋番号"
+                value={room_number === 0 ? '' : room_number}
+                margin="dense"
+
+                onChange={event => setRoom_number(inputValid(Number(event.target.value)))}
+              // onChange={event => setRoom_number(Number(event.target.value))}
+              />
+            }
             <TextField
               variant="outlined"
               required
               fullWidth
-              label="Password"
+              label="パスワード"
               type="password"
               value={password}
               margin="dense"
@@ -156,7 +200,7 @@ const SignUp: React.FC = () => {
               variant="outlined"
               required
               fullWidth
-              label="Password Confirmation"
+              label="パスワードを再入力してください"
               type="password"
               value={passwordConfirmation}
               margin="dense"

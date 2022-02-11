@@ -34,6 +34,7 @@ class DeviseTokenAuthCreateUsers < ActiveRecord::Migration[6.1]
       t.string :image
       t.string :email
       # 追加情報
+      t.boolean :sex
       t.boolean :patient_or_doctor
 
       ## Tokens

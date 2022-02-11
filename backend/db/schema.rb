@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_07_013647) do
+ActiveRecord::Schema.define(version: 2022_02_11_014706) do
+
+  create_table "patient_infos", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "room_number"
+    t.string "phone_number"
+    t.string "emergency_address"
+    t.string "address"
+    t.string "bilding"
+    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_patient_infos_on_user_id"
+  end
 
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "provider", default: "email", null: false
@@ -27,6 +39,7 @@ ActiveRecord::Schema.define(version: 2022_02_07_013647) do
     t.string "name"
     t.string "image"
     t.string "email"
+    t.boolean "sex"
     t.boolean "patient_or_doctor"
     t.text "tokens"
     t.datetime "created_at", precision: 6, null: false
@@ -37,4 +50,5 @@ ActiveRecord::Schema.define(version: 2022_02_07_013647) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "patient_infos", "users"
 end
