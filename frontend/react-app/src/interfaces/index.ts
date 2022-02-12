@@ -6,12 +6,10 @@ export interface SignUpParams {
   passwordConfirmation: string
   patientOrDoctor: boolean
   sex: boolean
-}
-
-export interface PatientParams {
-  room_number: number
-  phone_number: string
-  emergency_address: string
+  // patient
+  roomNumber: number
+  phoneNumber: string
+  emergencyAddress: string
   address: string
   bilding: string
 }

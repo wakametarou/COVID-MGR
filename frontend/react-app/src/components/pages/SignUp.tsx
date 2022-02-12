@@ -15,13 +15,9 @@ import { signUp } from "lib/api/auth"
 import { SignUpParams } from "interfaces/index"
 
 // ラジオボタン
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { Hidden } from "@material-ui/core"
-// import FormControl from '@material-ui/core/FormControl';
-// import FormHelperText from '@material-ui/core/FormHelperText';
-// import FormLabel from '@material-ui/core/FormLabel';
+import Radio from '@material-ui/core/Radio'
+import RadioGroup from '@material-ui/core/RadioGroup'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
@@ -57,7 +53,11 @@ const SignUp: React.FC = () => {
   const [sex, setSex] = useState<boolean>(false)
   const [alertMessageOpen, setAlertMessageOpen] = useState<boolean>(false)
   // patient
-  const [room_number, setRoom_number] = useState<number>(0)
+  const [roomNumber, setRoomNumber] = useState<number>(0)
+  const [phoneNumber, setPhoneNumber] = useState<string>("")
+  const [emergencyAddress, setEmergencyAddress] = useState<string>("")
+  const [address, setAddress] = useState<string>("")
+  const [bilding, setBilding] = useState<string>("")
 
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -70,7 +70,14 @@ const SignUp: React.FC = () => {
       passwordConfirmation: passwordConfirmation,
       // 追加
       patientOrDoctor: patientOrDoctor,
-      sex: sex
+      sex: sex,
+      // if(setPatientOrDoctor) {
+      roomNumber: roomNumber,
+      phoneNumber: phoneNumber,
+      emergencyAddress: emergencyAddress,
+      address: address,
+      bilding: bilding
+      // }
     }
 
     try {
@@ -173,17 +180,53 @@ const SignUp: React.FC = () => {
               onChange={event => setEmail(event.target.value)}
             />
             {patientOrDoctor &&
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                label="部屋番号"
-                value={room_number === 0 ? '' : room_number}
-                margin="dense"
-
-                onChange={event => setRoom_number(inputValid(Number(event.target.value)))}
-              // onChange={event => setRoom_number(Number(event.target.value))}
-              />
+              <>
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  label="部屋番号"
+                  value={roomNumber === 0 ? '' : roomNumber}
+                  margin="dense"
+                  onChange={event => setRoomNumber(inputValid(Number(event.target.value)))}
+                />
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  label="電話番号"
+                  value={phoneNumber}
+                  margin="dense"
+                  onChange={event => setPhoneNumber(event.target.value)}
+                />
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  label="緊急連絡先"
+                  value={emergencyAddress}
+                  margin="dense"
+                  onChange={event => setEmergencyAddress(event.target.value)}
+                />
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  label="住所"
+                  value={address}
+                  margin="dense"
+                  onChange={event => setAddress(event.target.value)}
+                />
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  label="建物名"
+                  value={bilding}
+                  margin="dense"
+                  onChange={event => setBilding(event.target.value)}
+                />
+              </>
             }
             <TextField
               variant="outlined"

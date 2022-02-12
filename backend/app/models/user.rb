@@ -7,5 +7,6 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :validatable
   include DeviseTokenAuth::Concerns::User
 
-  belongs_to :patient_info
+  has_one :patient_info
+  accepts_nested_attributes_for :patient_info
 end
