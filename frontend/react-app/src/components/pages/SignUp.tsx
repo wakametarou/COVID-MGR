@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import { useNavigate } from "react-router-dom"
 import Cookies from "js-cookie"
 
@@ -12,7 +12,7 @@ import Button from "@material-ui/core/Button"
 import { AuthContext } from "App"
 import AlertMessage from "components/utils/AlertMessage"
 import { signUp } from "lib/api/auth"
-import { SignUpParams } from "interfaces/index"
+import { SignUpParams, PatientParams } from "interfaces/index"
 
 // ラジオボタン
 import Radio from '@material-ui/core/Radio'
@@ -34,6 +34,10 @@ const useStyles = makeStyles((theme: Theme) => ({
   card: {
     padding: theme.spacing(2),
     maxWidth: 400
+  },
+  rowBox: {
+    display: "flex",
+    justifyContent: "space-around"
   }
 }))
 
@@ -49,8 +53,8 @@ const SignUp: React.FC = () => {
   const [email, setEmail] = useState<string>("")
   const [password, setPassword] = useState<string>("")
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>("")
-  const [patientOrDoctor, setPatientOrDoctor] = useState<boolean>(false)
-  const [sex, setSex] = useState<boolean>(false)
+  const [patientOrDoctor, setPatientOrDoctor] = useState<boolean>()
+  const [sex, setSex] = useState<boolean>()
   const [alertMessageOpen, setAlertMessageOpen] = useState<boolean>(false)
   // patient
   const [roomNumber, setRoomNumber] = useState<number>(0)
@@ -59,26 +63,50 @@ const SignUp: React.FC = () => {
   const [address, setAddress] = useState<string>("")
   const [bilding, setBilding] = useState<string>("")
 
+  // ボタンの許可
+  const [buttonDisAllow, setButtonDisAllow] = useState<boolean>(true)
+  useEffect(() => {
+    if (patientOrDoctor !== undefined && sex !== undefined) {
+      setButtonDisAllow(false)
+    }
+  }, [patientOrDoctor, sex, setButtonDisAllow])
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
 
-    const params: SignUpParams = {
-      name: name,
-      email: email,
-      password: password,
-      passwordConfirmation: passwordConfirmation,
-      // 追加
-      patientOrDoctor: patientOrDoctor,
-      sex: sex,
-      // if(setPatientOrDoctor) {
-      roomNumber: roomNumber,
-      phoneNumber: phoneNumber,
-      emergencyAddress: emergencyAddress,
-      address: address,
-      bilding: bilding
-      // }
+    let params: SignUpParams | PatientParams;
+    if (sex !== undefined) {
+      if (patientOrDoctor === true) {
+        params = {
+          name: name,
+          email: email,
+          password: password,
+          passwordConfirmation: passwordConfirmation,
+          patientOrDoctor: patientOrDoctor,
+          sex: sex,
+          // patient
+          roomNumber: roomNumber,
+          phoneNumber: phoneNumber,
+          emergencyAddress: emergencyAddress,
+          address: address,
+          bilding: bilding
+        }
+      } else if (patientOrDoctor === false) {
+        params = {
+          name: name,
+          email: email,
+          password: password,
+          passwordConfirmation: passwordConfirmation,
+          patientOrDoctor: patientOrDoctor,
+          sex: sex
+        }
+      } else {
+        return
+      }
+    } else {
+      return
     }
+
 
     try {
       const res = await signUp(params)
@@ -106,7 +134,7 @@ const SignUp: React.FC = () => {
     }
   }
 
-  // ラジオボタン
+  // ラジオボタン 値をbooleanに変える
   const handlePatientOrDoctorChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPatientOrDoctor(event.target.value === "true");
   };
@@ -116,35 +144,48 @@ const SignUp: React.FC = () => {
 
   const inputValid = (input: number) => {
     return isNaN(input) ? 0 : input;
-
-    // if (isNaN(input)) {
-    //   return 0;
-    // }
-    // return input;
   }
 
   return (
     <>
       <form noValidate autoComplete="off">
         <Card className={classes.card}>
-          <CardHeader className={classes.header} title="Sign Up" />
+          <CardHeader className={classes.header} title="サインアップ" />
           <CardContent>
-            <RadioGroup
-              aria-label="quiz"
-              name="quiz"
-              onChange={handlePatientOrDoctorChange}
-            >
-              <FormControlLabel
-                value="true"
-                control={<Radio />}
-                label="患者様"
-              />
-              <FormControlLabel
-                value="false"
-                control={<Radio />}
-                label="医療従事者"
-              />
-            </RadioGroup>
+            <div className={classes.rowBox}>
+              <RadioGroup
+                aria-label="quiz"
+                name="quiz"
+                onChange={handlePatientOrDoctorChange}
+              >
+                <FormControlLabel
+                  value="true"
+                  control={<Radio />}
+                  label="患者様"
+                />
+                <FormControlLabel
+                  value="false"
+                  control={<Radio />}
+                  label="医療従事者"
+                />
+              </RadioGroup>
+              <RadioGroup
+                aria-label="quiz"
+                name="quiz"
+                onChange={handleSexChange}
+              >
+                <FormControlLabel
+                  value="true"
+                  control={<Radio />}
+                  label="男性"
+                />
+                <FormControlLabel
+                  value="false"
+                  control={<Radio />}
+                  label="女性"
+                />
+              </RadioGroup>
+            </div>
             <TextField
               variant="outlined"
               required
@@ -154,22 +195,6 @@ const SignUp: React.FC = () => {
               margin="dense"
               onChange={event => setName(event.target.value)}
             />
-            <RadioGroup
-              aria-label="quiz"
-              name="quiz"
-              onChange={handleSexChange}
-            >
-              <FormControlLabel
-                value="true"
-                control={<Radio />}
-                label="男性"
-              />
-              <FormControlLabel
-                value="false"
-                control={<Radio />}
-                label="女性"
-              />
-            </RadioGroup>
             <TextField
               variant="outlined"
               required
@@ -256,11 +281,11 @@ const SignUp: React.FC = () => {
               size="large"
               fullWidth
               color="default"
-              disabled={!name || !email || !password || !passwordConfirmation ? true : false}
+              disabled={buttonDisAllow}
               className={classes.submitBtn}
               onClick={handleSubmit}
             >
-              Submit
+              登録
             </Button>
           </CardContent>
         </Card>

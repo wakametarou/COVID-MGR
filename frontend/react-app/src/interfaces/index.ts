@@ -6,6 +6,9 @@ export interface SignUpParams {
   passwordConfirmation: string
   patientOrDoctor: boolean
   sex: boolean
+}
+
+export interface PatientParams {
   // patient
   roomNumber: number
   phoneNumber: string
