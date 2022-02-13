@@ -66,10 +66,14 @@ const SignUp: React.FC = () => {
   // ボタンの許可
   const [buttonDisAllow, setButtonDisAllow] = useState<boolean>(true)
   useEffect(() => {
-    if (patientOrDoctor !== undefined && sex !== undefined) {
+    if (patientOrDoctor === false && name !== "" && email !== "" && password !== "" && passwordConfirmation === password && sex !== undefined) {
       setButtonDisAllow(false)
+    } else if (patientOrDoctor === true && name !== "" && email !== "" && password !== "" && passwordConfirmation === password && sex !== undefined && roomNumber !== 0 && phoneNumber !== "" && emergencyAddress !== "" && address !== "" && bilding !== "") {
+      setButtonDisAllow(false)
+    } else {
+      setButtonDisAllow(true)
     }
-  }, [patientOrDoctor, sex, setButtonDisAllow])
+  }, [patientOrDoctor, sex, name, email, password, passwordConfirmation, roomNumber, phoneNumber, emergencyAddress, address, bilding, setButtonDisAllow])
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
