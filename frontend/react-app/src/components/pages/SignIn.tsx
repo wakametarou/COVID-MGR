@@ -88,13 +88,13 @@ const SignIn: React.FC = () => {
     <>
       <form noValidate autoComplete="off">
         <Card className={classes.card}>
-          <CardHeader className={classes.header} title="Sign In" />
+          <CardHeader className={classes.header} title="サインイン" />
           <CardContent>
             <TextField
               variant="outlined"
               required
               fullWidth
-              label="Email"
+              label="メールアドレス"
               value={email}
               margin="dense"
               onChange={event => setEmail(event.target.value)}
@@ -103,7 +103,7 @@ const SignIn: React.FC = () => {
               variant="outlined"
               required
               fullWidth
-              label="Password"
+              label="パスワード"
               type="password"
               placeholder="At least 6 characters"
               value={password}
@@ -121,13 +121,13 @@ const SignIn: React.FC = () => {
               className={classes.submitBtn}
               onClick={handleSubmit}
             >
-              Submit
+              サインイン
             </Button>
             <Box textAlign="center" className={classes.box}>
               <Typography variant="body2">
-                Don't have an account? &nbsp;
+                アカウントをお持ちではありませんか? &nbsp;<br />
                 <Link to="/signup" className={classes.link}>
-                  Sign Up now!
+                  アカウントの作成はこちら
                 </Link>
               </Typography>
             </Box>
@@ -138,7 +138,7 @@ const SignIn: React.FC = () => {
         open={alertMessageOpen}
         setOpen={setAlertMessageOpen}
         severity="error"
-        message="Invalid emai or password"
+        message="入力した値に誤りがあります。"
       />
     </>
   )

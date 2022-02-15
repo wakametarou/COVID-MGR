@@ -1,10 +1,10 @@
 import client from "lib/api/client"
 import Cookies from "js-cookie"
 
-import { SignUpParams, PatientParams, SignInParams } from "interfaces/index"
+import { SignUpParams, SignInParams } from "interfaces/index"
 
 // サインアップ（新規アカウント作成）
-export const signUp = (params: SignUpParams | PatientParams) => {
+export const signUp = (params: SignUpParams) => {
   return client.post("auth", params)
 }
 
