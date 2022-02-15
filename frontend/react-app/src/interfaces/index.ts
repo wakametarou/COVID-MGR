@@ -5,21 +5,21 @@ export interface SignUpParams {
   email: string
   password: string
   passwordConfirmation: string
-  patientOrDoctor: boolean
-  sex: boolean
+  patientOrDoctor: boolean | undefined
+  sex: boolean | undefined
   // patient
-  patientProfile: PatientParams
+  // patientProfile: PatientParams
 
 }
 
-export interface PatientParams {
-  // patient
-  roomNumber: number
-  phoneNumber: string
-  emergencyAddress: string
-  address: string
-  bilding: string
-}
+// export interface PatientParams {
+//   // patient
+//   roomNumber: number
+//   phoneNumber: string
+//   emergencyAddress: string
+//   address: string
+//   bilding: string
+// }
 
 // サインイン
 export interface SignInParams {

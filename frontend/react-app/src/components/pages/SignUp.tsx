@@ -12,7 +12,7 @@ import Button from "@material-ui/core/Button"
 import { AuthContext } from "App"
 import AlertMessage from "components/utils/AlertMessage"
 import { signUp } from "lib/api/auth"
-import { SignUpParams, PatientParams } from "interfaces/index"
+import { SignUpParams } from "interfaces/index"
 
 // ラジオボタン
 import Radio from '@material-ui/core/Radio'
@@ -49,25 +49,19 @@ const SignUp: React.FC = () => {
   const { setIsSignedIn, setCurrentUser } = useContext(AuthContext)
 
   // user
-  const [name, setName] = useState<string>("test")
+  const [name, setName] = useState<string>("")
   const [email, setEmail] = useState<string>("")
   const [password, setPassword] = useState<string>("")
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>("")
   const [patientOrDoctor, setPatientOrDoctor] = useState<boolean>()
   const [sex, setSex] = useState<boolean>()
   const [alertMessageOpen, setAlertMessageOpen] = useState<boolean>(false)
-  // patient
-  const [roomNumber, setRoomNumber] = useState<number>(8888)
-  const [phoneNumber, setPhoneNumber] = useState<string>("77778888999")
-  const [emergencyAddress, setEmergencyAddress] = useState<string>("55566667777")
-  const [address, setAddress] = useState<string>("test")
-  const [bilding, setBilding] = useState<string>("test")
-
   // ボタンの許可
   const [buttonDisAllow, setButtonDisAllow] = useState<boolean>(true)
+
   useEffect(() => {
     if (
-      patientOrDoctor === false &&
+      patientOrDoctor !== undefined &&
       name !== "" &&
       email !== "" &&
       password !== "" &&
@@ -75,79 +69,22 @@ const SignUp: React.FC = () => {
       sex !== undefined
     ) {
       setButtonDisAllow(false)
-    } else if (
-      patientOrDoctor === true &&
-      name !== "" &&
-      email !== "" &&
-      password !== "" &&
-      passwordConfirmation === password &&
-      sex !== undefined &&
-      roomNumber !== 0 &&
-      phoneNumber !== "" &&
-      emergencyAddress !== "" &&
-      address !== "" &&
-      bilding !== ""
-    ) {
-      setButtonDisAllow(false)
     } else {
       setButtonDisAllow(true)
     }
-  }, [patientOrDoctor, sex, name, email, password, passwordConfirmation, roomNumber, phoneNumber, emergencyAddress, address, bilding, setButtonDisAllow])
+  }, [patientOrDoctor, sex, name, email, password, passwordConfirmation])
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
 
-    // SignUpParams | PatientParams;
-    let params: SignUpParams;
-    // let patientProfile: PatientParams;
-    if (sex !== undefined) {
-      if (patientOrDoctor === true) {
-        params = {
-
-          name: name,
-          email: email,
-          password: password,
-          passwordConfirmation: passwordConfirmation,
-          patientOrDoctor: patientOrDoctor,
-          sex: sex,
-
-          // patient
-          patientProfile: {
-            roomNumber: roomNumber,
-            phoneNumber: phoneNumber,
-            emergencyAddress: emergencyAddress,
-            address: address,
-            bilding: bilding
-          }
-
-        }
-      } else if (patientOrDoctor === false) {
-        params = {
-
-          name: name,
-          email: email,
-          password: password,
-          passwordConfirmation: passwordConfirmation,
-          patientOrDoctor: patientOrDoctor,
-          sex: sex,
-
-          // patient
-          patientProfile: {
-            roomNumber: roomNumber,
-            phoneNumber: phoneNumber,
-            emergencyAddress: emergencyAddress,
-            address: address,
-            bilding: bilding
-          }
-
-        }
-      } else {
-        return
-      }
-    } else {
-      return
+    const params: SignUpParams = {
+      name: name,
+      email: email,
+      password: password,
+      passwordConfirmation: passwordConfirmation,
+      patientOrDoctor: patientOrDoctor,
+      sex: sex
     }
-
 
     try {
       const res = await signUp(params)
@@ -182,10 +119,6 @@ const SignUp: React.FC = () => {
   const handleSexChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSex(event.target.value === "true");
   };
-
-  const inputValid = (input: number) => {
-    return isNaN(input) ? 0 : input;
-  }
 
   return (
     <>
@@ -245,58 +178,6 @@ const SignUp: React.FC = () => {
               margin="dense"
               onChange={event => setEmail(event.target.value)}
             />
-            {patientOrDoctor &&
-              <>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  label="部屋番号"
-                  value={roomNumber === 0 ? '' : roomNumber}
-                  margin="dense"
-                  inputProps={{ maxLength: 4, pattern: "^[0-9_]+$" }}
-                  onChange={event => setRoomNumber(inputValid(Number(event.target.value)))}
-                />
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  label="電話番号"
-                  value={phoneNumber}
-                  margin="dense"
-                  inputProps={{ maxLength: 11, pattern: "^[0-9_]+$" }}
-                  onChange={event => setPhoneNumber(event.target.value)}
-                />
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  label="緊急連絡先"
-                  value={emergencyAddress}
-                  margin="dense"
-                  inputProps={{ maxLength: 11, pattern: "^[0-9_]+$" }}
-                  onChange={event => setEmergencyAddress(event.target.value)}
-                />
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  label="住所"
-                  value={address}
-                  margin="dense"
-                  onChange={event => setAddress(event.target.value)}
-                />
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  label="建物名"
-                  value={bilding}
-                  margin="dense"
-                  onChange={event => setBilding(event.target.value)}
-                />
-              </>
-            }
             <TextField
               variant="outlined"
               required
@@ -329,7 +210,7 @@ const SignUp: React.FC = () => {
               className={classes.submitBtn}
               onClick={handleSubmit}
             >
-              登録
+              サインアップ
             </Button>
           </CardContent>
         </Card>
@@ -338,7 +219,7 @@ const SignUp: React.FC = () => {
         open={alertMessageOpen}
         setOpen={setAlertMessageOpen}
         severity="error"
-        message="Invalid emai or password"
+        message="入力した値に誤りがあります。"
       />
     </>
   )
