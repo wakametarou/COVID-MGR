@@ -1,11 +1,15 @@
 // サインアップ
 export interface SignUpParams {
+
   name: string
   email: string
   password: string
   passwordConfirmation: string
   patientOrDoctor: boolean
   sex: boolean
+  // patient
+  patientProfile: PatientParams
+
 }
 
 export interface PatientParams {
