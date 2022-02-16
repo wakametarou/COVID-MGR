@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="UjBX9D1F_PHXTORusFUd" name="ページ1">
-        <mxGraphModel dx="682" dy="485" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1000" pageHeight="700" math="0" shadow="0">
+        <mxGraphModel dx="636" dy="635" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1000" pageHeight="700" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -30,7 +30,7 @@
                 <mxCell id="18" value="user_id" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="2" vertex="1">
                     <mxGeometry y="182" width="240" height="26" as="geometry"/>
                 </mxCell>
-                <mxCell id="64" style="edgeStyle=none;html=1;endArrow=ERzeroToMany;endFill=0;strokeWidth=2;startArrow=ERone;startFill=0;targetPerimeterSpacing=0;rounded=1;sourcePerimeterSpacing=0;endSize=10;startSize=10;entryX=0.2;entryY=-0.014;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.166;exitY=1.141;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" edge="1">
+                <mxCell id="64" style="edgeStyle=none;html=1;endArrow=ERzeroToOne;endFill=0;strokeWidth=2;startArrow=ERone;startFill=0;targetPerimeterSpacing=0;rounded=1;sourcePerimeterSpacing=0;endSize=10;startSize=10;entryX=0.2;entryY=-0.014;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.166;exitY=1.141;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="119.84000000000003" y="251.66599999999994" as="sourcePoint"/>
                         <mxPoint x="120" y="438.17999999999995" as="targetPoint"/>
@@ -132,7 +132,7 @@
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="164" value="Questions/質問" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="1" vertex="1">
-                    <mxGeometry x="380" y="520" width="160" height="130" as="geometry"/>
+                    <mxGeometry x="380" y="520" width="160" height="104" as="geometry"/>
                 </mxCell>
                 <mxCell id="165" value="id" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="164" vertex="1">
                     <mxGeometry y="26" width="160" height="26" as="geometry"/>
@@ -142,9 +142,6 @@
                 </mxCell>
                 <mxCell id="185" value="content: string" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="164" vertex="1">
                     <mxGeometry y="78" width="160" height="26" as="geometry"/>
-                </mxCell>
-                <mxCell id="171" value="interview_id" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="164" vertex="1">
-                    <mxGeometry y="104" width="160" height="26" as="geometry"/>
                 </mxCell>
                 <mxCell id="188" style="edgeStyle=none;html=1;endArrow=ERoneToMany;endFill=0;strokeWidth=2;startArrow=ERone;startFill=0;targetPerimeterSpacing=0;rounded=1;sourcePerimeterSpacing=0;endSize=10;startSize=10;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=0.666;exitY=1.056;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="18" target="10" edge="1">
                     <mxGeometry relative="1" as="geometry">

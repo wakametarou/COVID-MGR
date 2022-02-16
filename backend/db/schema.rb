@@ -10,7 +10,38 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_11_014706) do
+ActiveRecord::Schema.define(version: 2022_02_16_035316) do
+
+  create_table "answers", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.boolean "answer"
+    t.bigint "interview_id"
+    t.bigint "question_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["interview_id"], name: "index_answers_on_interview_id"
+    t.index ["question_id"], name: "index_answers_on_question_id"
+  end
+
+  create_table "interviews", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "temperature"
+    t.integer "oxygen_saturation"
+    t.time "instrumentation_time"
+    t.integer "status"
+    t.boolean "other_symptom"
+    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_interviews_on_user_id"
+  end
+
+  create_table "other_symptoms", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "pain_degree"
+    t.string "concrete"
+    t.bigint "interview_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["interview_id"], name: "index_other_symptoms_on_interview_id"
+  end
 
   create_table "patient_profiles", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "room_number"
@@ -22,6 +53,13 @@ ActiveRecord::Schema.define(version: 2022_02_11_014706) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_patient_profiles_on_user_id"
+  end
+
+  create_table "questions", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name"
+    t.string "content"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -50,5 +88,9 @@ ActiveRecord::Schema.define(version: 2022_02_11_014706) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "answers", "interviews"
+  add_foreign_key "answers", "questions"
+  add_foreign_key "interviews", "users"
+  add_foreign_key "other_symptoms", "interviews"
   add_foreign_key "patient_profiles", "users"
 end

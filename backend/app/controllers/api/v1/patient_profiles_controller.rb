@@ -1,5 +1,4 @@
 class Api::V1::PatientProfilesController < ApplicationController
-
   def show
     if patient_profile = PatientProfile.find_by(user_id: params[:user_id])
       render json: patient_profile

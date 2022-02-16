@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  temperature: 1
+  oxygen_saturation: 1
+
+two:
+  temperature: 1
+  oxygen_saturation: 1

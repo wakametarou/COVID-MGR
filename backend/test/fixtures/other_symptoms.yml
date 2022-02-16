@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  pain_degree: 1
+  concrete: MyString
+
+two:
+  pain_degree: 1
+  concrete: MyString
