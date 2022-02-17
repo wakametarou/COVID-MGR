@@ -1,7 +1,40 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+Question.create!(
+  [
+    {
+      name: '顔色',
+      content: '・顔色が明らかに悪い\n・唇が紫色になっている'
+    },
+    {
+      name: '咳痰',
+      content: '・咳や痰がひどくなっている\n・咳は痰を伴っているか'
+    },
+    {
+      name: '息苦しさ',
+      content: '・息が荒くなった(呼吸数が多くなった)\n・日常生活の中で少し動くと息があがる\n・横になれない・座らないと息ができない'
+    },
+    {
+      name: '倦怠感',
+      content: '・起きているのがつらい\n・怠さが残っている'
+    },
+    {
+      name: '吐き気',
+      content: '・嘔吐や吐き気が続いている'
+    },
+    {
+      name: '下痢',
+      content: '・下痢が続いている(1日数回の下痢)'
+    },
+    {
+      name: '意識障害',
+      content: '・ぼんやりしている(反応が弱い)\n・もうろうとしている(返事ができない)'
+    },
+    {
+      name: '食欲',
+      content: '・主食、副食を食べることできなかった\n・水分を摂れていない'
+    },
+    {
+      name: '尿',
+      content: '水分を摂っていて尿が出ない\n・排尿時に痛みがある'
+    }
+  ]
+)
