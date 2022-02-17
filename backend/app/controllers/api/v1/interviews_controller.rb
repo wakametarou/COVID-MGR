@@ -47,8 +47,8 @@ class Api::V1::InterviewsController < ApplicationController
       # make_interview_answers(interview,answers)
       render json: interview_answers
     else
-      interview_answers[:interview]=interview
-      interview_answers[:answers]=answers
+      # interview_answers[:interview]=interview
+      # interview_answers[:answers]=answers
       # make_interview_answers(interview,answers)
       render json: interview_answers.errors, status: 422
     end
