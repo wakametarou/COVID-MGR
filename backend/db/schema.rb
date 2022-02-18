@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(version: 2022_02_16_035316) do
     t.integer "oxygen_saturation"
     t.time "instrumentation_time"
     t.integer "status"
-    t.boolean "other_symptom"
+    t.boolean "other"
     t.bigint "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -84,6 +84,7 @@ ActiveRecord::Schema.define(version: 2022_02_16_035316) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["id"], name: "id_index"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
