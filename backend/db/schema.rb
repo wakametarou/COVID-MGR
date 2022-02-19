@@ -44,11 +44,12 @@ ActiveRecord::Schema.define(version: 2022_02_16_035316) do
   end
 
   create_table "patient_profiles", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "image"
     t.integer "room_number"
     t.string "phone_number"
     t.string "emergency_address"
     t.string "address"
-    t.string "bilding"
+    t.string "building"
     t.bigint "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -75,7 +76,6 @@ ActiveRecord::Schema.define(version: 2022_02_16_035316) do
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
     t.string "name"
-    t.string "image"
     t.string "email"
     t.boolean "sex"
     t.boolean "patient_or_doctor"
@@ -84,7 +84,6 @@ ActiveRecord::Schema.define(version: 2022_02_16_035316) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["id"], name: "id_index"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end

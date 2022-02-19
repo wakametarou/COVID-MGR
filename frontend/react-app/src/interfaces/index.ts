@@ -18,7 +18,7 @@ export interface SignUpParams {
 //   phoneNumber: string
 //   emergencyAddress: string
 //   address: string
-//   bilding: string
+//   building: string
 // }
 
 // サインイン

@@ -56,7 +56,7 @@ class Api::V1::PatientProfilesController < ApplicationController
   private
     def patient_profile_params
       params.require(:patient_profile).permit(
-        :room_number, :phone_number, :emergency_address, :address, :bilding, :user_id
+        :room_number, :phone_number, :emergency_address, :address, :building, :user_id
       )
     end
     def user_params
