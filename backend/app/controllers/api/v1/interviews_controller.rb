@@ -7,7 +7,7 @@ class Api::V1::InterviewsController < ApplicationController
       interviews = Interview.all.order(created_at: :desc)
       render json: interviews
     else
-      render json: interviews.errors, status: 422
+      render json: { status: 404 }
     end
   end
 
