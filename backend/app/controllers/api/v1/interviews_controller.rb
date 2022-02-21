@@ -18,11 +18,11 @@ class Api::V1::InterviewsController < ApplicationController
     if interview = Interview.find(params[:interview][:id])
       if interview.other == true
         other = OtherSymptom.find_by(interview_id: params[:id])
-        interview_other[:interview]=interview
-        interview_other[:other_symptom]=other
+        interview_other[:interview] = interview
+        interview_other[:other_symptom] = other
         render json: interview_other
       else
-        render json: interview 
+        render json: interview
       end
     else
       render json: { status: 404 }
@@ -45,16 +45,16 @@ class Api::V1::InterviewsController < ApplicationController
       if interview_params[:other] == true
         other_symptom = OtherSymptom.new(**other_symptom_params, interview_id: interview.id)
         other_symptom.save
-        interview_answers[:other_symptom]=other_symptom
+        interview_answers[:other_symptom] = other_symptom
       end
       answers_params.each do |ans|
-        ans["interview_id"] = interview.id
+        ans['interview_id'] = interview.id
         answer = Answer.new(ans)
         answer.save
         answers << answer
       end
-      interview_answers[:interview]=interview
-      interview_answers[:answers]=answers
+      interview_answers[:interview] = interview
+      interview_answers[:answers] = answers
       render json: interview_answers
     else
       render json: { status: 400 }
@@ -62,6 +62,7 @@ class Api::V1::InterviewsController < ApplicationController
   end
 
   private
+
   def interview_params
     params.require(:interview).permit(
       :temperature, :oxygen_saturation, :instrumentation_time, :status, :other, :user_id
@@ -75,6 +76,6 @@ class Api::V1::InterviewsController < ApplicationController
   end
 
   def answers_params
-    params.permit(answers: [:answer, :question_id]).to_h[:answers]
+    params.permit(answers: %i[answer question_id]).to_h[:answers]
   end
 end
