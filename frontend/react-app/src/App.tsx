@@ -5,6 +5,7 @@ import CommonLayout from "components/layouts/CommonLayout"
 import Home from "components/pages/Home"
 import SignUp from "components/pages/SignUp"
 import SignIn from "components/pages/SignIn"
+import Mypage from "components/pages/Mypage"
 
 import { getCurrentUser } from "lib/api/auth"
 import { User } from "interfaces/index"
@@ -57,6 +58,7 @@ const App: React.FC = () => {
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/" element={<Home />} />
+            <Route path="/mypage" element={<Mypage />} />
           </Routes>
         </CommonLayout>
       </AuthContext.Provider>
