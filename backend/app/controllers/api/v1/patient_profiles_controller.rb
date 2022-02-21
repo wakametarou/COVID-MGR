@@ -28,9 +28,10 @@ class Api::V1::PatientProfilesController < ApplicationController
   end
 
   private
-    def patient_profile_params
-      params.require(:patient_profile).permit(
-        :image, :room_number, :phone_number, :emergency_address, :address, :building, :user_id
-      ).merge(user_id: current_api_v1_user.id)
-    end
+
+  def patient_profile_params
+    params.require(:patient_profile).permit(
+      :image, :room_number, :phone_number, :emergency_address, :address, :building, :user_id
+    ).merge(user_id: current_api_v1_user.id)
+  end
 end
