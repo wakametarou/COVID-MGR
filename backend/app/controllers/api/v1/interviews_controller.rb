@@ -1,9 +1,11 @@
 class Api::V1::InterviewsController < ApplicationController
+  before_action :authenticate_api_v1_user!
+
   def index
-    if params[:patient_or_doctor] = true
-      interviews = Interview.where(user_id: params[:user_id]).order(created_at: :desc)
+    if current_api_v1_user.patient_or_doctor == true
+      interviews = Interview.where(user_id: current_api_v1_user.id).order(created_at: :desc)
       render json: interviews
-    elsif params[:patient_or_doctor] = false
+    elsif current_api_v1_user.patient_or_doctor == false
       interviews = Interview.all.order(created_at: :desc)
       render json: interviews
     else
@@ -12,10 +14,18 @@ class Api::V1::InterviewsController < ApplicationController
   end
 
   def show
-    if interview = Interview.find(params[:id])
-      render json: interview
+    interview_other = {}
+    if interview = Interview.find(params[:interview][:id])
+      if interview.other == true
+        other = OtherSymptom.find_by(interview_id: params[:id])
+        interview_other[:interview]=interview
+        interview_other[:other_symptom]=other
+        render json: interview_other
+      else
+        render json: interview 
+      end
     else
-      render json: interview.errors, status: 422
+      render json: { status: 404 }
     end
   end
 
@@ -23,7 +33,7 @@ class Api::V1::InterviewsController < ApplicationController
     if questions = Question.all
       render json: questions
     else
-      render json: questions.errors, status: 422
+      render json: { status: 404 }
     end
   end
 
@@ -47,8 +57,7 @@ class Api::V1::InterviewsController < ApplicationController
       interview_answers[:answers]=answers
       render json: interview_answers
     else
-      interview_answers[:status]=420
-      render json: interview_answers
+      render json: { status: 400 }
     end
   end
 
@@ -56,7 +65,7 @@ class Api::V1::InterviewsController < ApplicationController
   def interview_params
     params.require(:interview).permit(
       :temperature, :oxygen_saturation, :instrumentation_time, :status, :other, :user_id
-    )
+    ).merge(user_id: current_api_v1_user.id)
   end
 
   def other_symptom_params
