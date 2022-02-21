@@ -47,7 +47,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     handleGetCurrentUser()
-  }, [setCurrentUser])
+  }, [])
 
   return (
     <Router>

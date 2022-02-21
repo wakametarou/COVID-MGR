@@ -6,7 +6,7 @@ Rails.application.routes.draw do
       }
       
       namespace :auth do
-        resource :sessions, only: %i[index]
+        resources :sessions, only: %i[index]
       end
       get 'patient_profiles/show'
       post 'patient_profiles/create'
