@@ -31,6 +31,8 @@ export interface User {
   provider: string
   email: string
   name: string
+  patientOrDoctor: boolean
+  sex: boolean
   allowPasswordChange: boolean
   created_at: Date
   updated_at: Date

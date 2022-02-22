@@ -51,7 +51,7 @@ const Header: React.FC = () => {
         Cookies.remove("_uid")
 
         setIsSignedIn(false)
-        navigate("/signin")
+        navigate("/")
 
         console.log("Succeeded in sign out")
       } else {
