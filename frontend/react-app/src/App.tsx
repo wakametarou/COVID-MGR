@@ -25,6 +25,14 @@ const App: React.FC = () => {
   const [isSignedIn, setIsSignedIn] = useState<boolean>(false)
   const [currentUser, setCurrentUser] = useState<User | undefined>()
 
+  const LoginCheck = ({ component }: { component: JSX.Element }): JSX.Element => {
+    if (isSignedIn) {
+      return <>{component}</>
+    } else {
+      return <Home />
+    }
+  }
+
   // 認証済みのユーザーがいるかどうかチェック
   // 確認できた場合はそのユーザーの情報を取得
   const handleGetCurrentUser = async () => {
@@ -58,7 +66,7 @@ const App: React.FC = () => {
             <Route path="/" element={<Home />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
-            <Route path="/mypage" element={<Mypage />} />
+            <Route path="/mypage" element={LoginCheck({ component: <Mypage /> })} />
           </Routes>
         </CommonLayout>
       </AuthContext.Provider>
