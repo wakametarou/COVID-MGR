@@ -45,3 +45,13 @@ export const patientShow = () => {
     }
   })
 }
+
+export const patientsIndex = () => {
+  return client.get("/users/index", {
+    headers: {
+      "access-token": Cookies.get("_access_token")!,
+      "client": Cookies.get("_client")!,
+      "uid": Cookies.get("_uid")!
+    }
+  })
+}

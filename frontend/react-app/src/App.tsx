@@ -6,6 +6,7 @@ import Home from "components/pages/Home"
 import SignUp from "components/pages/SignUp"
 import SignIn from "components/pages/SignIn"
 import Mypage from "components/pages/Mypage"
+import Patients from "components/pages/Patients"
 
 import { getCurrentUser } from "lib/api/auth"
 import { User } from "interfaces/index"
@@ -38,11 +39,9 @@ const App: React.FC = () => {
   const handleGetCurrentUser = async () => {
     try {
       const res = await getCurrentUser()
-
       if (res?.data.isLogin === true) {
         setIsSignedIn(true)
         setCurrentUser(res?.data.data)
-
         console.log(res?.data.data)
       } else {
         console.log("No current user")
@@ -50,7 +49,6 @@ const App: React.FC = () => {
     } catch (err) {
       console.log(err)
     }
-
     setLoading(false)
   }
 
@@ -67,6 +65,7 @@ const App: React.FC = () => {
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/mypage" element={LoginCheck({ component: <Mypage /> })} />
+            <Route path="/patients" element={LoginCheck({ component: <Patients /> })} />
           </Routes>
         </CommonLayout>
       </AuthContext.Provider>

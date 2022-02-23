@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react"
 import { AuthContext } from "App"
+import { Link } from "react-router-dom"
 // mui
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
@@ -50,7 +51,7 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: 'center'
     },
     button: {
-      size: "large",
+      // size: "large",
       backgroundColor: pink[100],
       variant: "contained",
       marginTop: 20
@@ -126,9 +127,11 @@ const Mypage: React.FC = () => {
             {currentUser?.patientOrDoctor ||
               <CardActions className={classes.cardActions}>
                 <Button
-                  color="primary"
+                  component={Link}
+                  to="/patients"
                   size="large"
                   variant="contained"
+                  className={classes.button}
                 >
                   患者様一覧
                 </Button>

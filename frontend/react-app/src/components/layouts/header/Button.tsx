@@ -4,7 +4,7 @@ import Button from "@material-ui/core/Button"
 import { AuthContext } from "App"
 
 export const AuthButtons = ({ classes, handleSignOut }: any) => {
-  const { loading, isSignedIn } = useContext(AuthContext)
+  const { loading, currentUser, isSignedIn } = useContext(AuthContext)
 
   // 認証完了後はサインアウト用のボタンを表示
   // 未認証時は認証用のボタンを表示
@@ -20,6 +20,16 @@ export const AuthButtons = ({ classes, handleSignOut }: any) => {
           >
             My Page
           </Button>
+          {currentUser?.patientOrDoctor ||
+            <Button
+              component={Link}
+              to="/patients"
+              color="inherit"
+              className={classes.linkBtn}
+            >
+              Patients
+            </Button>
+          }
           <Button
             color="inherit"
             className={classes.linkBtn}

@@ -37,3 +37,13 @@ export interface User {
   created_at: Date
   updated_at: Date
 }
+
+// 患者様一覧用
+export interface PatientsIndex {
+  id: number
+  image: string
+  name: string
+  sex: boolean
+  roomNumber: number
+  status: number
+}
