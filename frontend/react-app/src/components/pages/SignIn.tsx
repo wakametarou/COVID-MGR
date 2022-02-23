@@ -72,7 +72,7 @@ const SignIn: React.FC = () => {
         setIsSignedIn(true)
         setCurrentUser(res.data.data)
 
-        navigate("/")
+        navigate("/mypage")
 
         console.log("Signed in successfully!")
       } else {
@@ -105,7 +105,7 @@ const SignIn: React.FC = () => {
               fullWidth
               label="パスワード"
               type="password"
-              placeholder="At least 6 characters"
+              placeholder="6文字以上入力してください"
               value={password}
               margin="dense"
               autoComplete="current-password"

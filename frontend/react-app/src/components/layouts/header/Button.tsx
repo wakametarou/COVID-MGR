@@ -11,13 +11,23 @@ export const AuthButtons = ({ classes, handleSignOut }: any) => {
   if (!loading) {
     if (isSignedIn) {
       return (
-        <Button
-          color="inherit"
-          className={classes.linkBtn}
-          onClick={handleSignOut}
-        >
-          Sign out
-        </Button>
+        <>
+          <Button
+            component={Link}
+            to="/mypage"
+            color="inherit"
+            className={classes.linkBtn}
+          >
+            My Page
+          </Button>
+          <Button
+            color="inherit"
+            className={classes.linkBtn}
+            onClick={handleSignOut}
+          >
+            Sign out
+          </Button>
+        </>
       )
     } else {
       return (

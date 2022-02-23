@@ -100,7 +100,7 @@ const SignUp: React.FC = () => {
         setIsSignedIn(true)
         setCurrentUser(res.data.data)
 
-        navigate("/")
+        navigate("/Mypage")
 
         console.log("Signed in successfully!")
       } else {

@@ -1,25 +1,12 @@
 // サインアップ
 export interface SignUpParams {
-
   name: string
   email: string
   password: string
   passwordConfirmation: string
   patientOrDoctor: boolean | undefined
   sex: boolean | undefined
-  // patient
-  // patientProfile: PatientParams
-
 }
-
-// export interface PatientParams {
-//   // patient
-//   roomNumber: number
-//   phoneNumber: string
-//   emergencyAddress: string
-//   address: string
-//   building: string
-// }
 
 // サインイン
 export interface SignInParams {
@@ -27,15 +14,25 @@ export interface SignInParams {
   password: string
 }
 
-// ユーザー
+// 患者様情報
+export interface PatientParams {
+  image: string
+  roomNumber: number
+  phoneNumber: string
+  emergencyAddress: string
+  address: string
+  building: string
+}
+
+// ユーザー cookie
 export interface User {
   id: number
   uid: string
   provider: string
   email: string
   name: string
-  nickname?: string
-  image?: string
+  patientOrDoctor: boolean
+  sex: boolean
   allowPasswordChange: boolean
   created_at: Date
   updated_at: Date

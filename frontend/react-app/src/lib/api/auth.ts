@@ -36,3 +36,12 @@ export const getCurrentUser = () => {
   })
 }
 
+export const patientShow = () => {
+  return client.get("/patient_profiles/show", {
+    headers: {
+      "access-token": Cookies.get("_access_token")!,
+      "client": Cookies.get("_client")!,
+      "uid": Cookies.get("_uid")!
+    }
+  })
+}

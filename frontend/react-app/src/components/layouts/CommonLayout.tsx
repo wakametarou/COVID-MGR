@@ -4,10 +4,12 @@ import { Container, Grid } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 
 import Header from "components/layouts/header/Header"
+import Footer from "components/layouts/footer/Footer"
 
 const useStyles = makeStyles(() => ({
   container: {
-    marginTop: "3rem"
+    marginTop: "5rem",
+    marginBottom: "10rem"
   }
 }))
 
@@ -33,6 +35,9 @@ const CommonLayout = ({ children }: CommonLayoutProps) => {
           </Grid>
         </Container>
       </main>
+      <footer>
+        <Footer />
+      </footer>
     </>
   )
 }
