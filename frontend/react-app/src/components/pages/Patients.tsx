@@ -18,40 +18,40 @@ import { patientsIndex } from "lib/api/auth"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    gridRoot: {
+    root: {
       display: 'flex',
       flexDirection: 'column',
-      alignItems: 'center'
+      alignItems: 'center',
     },
     cardRoot: {
       display: 'flex',
       marginBottom: 10,
-
     },
     cardContent: {
       display: 'flex',
-      justifyContent: 'center',
-
+      justifyContent: 'space-around',
+      flexWrap: 'wrap',
     },
     listItem: {
-      margin: 10,
+      margin: 15,
       width: 90,
       textAlign: 'center',
     },
     listRoomNumber: {
-      margin: 10,
-      width: 50,
+      margin: 15,
+      width: 90,
       textAlign: 'center',
     },
     button: {
-      marginRight: 10,
+      width: 90,
       backgroundColor: pink[100],
       variant: "contained",
       boxShadow: "1px 1px 3px 0 grey",
     },
     statusBox: {
       textAlign: 'center',
-      marginLeft: 10,
+      margin: 5,
+      width: 90,
     },
     statusText: {
       fontSize: 13,
@@ -65,21 +65,21 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     statusOrange: {
       height: 25,
-      width: 40,
+      width: 45,
       backgroundColor: "#fb8500",
       border: "1px solid #bdbdbd",
       boxShadow: "1px 1px 3px 0 grey",
     },
     statusYellow: {
       height: 25,
-      width: 40,
+      width: 45,
       backgroundColor: "#f9f800",
       border: "1px solid #bdbdbd",
       boxShadow: "1px 1px 3px 0 grey",
     },
     statusGreen: {
       height: 25,
-      width: 40,
+      width: 45,
       backgroundColor: "#9ef01a",
       border: "1px solid #bdbdbd",
       boxShadow: "1px 1px 3px 0 grey",
@@ -91,6 +91,17 @@ const useStyles = makeStyles((theme: Theme) =>
       '& > *': {
         marginTop: theme.spacing(2),
       },
+    },
+    itemBlock: {
+      display: 'flex',
+      justifyContent: 'space-around',
+      width: 320,
+    },
+    avatar: {
+      display: 'flex',
+      justifyContent: 'center',
+      width: 90,
+      margin: 10
     },
   }),
 );
@@ -139,15 +150,19 @@ const Patients: React.FC = () => {
   console.log(pageCount)
 
   return (
-    <Grid container spacing={3}>
-      <Grid className={classes.gridRoot} item xs={12}>
-        <Typography variant="h5" component="h1" style={{ marginBottom: 30 }}>
-          患者様一覧
-        </Typography>
-        {displayedPatients.map((patient, index) => (
-          <Card className={classes.cardRoot} key={index}>
-            <CardContent className={classes.cardContent}>
-              <Avatar alt="Remy Sharp" src={patient.image} />
+    <div className={classes.root}>
+      <Typography variant="h5" component="h1" style={{ marginBottom: 30 }}>
+        患者様一覧
+      </Typography>
+      {displayedPatients.map((patient, index) => (
+        <Card className={classes.cardRoot} key={index}>
+
+          <CardContent className={classes.cardContent}>
+
+            <div className={classes.itemBlock}>
+              <div className={classes.avatar}>
+                <Avatar alt="Remy Sharp" src={patient.image} />
+              </div>
               <Typography className={classes.listItem}>
                 {patient.name}
               </Typography>
@@ -160,6 +175,10 @@ const Patients: React.FC = () => {
                   女性
                 </Typography>
               }
+            </div>
+
+
+            <div className={classes.itemBlock}>
               {patient.roomNumber ?
                 <Typography className={classes.listItem}>
                   {patient.roomNumber}
@@ -187,22 +206,25 @@ const Patients: React.FC = () => {
                   }
                 })()}
               </div>
-            </CardContent>
-            <CardActions>
-              <Button className={classes.button}>詳細</Button>
-            </CardActions>
-          </Card>
-        ))}
-        <div className={classes.paginationRoot}>
-          <Pagination
-            count={pageCount}
-            color="secondary"
-            onChange={handleChange}
-            page={page}
-          />
-        </div>
-      </Grid>
-    </Grid>
+              <CardActions>
+                <Button className={classes.button}>詳細</Button>
+              </CardActions>
+            </div>
+
+          </CardContent>
+
+        </Card>
+
+      ))}
+      <div className={classes.paginationRoot}>
+        <Pagination
+          count={pageCount}
+          color="secondary"
+          onChange={handleChange}
+          page={page}
+        />
+      </div>
+    </div>
   )
 }
 
