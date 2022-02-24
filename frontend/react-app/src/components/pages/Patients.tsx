@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react"
 
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
-import Grid from '@material-ui/core/Grid'
-
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
@@ -145,10 +143,6 @@ const Patients: React.FC = () => {
 
   const classes = useStyles();
 
-  console.log(displayedPatients)
-  console.log(page)
-  console.log(pageCount)
-
   return (
     <div className={classes.root}>
       <Typography variant="h5" component="h1" style={{ marginBottom: 30 }}>
@@ -156,9 +150,7 @@ const Patients: React.FC = () => {
       </Typography>
       {displayedPatients.map((patient, index) => (
         <Card className={classes.cardRoot} key={index}>
-
           <CardContent className={classes.cardContent}>
-
             <div className={classes.itemBlock}>
               <div className={classes.avatar}>
                 <Avatar alt="Remy Sharp" src={patient.image} />
@@ -176,8 +168,6 @@ const Patients: React.FC = () => {
                 </Typography>
               }
             </div>
-
-
             <div className={classes.itemBlock}>
               {patient.roomNumber ?
                 <Typography className={classes.listItem}>
@@ -210,11 +200,8 @@ const Patients: React.FC = () => {
                 <Button className={classes.button}>詳細</Button>
               </CardActions>
             </div>
-
           </CardContent>
-
         </Card>
-
       ))}
       <div className={classes.paginationRoot}>
         <Pagination
