@@ -39,11 +39,15 @@ export interface User {
 }
 
 // 患者様一覧用
-export interface PatientsIndex {
-  id: number
-  image: string
-  name: string
-  sex: boolean
-  roomNumber: number
-  status: number
-}
+
+// 選択した患者様のid
+// export interface User {
+//   id: number
+// }
+
+// answers: {
+//   id: number
+//   answer: boolean
+//   interview_id: number
+//   question_id: number
+// }

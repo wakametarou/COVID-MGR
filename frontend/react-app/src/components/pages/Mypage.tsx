@@ -51,7 +51,6 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: 'center'
     },
     button: {
-      // size: "large",
       backgroundColor: pink[100],
       variant: "contained",
       marginTop: 20

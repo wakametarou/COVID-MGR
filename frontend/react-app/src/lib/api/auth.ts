@@ -1,7 +1,7 @@
 import client from "lib/api/client"
 import Cookies from "js-cookie"
 
-import { SignUpParams, SignInParams } from "interfaces/index"
+import { SignUpParams, SignInParams, User } from "interfaces/index"
 
 // サインアップ（新規アカウント作成）
 export const signUp = (params: SignUpParams) => {
@@ -46,8 +46,18 @@ export const patientShow = () => {
   })
 }
 
-export const patientsIndex = () => {
+export const usersIndex = () => {
   return client.get("/users/index", {
+    headers: {
+      "access-token": Cookies.get("_access_token")!,
+      "client": Cookies.get("_client")!,
+      "uid": Cookies.get("_uid")!
+    }
+  })
+}
+
+export const userShow = (id: number) => {
+  return client.get(`/users/show/?id=${id}`, {
     headers: {
       "access-token": Cookies.get("_access_token")!,
       "client": Cookies.get("_client")!,
