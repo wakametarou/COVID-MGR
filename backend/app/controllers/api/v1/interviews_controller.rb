@@ -15,7 +15,7 @@ class Api::V1::InterviewsController < ApplicationController
 
   def show
     interview_other = {}
-    if interview = Interview.find(params[:interview][:id])
+    if interview = Interview.find(params[:id])
       if interview.other == true
         other = OtherSymptom.find_by(interview_id: params[:id])
         interview_other[:interview] = interview
