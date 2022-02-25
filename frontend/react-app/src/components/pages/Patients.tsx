@@ -134,7 +134,6 @@ const Patients: React.FC = memo(() => {
   useEffect(() => {
     getUsers()
   }, [])
-
   useEffect(() => {
     setPageCount(Math.ceil(users.length / displayNum))
     setDisplayedUsers(users.slice(((page - 1) * displayNum), page * displayNum))

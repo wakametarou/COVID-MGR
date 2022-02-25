@@ -65,3 +65,23 @@ export const userShow = (id: number) => {
     }
   })
 }
+
+export const interviewsIndex = () => {
+  return client.get("/interviews/index", {
+    headers: {
+      "access-token": Cookies.get("_access_token")!,
+      "client": Cookies.get("_client")!,
+      "uid": Cookies.get("_uid")!
+    }
+  })
+}
+
+export const interviewsIndexUser = (id: number) => {
+  return client.get(`/interviews/index?id=${id}`, {
+    headers: {
+      "access-token": Cookies.get("_access_token")!,
+      "client": Cookies.get("_client")!,
+      "uid": Cookies.get("_uid")!
+    }
+  })
+}
