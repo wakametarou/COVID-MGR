@@ -1,4 +1,4 @@
-export interface InterviewsIndex {
+export interface Interview {
   id: number
   temperature: number
   oxygenSaturation: number
@@ -7,4 +7,11 @@ export interface InterviewsIndex {
   other: boolean
   userId: number
   created_at: Date
+}
+
+export interface OtherSymptom {
+  id: number
+  painDegree: number
+  concrete: string
+  interviewId: number
 }

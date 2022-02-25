@@ -2,21 +2,21 @@ import React, { useContext, useState, useEffect } from "react"
 import { AuthContext } from "App"
 import { useNavigate, useParams } from "react-router-dom"
 
-import { InterviewsIndex } from "interfaces/interview"
+import { Interview } from "interfaces/interview"
 import { interviewsIndex, interviewsIndexUser } from "lib/api/auth"
 
 const Interviews: React.FC = () => {
   const { currentUser } = useContext(AuthContext)
-  const [interviews, setInterviews] = useState<InterviewsIndex[]>([])
+  const [interviews, setInterviews] = useState<Interview[]>([])
   const [page, setPage] = useState<number>(1)
   const [pageCount, setPageCount] = useState<number>()
-  const [displayedUsers, setDisplayedUsers] = useState<InterviewsIndex[]>([])
+  const [displayedUsers, setDisplayedUsers] = useState<Interview[]>([])
   const displayNum = 5;
   const navigate = useNavigate()
   const query = useParams();
   console.log(interviews)
 
-  const saveInterviews = (res: InterviewsIndex[]) => {
+  const saveInterviews = (res: Interview[]) => {
     if (res) {
       setInterviews(res)
       console.log("get interviews")
