@@ -8,6 +8,7 @@ import SignIn from "components/pages/SignIn"
 import Mypage from "components/pages/Mypage"
 import Patients from "components/pages/Patients"
 import Patient from "components/pages/Patient"
+import Interviews from "components/pages/Interviews"
 
 import { getCurrentUser } from "lib/api/auth"
 import { User } from "interfaces/index"
@@ -68,6 +69,7 @@ const App: React.FC = () => {
             <Route path="/mypage" element={LoginCheck({ component: <Mypage /> })} />
             <Route path="/patients" element={LoginCheck({ component: <Patients /> })} />
             <Route path="/patient/:id" element={LoginCheck({ component: <Patient /> })} />
+            <Route path="/interviews/:id" element={LoginCheck({ component: <Interviews /> })} />
           </Routes>
         </CommonLayout>
       </AuthContext.Provider>
