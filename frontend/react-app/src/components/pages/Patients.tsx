@@ -13,7 +13,7 @@ import { pink } from '@material-ui/core/colors'
 import Pagination from '@material-ui/lab/Pagination';
 
 import { UsersType } from "types/patient"
-import { usersIndex } from "lib/api/auth"
+import { usersIndex } from "lib/api/patient"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

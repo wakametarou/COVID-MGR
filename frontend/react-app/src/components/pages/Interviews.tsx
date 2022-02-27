@@ -3,7 +3,7 @@ import { AuthContext } from "App";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { InterviewType } from "types/interview";
-import { interviewsIndex, interviewsIndexUser } from "lib/api/auth";
+import { interviewsIndex, interviewsIndexUser } from "lib/api/interview";
 
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';

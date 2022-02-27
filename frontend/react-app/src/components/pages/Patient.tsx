@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useEffect } from "react"
 import { useParams, Link, useNavigate } from "react-router-dom"
 
-import { userShow } from "lib/api/auth"
+import { userShow } from "lib/api/patient"
 import {
   UserType,
   PatientProfileType,
