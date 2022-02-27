@@ -7,14 +7,14 @@ export interface UsersIndex {
   status: number
 }
 export interface User {
-  id: number,
-  name: string,
-  email: string,
-  sex: boolean,
+  id: number
+  name: string
+  email: string
+  sex: boolean
 }
 export interface PatientProfile {
   id: number
-  image: string,
+  image: string
   roomNumber: number
   phoneNumber: string
   emergencyAddress: string
@@ -30,6 +30,12 @@ export interface Interview {
   status: number
   other: boolean
   userId: number
+}
+export interface OtherSymptom {
+  id: number
+  painDegree: number
+  concrete: string
+  interviewId: string
 }
 export interface Answer {
   id: number

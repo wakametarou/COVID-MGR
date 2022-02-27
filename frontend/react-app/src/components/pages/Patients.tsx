@@ -48,7 +48,9 @@ const useStyles = makeStyles((theme: Theme) =>
       boxShadow: "1px 1px 3px 0 grey",
     },
     statusBox: {
-      textAlign: 'center',
+      display: "flex",
+      flexDirection: 'column',
+      alignItems: 'center',
       margin: 5,
       width: 90,
     },
