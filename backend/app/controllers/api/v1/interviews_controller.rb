@@ -2,12 +2,16 @@ class Api::V1::InterviewsController < ApplicationController
   before_action :authenticate_api_v1_user!
 
   def index
+    interviews_user = {}
     if current_api_v1_user.patient_or_doctor == true
       interviews = Interview.where(user_id: current_api_v1_user.id).order(created_at: :desc)
       render json: interviews
     elsif current_api_v1_user.patient_or_doctor == false
-      interviews = Interview.all.order(created_at: :desc)
-      render json: interviews
+      interviews = Interview.where(user_id: params[:id]).order(created_at: :desc)
+      user = User.find(params[:id])
+      interviews_user[:interviews]= interviews
+      interviews_user[:user]= user
+      render json: interviews_user
     else
       render json: { status: 404 }
     end

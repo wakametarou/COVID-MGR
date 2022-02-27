@@ -1,8 +1,9 @@
 import React, { useContext, useState, useEffect, useCallback } from "react";
 import { AuthContext } from "App";
+
 import { useNavigate, useParams } from "react-router-dom";
 
-import { InterviewType } from "types/interview";
+import { InterviewType, UserType } from "types/interview";
 import { interviewsIndex, interviewsIndexUser } from "lib/api/interview";
 
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
@@ -88,6 +89,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Interviews: React.FC = () => {
   const { currentUser } = useContext(AuthContext)
+  const [user, setUser] = useState<UserType>()
   const [interviews, setInterviews] = useState<InterviewType[]>([])
   const [page, setPage] = useState<number>(1)
   const [pageCount, setPageCount] = useState<number>()
@@ -108,6 +110,15 @@ const Interviews: React.FC = () => {
       console.log("Failed to get the interviews")
     }
   }
+  const saveInterviewsUser = (res: any) => {
+    if (res) {
+      setInterviews(res.interviews);
+      setUser(res.user)
+      console.log("get interviews")
+    } else {
+      console.log("Failed to get the interviews")
+    }
+  }
   const getInterviews = async (query: any) => {
     try {
       if (currentUser?.patientOrDoctor) {
@@ -115,7 +126,7 @@ const Interviews: React.FC = () => {
         saveInterviews(res.data)
       } else {
         const res = await interviewsIndexUser(query.id)
-        saveInterviews(res.data)
+        saveInterviewsUser(res.data)
       }
     } catch (err) {
       console.log(err)
@@ -138,82 +149,91 @@ const Interviews: React.FC = () => {
   const classes = useStyles();
 
   return (
-    <Box className={classes.box}>
-      {displayedInterviews.map((interview, index) => (
-        <Card className={classes.card} key={index}>
-          <Grid container justifyContent="center">
-            <Grid item xs={12} sm={6}>
-              <CardContent className={classes.cardContent}>
-                <Typography className={classes.listItem} style={{ marginTop: 15 }}>
-                  {dayjs(interview.createdAt).format('M/D')}
-                </Typography>
-                <Box className={classes.contentBox}>
-                  <Typography className={classes.title}>
-                    体温
-                  </Typography>
-                  <Typography className={classes.listItem}>
-                    {interview.temperature}°C
-                  </Typography>
-                </Box>
-                <Box className={classes.contentBox}>
-                  <Typography className={classes.title}>
-                    酸素飽和度
-                  </Typography>
-                  <Typography className={classes.listItem}>
-                    {interview.oxygenSaturation}%
-                  </Typography>
-                </Box>
-              </CardContent>
-            </Grid>
-            <Grid item xs={12} sm={6} >
-              <Box className={classes.cardContent}>
+    <>
+      {currentUser?.patientOrDoctor == false &&
+        <Box className={classes.box}>
+          <Typography variant="h5" component="h1" style={{ marginBottom: 30 }}>
+            {user?.name}様の問診一覧
+          </Typography>
+        </Box>
+      }
+      <Box className={classes.box}>
+        {displayedInterviews.map((interview, index) => (
+          <Card className={classes.card} key={index}>
+            <Grid container justifyContent="center">
+              <Grid item xs={12} sm={6}>
                 <CardContent className={classes.cardContent}>
+                  <Typography className={classes.listItem} style={{ marginTop: 15 }}>
+                    {dayjs(interview.createdAt).format('M/D')}
+                  </Typography>
                   <Box className={classes.contentBox}>
                     <Typography className={classes.title}>
-                      計測時間
+                      体温
                     </Typography>
                     <Typography className={classes.listItem}>
-                      {dayjs(interview.instrumentationTime).format('HH:mm')}
+                      {interview.temperature}°C
                     </Typography>
                   </Box>
                   <Box className={classes.contentBox}>
                     <Typography className={classes.title}>
-                      状態
+                      酸素飽和度
                     </Typography>
-                    {(() => {
-                      if (interview.status >= 4) {
-                        return <Box className={classes.statusRed} />
-                      } else if (interview.status >= 3) {
-                        return <Box className={classes.statusOrange} />
-                      } else if (interview.status >= 2) {
-                        return <Box className={classes.statusYellow} />
-                      } else if (interview.status >= 1) {
-                        return <Box className={classes.statusGreen} />
-                      }
-                    })()}
+                    <Typography className={classes.listItem}>
+                      {interview.oxygenSaturation}%
+                    </Typography>
                   </Box>
                 </CardContent>
-                <CardActions>
-                  <Button
-                    className={classes.button}
-                    onClick={() => onClickInterview(interview.id)}
-                  >
-                    詳細
-                  </Button>
-                </CardActions>
-              </Box>
+              </Grid>
+              <Grid item xs={12} sm={6} >
+                <Box className={classes.cardContent}>
+                  <CardContent className={classes.cardContent}>
+                    <Box className={classes.contentBox}>
+                      <Typography className={classes.title}>
+                        計測時間
+                      </Typography>
+                      <Typography className={classes.listItem}>
+                        {dayjs(interview.instrumentationTime).format('HH:mm')}
+                      </Typography>
+                    </Box>
+                    <Box className={classes.contentBox}>
+                      <Typography className={classes.title}>
+                        状態
+                      </Typography>
+                      {(() => {
+                        if (interview.status >= 4) {
+                          return <Box className={classes.statusRed} />
+                        } else if (interview.status >= 3) {
+                          return <Box className={classes.statusOrange} />
+                        } else if (interview.status >= 2) {
+                          return <Box className={classes.statusYellow} />
+                        } else if (interview.status >= 1) {
+                          return <Box className={classes.statusGreen} />
+                        }
+                      })()}
+                    </Box>
+                  </CardContent>
+                  <CardActions>
+                    <Button
+                      className={classes.button}
+                      onClick={() => onClickInterview(interview.id)}
+                    >
+                      詳細
+                    </Button>
+                  </CardActions>
+                </Box>
+              </Grid>
             </Grid>
-          </Grid>
-        </Card>
-      ))
-      }
-      <Pagination
-        count={pageCount}
-        color="secondary"
-        onChange={handleChange}
-        page={page}
-      />
-    </Box >
+          </Card>
+        ))
+        }
+        <Pagination
+          count={pageCount}
+          color="secondary"
+          onChange={handleChange}
+          page={page}
+        />
+      </Box >
+    </>
   )
 }
 

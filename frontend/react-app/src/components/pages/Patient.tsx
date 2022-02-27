@@ -69,9 +69,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const Patient: React.FC = () => {
-
   const classes = useStyles();
-
   const [user, setUser] = useState<UserType>()
   const [patientProfile, setPatientProfile] = useState<PatientProfileType>()
   const [interview, setInterview] = useState<InterviewType>()

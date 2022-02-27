@@ -15,3 +15,8 @@ export type OtherSymptomType = {
   concrete: string;
   interviewId: number;
 };
+
+export type UserType = {
+  id: number;
+  name: string;
+};
