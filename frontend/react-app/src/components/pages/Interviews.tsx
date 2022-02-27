@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { AuthContext } from "App";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { Interview } from "interfaces/interview";
+import { InterviewType } from "types/interview";
 import { interviewsIndex, interviewsIndexUser } from "lib/api/auth";
 
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
@@ -88,15 +88,15 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Interviews: React.FC = () => {
   const { currentUser } = useContext(AuthContext)
-  const [interviews, setInterviews] = useState<Interview[]>([])
+  const [interviews, setInterviews] = useState<InterviewType[]>([])
   const [page, setPage] = useState<number>(1)
   const [pageCount, setPageCount] = useState<number>()
-  const [displayedInterviews, setDisplayedInterviews] = useState<Interview[]>([])
+  const [displayedInterviews, setDisplayedInterviews] = useState<InterviewType[]>([])
   const displayNum = 5;
   const navigate = useNavigate()
   const query = useParams();
 
-  const saveInterviews = (res: Interview[]) => {
+  const saveInterviews = (res: InterviewType[]) => {
     if (res) {
       setInterviews(res)
       console.log("get interviews")

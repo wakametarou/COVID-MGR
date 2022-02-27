@@ -1,5 +1,5 @@
 // サインアップ
-export interface SignUpParams {
+export type SignUpParamsType = {
   name: string
   email: string
   password: string
@@ -9,13 +9,13 @@ export interface SignUpParams {
 }
 
 // サインイン
-export interface SignInParams {
+export type SignInParamsType = {
   email: string
   password: string
 }
 
 // 患者様情報
-export interface PatientParams {
+export type PatientParamsType = {
   image: string
   roomNumber: number
   phoneNumber: string
@@ -25,7 +25,7 @@ export interface PatientParams {
 }
 
 // ユーザー cookie
-export interface User {
+export type UserType = {
   id: number
   uid: string
   provider: string
@@ -37,17 +37,3 @@ export interface User {
   created_at: Date
   updated_at: Date
 }
-
-// 患者様一覧用
-
-// 選択した患者様のid
-// export interface User {
-//   id: number
-// }
-
-// answers: {
-//   id: number
-//   answer: boolean
-//   interview_id: number
-//   question_id: number
-// }

@@ -9,9 +9,10 @@ import Mypage from "components/pages/Mypage"
 import Patients from "components/pages/Patients"
 import Patient from "components/pages/Patient"
 import Interviews from "components/pages/Interviews"
+import Interview from "components/pages/Interview"
 
 import { getCurrentUser } from "lib/api/auth"
-import { User } from "interfaces/index"
+import { UserType } from "types/index"
 
 // グローバルで扱う変数・関数
 export const AuthContext = createContext({} as {
@@ -19,14 +20,14 @@ export const AuthContext = createContext({} as {
   setLoading: React.Dispatch<React.SetStateAction<boolean>>
   isSignedIn: boolean
   setIsSignedIn: React.Dispatch<React.SetStateAction<boolean>>
-  currentUser: User | undefined
-  setCurrentUser: React.Dispatch<React.SetStateAction<User | undefined>>
+  currentUser: UserType | undefined
+  setCurrentUser: React.Dispatch<React.SetStateAction<UserType | undefined>>
 })
 
 const App: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true)
   const [isSignedIn, setIsSignedIn] = useState<boolean>(false)
-  const [currentUser, setCurrentUser] = useState<User | undefined>()
+  const [currentUser, setCurrentUser] = useState<UserType | undefined>()
 
   const LoginCheck = ({ component }: { component: JSX.Element }): JSX.Element => {
     if (isSignedIn) {
@@ -70,6 +71,7 @@ const App: React.FC = () => {
             <Route path="/patients" element={LoginCheck({ component: <Patients /> })} />
             <Route path="/patient/:id" element={LoginCheck({ component: <Patient /> })} />
             <Route path="/interviews/:id" element={LoginCheck({ component: <Interviews /> })} />
+            <Route path="/interview/:id" element={LoginCheck({ component: <Interview /> })} />
           </Routes>
         </CommonLayout>
       </AuthContext.Provider>
