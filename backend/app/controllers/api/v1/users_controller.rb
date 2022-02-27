@@ -53,6 +53,7 @@ class Api::V1::UsersController < ApplicationController
           other: interview&.other,
           user_id: interview&.user_id,
         },
+        other_symptom: OtherSymptom.find_by(interview_id: interview&.id),
         answers: Answer.where(interview_id: interview&.id),
         questions: Question.all,
       }
