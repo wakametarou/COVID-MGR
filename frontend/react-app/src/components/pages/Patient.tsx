@@ -204,35 +204,7 @@ const Patient: React.FC = () => {
           <Typography variant="h6" className={classes.cardTitle}>
             最新問診
           </Typography>
-          <Grid container>
-            <Grid item xs={12} sm={6}>
-              <CardContent className={classes.cardContent}>
-                <Box className={classes.interviewBox}>
-                  <Typography className={classes.title}>
-                    名前
-                  </Typography>
-                  <Typography className={classes.itemInterview}>
-                    {user?.name}様
-                  </Typography>
-                </Box>
-                <Box className={classes.interviewBox}>
-                  <Typography className={classes.title}>
-                    名前
-                  </Typography>
-                  <Typography className={classes.itemInterview}>
-                    {user?.name}様
-                  </Typography>
-                </Box>
-                <Box className={classes.interviewBox}>
-                  <Typography className={classes.title}>
-                    名前
-                  </Typography>
-                  <Typography className={classes.itemInterview}>
-                    {user?.name}様
-                  </Typography>
-                </Box>
-              </CardContent>
-            </Grid>
+          <Grid container justifyContent="center">
             <Grid item xs={12} sm={6}>
               <CardContent className={classes.cardContent}>
                 <Box className={classes.interviewBox}>
