@@ -6,7 +6,7 @@ export interface Interview {
   status: number
   other: boolean
   userId: number
-  created_at: Date
+  createdAt: Date
 }
 
 export interface OtherSymptom {
