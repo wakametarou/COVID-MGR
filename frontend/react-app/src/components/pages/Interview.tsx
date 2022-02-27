@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { InterviewType, OtherSymptomType } from "types/interview"
-import { interviewShow } from "lib/api/auth"
+import { interviewShow } from "lib/api/interview"
 import { useParams } from "react-router-dom"
 
 const Interview: React.FC = () => {

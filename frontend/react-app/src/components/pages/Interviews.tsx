@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useCallback } from "react";
 import { AuthContext } from "App";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -96,6 +96,10 @@ const Interviews: React.FC = () => {
   const navigate = useNavigate()
   const query = useParams();
 
+  const onClickInterview = useCallback((id: number) => {
+    navigate(`/interview/${id}`)
+  }, [navigate])
+
   const saveInterviews = (res: InterviewType[]) => {
     if (res) {
       setInterviews(res)
@@ -113,7 +117,6 @@ const Interviews: React.FC = () => {
         const res = await interviewsIndexUser(query.id)
         saveInterviews(res.data)
       }
-
     } catch (err) {
       console.log(err)
     }
@@ -193,7 +196,7 @@ const Interviews: React.FC = () => {
                 <CardActions>
                   <Button
                     className={classes.button}
-                  // onClick={() => onClickPatient(user.id)}
+                    onClick={() => onClickInterview(interview.id)}
                   >
                     詳細
                   </Button>
