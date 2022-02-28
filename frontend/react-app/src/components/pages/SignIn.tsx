@@ -14,7 +14,7 @@ import Box from "@material-ui/core/Box"
 import { AuthContext } from "App"
 import AlertMessage from "components/utils/AlertMessage"
 import { signIn } from "lib/api/auth"
-import { SignInParams } from "interfaces/index"
+import { SignInParamsType } from "types/index"
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
@@ -54,7 +54,7 @@ const SignIn: React.FC = () => {
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
 
-    const params: SignInParams = {
+    const params: SignInParamsType = {
       email: email,
       password: password
     }

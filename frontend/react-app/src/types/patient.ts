@@ -1,4 +1,4 @@
-export interface UsersIndex {
+export type UsersType = {
   id: number
   image: string
   name: string
@@ -6,13 +6,13 @@ export interface UsersIndex {
   roomNumber: number
   status: number
 }
-export interface User {
+export type UserType = {
   id: number
   name: string
   email: string
   sex: boolean
 }
-export interface PatientProfile {
+export type PatientProfileType = {
   id: number
   image: string
   roomNumber: number
@@ -22,7 +22,7 @@ export interface PatientProfile {
   building: string
   userId: number
 }
-export interface Interview {
+export type InterviewType = {
   id: number
   temperature: number
   oxygenSaturation: number
@@ -31,19 +31,19 @@ export interface Interview {
   other: boolean
   userId: number
 }
-export interface OtherSymptom {
+export type OtherSymptomType = {
   id: number
   painDegree: number
   concrete: string
   interviewId: string
 }
-export interface Answer {
+export type AnswerType = {
   id: number
   answer: boolean
   interviewId: number
   questionId: number
 }
-export interface Question {
+export type QuestionType = {
   id: number
   name: string
   content: string

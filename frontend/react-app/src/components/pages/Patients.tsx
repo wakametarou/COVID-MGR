@@ -12,8 +12,8 @@ import { pink } from '@material-ui/core/colors'
 
 import Pagination from '@material-ui/lab/Pagination';
 
-import { UsersIndex } from "interfaces/patient"
-import { usersIndex } from "lib/api/auth"
+import { UsersType } from "types/patient"
+import { usersIndex } from "lib/api/patient"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -108,10 +108,10 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const Patients: React.FC = memo(() => {
-  const [users, setUsers] = useState<UsersIndex[]>([])//全データ
+  const [users, setUsers] = useState<UsersType[]>([])//全データ
   const [page, setPage] = useState<number>(1) //ページ番号
   const [pageCount, setPageCount] = useState<number>()//ページ数
-  const [displayedUsers, setDisplayedUsers] = useState<UsersIndex[]>([])//表示データ
+  const [displayedUsers, setDisplayedUsers] = useState<UsersType[]>([])//表示データ
   const displayNum = 5; //1ページあたりの項目数
   const navigate = useNavigate()
 

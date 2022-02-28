@@ -16,7 +16,7 @@ import LocalHospitalIcon from '@material-ui/icons/LocalHospital'
 import { theme } from "styles/layouts/Style"
 import { ThemeProvider } from "@material-ui/styles"
 // api取得
-import { patientShow } from "lib/api/auth"
+import { patientShow } from "lib/api/patient"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

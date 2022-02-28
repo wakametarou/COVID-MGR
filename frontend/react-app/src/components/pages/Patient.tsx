@@ -1,8 +1,15 @@
 import React, { useCallback, useState, useEffect } from "react"
 import { useParams, Link, useNavigate } from "react-router-dom"
 
-import { userShow } from "lib/api/auth"
-import { User, PatientProfile, Interview, OtherSymptom, Answer, Question } from "interfaces/patient"
+import { userShow } from "lib/api/patient"
+import {
+  UserType,
+  PatientProfileType,
+  InterviewType,
+  OtherSymptomType,
+  AnswerType,
+  QuestionType
+} from "types/patient"
 
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -62,15 +69,13 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const Patient: React.FC = () => {
-
   const classes = useStyles();
-
-  const [user, setUser] = useState<User>()
-  const [patientProfile, setPatientProfile] = useState<PatientProfile>()
-  const [interview, setInterview] = useState<Interview>()
-  const [otherSymptom, setOtherSymptom] = useState<OtherSymptom>()
-  const [answers, setAnswers] = useState<Answer[]>([])
-  const [questions, setQuestions] = useState<Question[]>([])
+  const [user, setUser] = useState<UserType>()
+  const [patientProfile, setPatientProfile] = useState<PatientProfileType>()
+  const [interview, setInterview] = useState<InterviewType>()
+  const [otherSymptom, setOtherSymptom] = useState<OtherSymptomType>()
+  const [answers, setAnswers] = useState<AnswerType[]>([])
+  const [questions, setQuestions] = useState<QuestionType[]>([])
   const query = useParams();
   const navigate = useNavigate()
 

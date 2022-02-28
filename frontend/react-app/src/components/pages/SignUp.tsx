@@ -12,7 +12,7 @@ import Button from "@material-ui/core/Button"
 import { AuthContext } from "App"
 import AlertMessage from "components/utils/AlertMessage"
 import { signUp } from "lib/api/auth"
-import { SignUpParams } from "interfaces/index"
+import { SignUpParamsType } from "types/index"
 
 // ラジオボタン
 import Radio from '@material-ui/core/Radio'
@@ -77,7 +77,7 @@ const SignUp: React.FC = () => {
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
 
-    const params: SignUpParams = {
+    const params: SignUpParamsType = {
       name: name,
       email: email,
       password: password,
