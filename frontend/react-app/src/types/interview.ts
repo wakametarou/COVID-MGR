@@ -20,3 +20,15 @@ export type UserType = {
   id: number;
   name: string;
 };
+
+export type AnswerType = {
+  id: number
+  answer: boolean
+  interviewId: number
+  questionId: number
+}
+export type QuestionType = {
+  id: number
+  name: string
+  content: string
+}

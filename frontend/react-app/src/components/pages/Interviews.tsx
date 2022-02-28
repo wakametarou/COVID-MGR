@@ -93,7 +93,6 @@ const useStyles = makeStyles((theme: Theme) =>
       width: 90,
       backgroundColor: pink[100],
       boxShadow: "1px 1px 3px 0 grey",
-
     },
   }),
 );

@@ -18,15 +18,25 @@ class Api::V1::InterviewsController < ApplicationController
   end
 
   def show
-    interview_other = {}
     if interview = Interview.find(params[:id])
+      answers = Answer.where(interview_id: interview.id)
+      questions = Question.all
       if interview.other == true
         other = OtherSymptom.find_by(interview_id: params[:id])
-        interview_other[:interview] = interview
-        interview_other[:other_symptom] = other
-        render json: interview_other
+        interviewInfo= {
+          interview: interview,
+          answers: answers,
+          questions: questions,
+          other: other,
+        }
+        render json: interviewInfo
       else
-        render json: interview
+        interviewInfo= {
+          interview: interview,
+          answers: answers,
+          questions: questions,
+        }
+        render json: interviewInfo
       end
     else
       render json: { status: 404 }
