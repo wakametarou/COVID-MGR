@@ -28,6 +28,11 @@ const useStyles = makeStyles((theme: Theme) =>
       flexDirection: 'column',
       alignItems: 'center',
     },
+    boxBottom: {
+      display: 'flex',
+      justifyContent: 'center',
+      marginTop: 30,
+    },
     card: {
       display: 'flex',
       marginBottom: 10,
@@ -84,6 +89,12 @@ const useStyles = makeStyles((theme: Theme) =>
       boxShadow: "1px 1px 3px 0 grey",
       marginRight: 20,
     },
+    downButton: {
+      width: 90,
+      backgroundColor: pink[100],
+      boxShadow: "1px 1px 3px 0 grey",
+
+    },
   }),
 );
 
@@ -97,6 +108,10 @@ const Interviews: React.FC = () => {
   const displayNum = 5;
   const navigate = useNavigate()
   const query = useParams();
+
+  const onClickPatient = useCallback((id: number) => {
+    navigate(`/patient/${id}`)
+  }, [navigate])
 
   const onClickInterview = useCallback((id: number) => {
     navigate(`/interview/${id}`)
@@ -233,6 +248,16 @@ const Interviews: React.FC = () => {
           page={page}
         />
       </Box >
+      <Box className={classes.boxBottom}>
+        {user &&
+          <Button
+            className={classes.downButton}
+            onClick={() => onClickPatient(user.id)}
+          >
+            患者様一覧
+          </Button>
+        }
+      </Box>
     </>
   )
 }
