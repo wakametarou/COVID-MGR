@@ -72,7 +72,10 @@ const App: React.FC = () => {
             <Route path="/signin" element={<SignIn />} />
             <Route path="/mypage" element={LoginCheck({ component: <Mypage /> })} />
             <Route path="/patients" element={LoginCheck({ component: <Patients /> })} />
-            <Route path="/interviews/:id" element={LoginCheck({ component: <Interviews /> })} />
+            <Route path="interviews">
+              <Route path="/interviews/:id" element={LoginCheck({ component: <Interviews /> })} />
+              <Route path="/interviews" element={LoginCheck({ component: <Interviews /> })} />
+            </Route>
             <Route path="/interview/:id" element={LoginCheck({ component: <Interview /> })} />
             <Route path="patient">
               <Route path=":id" element={LoginCheck({ component: <Patient /> })} />
