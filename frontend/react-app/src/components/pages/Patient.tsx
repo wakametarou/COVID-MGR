@@ -11,7 +11,7 @@ import {
   QuestionType
 } from "types/patient"
 
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -26,7 +26,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/ja";
 dayjs.locale('ja');
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     title: {
       fontSize: 12,
