@@ -15,7 +15,6 @@ import {
 } from '@material-ui/core';
 import { pink } from '@material-ui/core/colors'
 
-
 const useStyles = makeStyles((theme) =>
   createStyles({
     card: {
@@ -48,7 +47,7 @@ const PatientEdit: React.FC = () => {
   const [profile, setProfile] = useState<PatientProfileType>({
     id: 0,
     image: { url: "" },
-    roomNumber: 0,
+    roomNumber: "",
     phoneNumber: "",
     emergencyAddress: "",
     address: "",
@@ -56,7 +55,7 @@ const PatientEdit: React.FC = () => {
     userId: 0,
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setProfile({
       ...profile,
       [e.target.name]: e.target.value,
