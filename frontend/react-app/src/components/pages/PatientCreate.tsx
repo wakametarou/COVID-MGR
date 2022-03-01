@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from "react"
-import { patientNew } from "lib/api/patient"
-import { PatientProfileNewType } from "types/patient"
-import { useNavigate, Link } from "react-router-dom"
+import React, { useState } from "react";
+import { patientCreate } from "lib/api/patient";
+import { PatientProfileType } from "types/patient";
+import { useNavigate, Link } from "react-router-dom";
 
-import { makeStyles, createStyles, } from '@material-ui/core/styles'
+import { makeStyles, createStyles, } from '@material-ui/core/styles';
 import {
   Card,
   CardContent,
@@ -13,7 +13,7 @@ import {
   CardHeader,
   Button,
 } from '@material-ui/core';
-import { pink } from '@material-ui/core/colors'
+import { pink } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) =>
     },
     cardActions: {
       display: 'flex',
-      justifyContent: 'center'
+      justifyContent: 'center',
     },
     button: {
       backgroundColor: pink[100],
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) =>
 
 const PatientCreate: React.FC = () => {
   const classes = useStyles();
-  const [profile, setProfile] = useState<PatientProfileNewType>(
+  const [profile, setProfile] = useState<PatientProfileType>(
     {
       image: "",
       roomNumber: "",
@@ -55,7 +55,7 @@ const PatientCreate: React.FC = () => {
       building: "",
     }
   );
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setProfile({
@@ -67,7 +67,7 @@ const PatientCreate: React.FC = () => {
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
-      const res = await patientNew(profile);
+      const res = await patientCreate(profile);
       console.log(res.data);
       navigate("/Mypage");
     } catch (e) {
@@ -155,7 +155,7 @@ const PatientCreate: React.FC = () => {
         </CardActions>
       </Card>
     </form>
-  )
-}
+  );
+};
 
 export default PatientCreate

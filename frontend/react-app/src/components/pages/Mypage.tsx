@@ -1,23 +1,25 @@
 import React, { useState, useEffect, useContext } from "react"
 import { AuthContext } from "App"
 import { Link } from "react-router-dom"
-import { PatientProfileType } from "types/patient"
-import { patientShow } from "lib/api/patient"
+import { PatientProfileType } from "types/patient";
+import { patientShow } from "lib/api/patient";
 
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
-import Card from '@material-ui/core/Card'
-import CardActions from '@material-ui/core/CardActions'
-import CardContent from '@material-ui/core/CardContent'
-import Button from '@material-ui/core/Button'
-import Typography from '@material-ui/core/Typography'
-import Grid from '@material-ui/core/Grid'
-import Avatar from '@material-ui/core/Avatar'
-import { pink } from '@material-ui/core/colors'
-import LocalHospitalIcon from '@material-ui/icons/LocalHospital'
-import Box from '@material-ui/core/Box';
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import {
+  Card,
+  CardActions,
+  CardContent,
+  Button,
+  Typography,
+  Grid,
+  Avatar,
+  Box
+} from '@material-ui/core';
 
-import { theme } from "styles/layouts/Style"
-import { ThemeProvider } from "@material-ui/styles"
+import { pink } from '@material-ui/core/colors';
+import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
+import { theme } from "styles/layouts/Style";
+import { ThemeProvider } from "@material-ui/styles";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -62,7 +64,6 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-
 const Mypage: React.FC = () => {
   const { currentUser } = useContext(AuthContext);
   const [profile, setProfile] = useState<PatientProfileType>();
@@ -95,7 +96,7 @@ const Mypage: React.FC = () => {
           <Card className={classes.cardRoot}>
             <CardContent className={classes.cardContent}>
               {currentUser?.patientOrDoctor ?
-                <Avatar alt="Remy Sharp" src={profile?.image.url} className={classes.large} />
+                <Avatar alt="Remy Sharp" src={profile?.image} className={classes.large} />
                 :
                 <Avatar className={classes.pink}>
                   <LocalHospitalIcon />

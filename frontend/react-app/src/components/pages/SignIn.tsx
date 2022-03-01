@@ -44,16 +44,13 @@ const useStyles = makeStyles((theme: Theme) => ({
 const SignIn: React.FC = () => {
   const classes = useStyles()
   const navigate = useNavigate()
-
   const { setIsSignedIn, setCurrentUser } = useContext(AuthContext)
-
   const [email, setEmail] = useState<string>("")
   const [password, setPassword] = useState<string>("")
   const [alertMessageOpen, setAlertMessageOpen] = useState<boolean>(false)
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
-
     const params: SignInParamsType = {
       email: email,
       password: password
@@ -62,18 +59,13 @@ const SignIn: React.FC = () => {
     try {
       const res = await signIn(params)
       console.log(res)
-
       if (res.status === 200) {
-        // ログインに成功した場合はCookieに各値を格納
         Cookies.set("_access_token", res.headers["access-token"])
         Cookies.set("_client", res.headers["client"])
         Cookies.set("_uid", res.headers["uid"])
-
         setIsSignedIn(true)
         setCurrentUser(res.data.data)
-
         navigate("/mypage")
-
         console.log("Signed in successfully!")
       } else {
         setAlertMessageOpen(true)
@@ -117,7 +109,7 @@ const SignIn: React.FC = () => {
               size="large"
               fullWidth
               color="default"
-              disabled={!email || !password ? true : false} // 空欄があった場合はボタンを押せないように
+              disabled={!email || !password ? true : false}
               className={classes.submitBtn}
               onClick={handleSubmit}
             >
@@ -134,7 +126,7 @@ const SignIn: React.FC = () => {
           </CardContent>
         </Card>
       </form>
-      <AlertMessage // エラーが発生した場合はアラートを表示
+      <AlertMessage
         open={alertMessageOpen}
         setOpen={setAlertMessageOpen}
         severity="error"

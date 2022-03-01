@@ -14,16 +14,6 @@ export type SignInParamsType = {
   password: string
 }
 
-// 患者様情報
-// export type PatientParamsType = {
-//   image: string
-//   roomNumber: string
-//   phoneNumber: string
-//   emergencyAddress: string
-//   address: string
-//   building: string
-// }
-
 // ユーザー cookie
 export type UserType = {
   id: number
