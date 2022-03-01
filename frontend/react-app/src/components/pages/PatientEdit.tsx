@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react"
-import { patientShow } from "lib/api/patient"
-import { PatientProfileType } from "types/patient"
-import { Link } from "react-router-dom"
+import React, { useState, useEffect } from "react";
+import { patientShow, patientUpdate } from "lib/api/patient";
+import { PatientProfileType } from "types/patient";
+import { useNavigate, Link } from "react-router-dom";
 
-import { makeStyles, createStyles, } from '@material-ui/core/styles'
+import { makeStyles, createStyles, } from '@material-ui/core/styles';
 import {
   Card,
   CardContent,
@@ -13,7 +13,7 @@ import {
   CardHeader,
   Button,
 } from '@material-ui/core';
-import { pink } from '@material-ui/core/colors'
+import { pink } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) =>
     },
     cardActions: {
       display: 'flex',
-      justifyContent: 'center'
+      justifyContent: 'center',
     },
     button: {
       backgroundColor: pink[100],
@@ -44,16 +44,16 @@ const useStyles = makeStyles((theme) =>
 );
 
 const PatientEdit: React.FC = () => {
+  const classes = useStyles();
   const [profile, setProfile] = useState<PatientProfileType>({
-    id: 0,
-    image: { url: "" },
+    image: "",
     roomNumber: "",
     phoneNumber: "",
     emergencyAddress: "",
     address: "",
     building: "",
-    userId: 0,
   });
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setProfile({
@@ -76,14 +76,23 @@ const PatientEdit: React.FC = () => {
     getProfils();
   }, []);
 
-  const classes = useStyles();
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    try {
+      const res = await patientUpdate(profile);
+      console.log(res.data);
+      navigate("/Mypage");
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <form>
       <Card className={classes.card}>
         <CardHeader className={classes.header} title="患者様情報" />
         <CardContent className={classes.cardContent}>
-          <Avatar alt="Remy Sharp" src={profile?.image.url} className={classes.large} />
+          <Avatar alt="Remy Sharp" src={profile.image} className={classes.large} />
           <TextField
             variant="outlined"
             required
@@ -148,13 +157,17 @@ const PatientEdit: React.FC = () => {
           >
             戻る
           </Button>
-          <Button className={classes.button}>
+          <Button
+            className={classes.button}
+            type="submit"
+            onClick={handleSubmit}
+          >
             編集
           </Button>
         </CardActions>
       </Card>
     </form>
-  )
-}
+  );
+};
 
 export default PatientEdit

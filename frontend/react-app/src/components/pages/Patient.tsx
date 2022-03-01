@@ -135,7 +135,7 @@ const Patient: React.FC = () => {
           </Typography>
           <CardHeader
             avatar={
-              <Avatar alt="Remy Sharp" src={patientProfile?.image.url} />
+              <Avatar alt="Remy Sharp" src={patientProfile?.image} />
             }
           />
           <CardContent>

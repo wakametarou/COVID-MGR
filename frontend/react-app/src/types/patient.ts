@@ -13,16 +13,6 @@ export type UserType = {
   sex: boolean
 }
 export type PatientProfileType = {
-  id: number
-  image: { url: string }
-  roomNumber: string
-  phoneNumber: string
-  emergencyAddress: string
-  address: string
-  building: string
-  userId: number
-}
-export type PatientProfileNewType = {
   image: string
   roomNumber: string
   phoneNumber: string
