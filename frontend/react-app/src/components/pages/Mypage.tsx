@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useContext } from "react"
 import { AuthContext } from "App"
 import { Link } from "react-router-dom"
-// mui
+import { PatientProfileType } from "types/patient"
+import { patientShow } from "lib/api/patient"
+
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
@@ -12,11 +14,10 @@ import Grid from '@material-ui/core/Grid'
 import Avatar from '@material-ui/core/Avatar'
 import { pink } from '@material-ui/core/colors'
 import LocalHospitalIcon from '@material-ui/icons/LocalHospital'
-// 自作パレット
+import Box from '@material-ui/core/Box';
+
 import { theme } from "styles/layouts/Style"
 import { ThemeProvider } from "@material-ui/styles"
-// api取得
-import { patientShow } from "lib/api/patient"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -54,31 +55,24 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: pink[100],
       variant: "contained",
       marginTop: 20
-    }
+    },
+    box: {
+      height: 170,
+    },
   }),
 );
 
 
 const Mypage: React.FC = () => {
   const { currentUser } = useContext(AuthContext);
-  const [image, setImage] = useState<string>("")
-  const [roomNumber, setRoomNumber] = useState<number>(0)
-  const [phoneNumber, setPhoneNumber] = useState<string>("")
-  const [emergencyAddress, setEmergencyAddress] = useState<string>("")
-  const [address, setAddress] = useState<string>("")
-  const [building, setBuilding] = useState<string>("")
+  const [profile, setProfile] = useState<PatientProfileType>();
 
-  const getProfils = async () => {
+  const getProfiles = async () => {
     try {
       const res = await patientShow()
       if (res.data.roomNumber) {
         console.log(res)
-        setImage(res?.data.image.url)
-        setRoomNumber(res?.data.roomNumber)
-        setPhoneNumber(res?.data.phoneNumber)
-        setEmergencyAddress(res?.data.emergencyAddress)
-        setAddress(res?.data.address)
-        setBuilding(res?.data.building)
+        setProfile(res.data)
         console.log("get patientprofile")
       } else {
         console.log("user is doctor")
@@ -89,7 +83,7 @@ const Mypage: React.FC = () => {
   }
 
   useEffect(() => {
-    getProfils()
+    getProfiles()
   }, [])
 
   const classes = useStyles();
@@ -101,7 +95,7 @@ const Mypage: React.FC = () => {
           <Card className={classes.cardRoot}>
             <CardContent className={classes.cardContent}>
               {currentUser?.patientOrDoctor ?
-                <Avatar alt="Remy Sharp" src={image} className={classes.large} />
+                <Avatar alt="Remy Sharp" src={profile?.image.url} className={classes.large} />
                 :
                 <Avatar className={classes.pink}>
                   <LocalHospitalIcon />
@@ -145,22 +139,46 @@ const Mypage: React.FC = () => {
                 <Typography variant="h5" component="h2" style={{ marginBottom: 20 }}>
                   患者様情報
                 </Typography>
-                <Typography className={classes.pos}>
-                  部屋番号 {roomNumber}
-                </Typography>
-                <Typography className={classes.pos}>
-                  電話番号 {phoneNumber}
-                </Typography>
-                <Typography className={classes.pos}>
-                  緊急連絡先 {emergencyAddress}
-                </Typography>
-                <Typography className={classes.pos}>
-                  住所 {address}{building}
-                </Typography>
+                {profile ?
+                  <Box className={classes.box}>
+                    <Typography className={classes.pos}>
+                      部屋番号 {profile.roomNumber}
+                    </Typography>
+                    <Typography className={classes.pos}>
+                      電話番号 {profile.phoneNumber}
+                    </Typography>
+                    <Typography className={classes.pos}>
+                      緊急連絡先 {profile.emergencyAddress}
+                    </Typography>
+                    <Typography className={classes.pos}>
+                      住所 {profile.address}{profile?.building}
+                    </Typography>
+                  </Box>
+                  :
+                  <Box className={classes.box}>
+                    <Typography className={classes.pos}>
+                      未入力です。
+                    </Typography>
+                  </Box>
+                }
                 <CardActions>
-                  <Button className={classes.button}>
-                    編集
-                  </Button>
+                  {profile ?
+                    <Button
+                      className={classes.button}
+                      component={Link}
+                      to="/patient/edit"
+                    >
+                      編集
+                    </Button>
+                    :
+                    <Button
+                      className={classes.button}
+                      component={Link}
+                      to="/patient/create"
+                    >
+                      作成
+                    </Button>
+                  }
                   <Button className={classes.button}>
                     問診
                   </Button>
