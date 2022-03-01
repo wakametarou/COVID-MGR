@@ -15,12 +15,20 @@ export type UserType = {
 export type PatientProfileType = {
   id: number
   image: { url: string }
-  roomNumber: number
+  roomNumber: string
   phoneNumber: string
   emergencyAddress: string
   address: string
   building: string
   userId: number
+}
+export type PatientProfileNewType = {
+  image: string
+  roomNumber: string
+  phoneNumber: string
+  emergencyAddress: string
+  address: string
+  building: string
 }
 export type InterviewType = {
   id: number
