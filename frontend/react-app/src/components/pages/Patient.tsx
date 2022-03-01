@@ -86,7 +86,7 @@ const Patient: React.FC = () => {
   const getUser = async (query: any) => {
     try {
       const res = await userShow(query.id)
-      if (res.data.user) {
+      if (res.data) {
         setUser(res.data.user)
         setPatientProfile(res.data.patientProfile)
         setInterview(res.data.interview)
@@ -135,7 +135,7 @@ const Patient: React.FC = () => {
           </Typography>
           <CardHeader
             avatar={
-              <Avatar alt="Remy Sharp" src={patientProfile?.image} />
+              <Avatar alt="Remy Sharp" src={patientProfile?.image.url} />
             }
           />
           <CardContent>

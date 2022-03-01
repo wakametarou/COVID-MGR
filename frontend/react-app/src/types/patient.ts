@@ -14,7 +14,7 @@ export type UserType = {
 }
 export type PatientProfileType = {
   id: number
-  image: string
+  image: { url: string }
   roomNumber: number
   phoneNumber: string
   emergencyAddress: string
