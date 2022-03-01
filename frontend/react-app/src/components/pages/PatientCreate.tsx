@@ -90,7 +90,7 @@ const PatientCreate: React.FC = () => {
             label="部屋番号"
             value={profile.roomNumber}
             onChange={(e) => handleChange(e)}
-            inputProps={{ maxLength: 4 }}
+            inputProps={{ maxLength: 4, pattern: "^[0-9_]+$" }}
           />
           <TextField
             variant="outlined"
@@ -112,8 +112,7 @@ const PatientCreate: React.FC = () => {
             label="緊急連絡先"
             value={profile.emergencyAddress}
             onChange={(e) => handleChange(e)}
-            inputProps={{ maxLength: 11 }}
-
+            inputProps={{ maxLength: 11, pattern: "^[0-9_]+$" }}
           />
           <TextField
             variant="outlined"
@@ -125,7 +124,6 @@ const PatientCreate: React.FC = () => {
             value={profile.address}
             onChange={(e) => handleChange(e)}
             inputProps={{ maxLength: 100 }}
-
           />
           <TextField
             variant="outlined"
@@ -137,7 +135,6 @@ const PatientCreate: React.FC = () => {
             value={profile.building}
             onChange={(e) => handleChange(e)}
             inputProps={{ maxLength: 100 }}
-
           />
         </CardContent>
         <CardActions className={classes.cardActions}>
