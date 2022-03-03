@@ -9,11 +9,24 @@ export type InterviewType = {
   createdAt: Date;
 };
 
+export type InterviewNewType = {
+  temperature: number;
+  oxygenSaturation: number;
+  instrumentationTime: Date;
+  status: number;
+  other: boolean;
+};
+
 export type OtherSymptomType = {
   id: number;
   painDegree: number;
   concrete: string;
   interviewId: number;
+};
+
+export type OtherSymptomTypeNew = {
+  painDegree: number;
+  concrete: string;
 };
 
 export type UserType = {

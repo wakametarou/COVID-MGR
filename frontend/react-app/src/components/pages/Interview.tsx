@@ -132,7 +132,6 @@ const Interview: React.FC = () => {
         console.log("get interview and otherSymptom")
       } else {
         setInterview(res.data.interview)
-        setInterview(res.data.interview)
         setAnswers(res.data.answers)
         setQuestions(res.data.questions)
         console.log("get interview")
@@ -182,7 +181,6 @@ const Interview: React.FC = () => {
           <Typography className={classes.item}>
             {dayjs(interview?.createdAt).format('HH:mm')}
           </Typography>
-
           <Grid container >
             <Grid item xs={12} >
               <CardContent className={classes.cardContent}>

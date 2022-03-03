@@ -37,6 +37,7 @@ const useStyles = makeStyles((theme) =>
       justifyContent: 'center',
     },
     button: {
+      width: 100,
       backgroundColor: pink[100],
       margin: 5,
     },

@@ -10,6 +10,7 @@ import Patients from "components/pages/Patients"
 import Patient from "components/pages/Patient"
 import Interviews from "components/pages/Interviews"
 import Interview from "components/pages/Interview"
+import InterviewCreate from "components/pages/InterviewCreate"
 import PatientEdit from "components/pages/PatientEdit"
 import PatientCreate from "components/pages/PatientCreate"
 
@@ -76,7 +77,10 @@ const App: React.FC = () => {
               <Route path="/interviews/:id" element={LoginCheck({ component: <Interviews /> })} />
               <Route path="/interviews" element={LoginCheck({ component: <Interviews /> })} />
             </Route>
-            <Route path="/interview/:id" element={LoginCheck({ component: <Interview /> })} />
+            <Route path="interview">
+              <Route path=":id" element={LoginCheck({ component: <Interview /> })} />
+              <Route path="create" element={LoginCheck({ component: <InterviewCreate /> })} />
+            </Route>
             <Route path="patient">
               <Route path=":id" element={LoginCheck({ component: <Patient /> })} />
               <Route path="create" element={LoginCheck({ component: <PatientCreate /> })} />
