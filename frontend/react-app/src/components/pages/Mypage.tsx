@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext } from "react"
-import { AuthContext } from "App"
-import { Link } from "react-router-dom"
+import React, { useState, useEffect, useContext } from "react";
+import { AuthContext } from "App";
+import { Link } from "react-router-dom";
 import { PatientProfileType } from "types/patient";
 import { patientShow } from "lib/api/patient";
 
@@ -54,9 +54,9 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: 'center'
     },
     button: {
+      width: 100,
       backgroundColor: pink[100],
-      variant: "contained",
-      marginTop: 20
+      margin: 5,
     },
     box: {
       height: 170,
@@ -180,7 +180,11 @@ const Mypage: React.FC = () => {
                       作成
                     </Button>
                   }
-                  <Button className={classes.button}>
+                  <Button
+                    className={classes.button}
+                    component={Link}
+                    to="/interview/create"
+                  >
                     問診
                   </Button>
                 </CardActions>

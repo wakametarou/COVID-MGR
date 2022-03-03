@@ -30,3 +30,13 @@ export const interviewShow = (id: number) => {
     }
   })
 }
+
+export const interviewNew = () => {
+  return client.get("/interviews/new", {
+    headers: {
+      "access-token": Cookies.get("_access_token")!,
+      "client": Cookies.get("_client")!,
+      "uid": Cookies.get("_uid")!
+    }
+  })
+}
