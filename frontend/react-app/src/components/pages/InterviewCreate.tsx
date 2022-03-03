@@ -1,5 +1,5 @@
 import React, { memo, useState, useEffect } from 'react';
-import { InterviewNewType, QuestionType, OtherSymptomTypeNew } from 'types/interview';
+import { InterviewNewType, QuestionType, OtherSymptomTypeNew, AnswerNewType } from 'types/interview';
 import { interviewNew } from 'lib/api/interview'
 import { useNavigate, Link } from "react-router-dom";
 
@@ -18,10 +18,6 @@ import {
   FormControlLabel,
 } from '@material-ui/core';
 import { pink } from '@material-ui/core/colors';
-
-// import Radio from '@material-ui/core/Radio'
-// import RadioGroup from '@material-ui/core/RadioGroup'
-// import FormControlLabel from '@material-ui/core/FormControlLabel'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -85,8 +81,40 @@ const MultiLineBody = ({ body }: { body: string }) => {
 const InterviewCreate: React.FC = memo(() => {
   const classes = useStyles();
   const [questions, setQuestions] = useState<QuestionType[]>([]);
-  const [interview, setInterview] = useState<InterviewNewType>();
+  const [interview, setInterview] = useState<InterviewNewType>(
+    {
+      temperature: 0,
+      oxygenSaturation: 0,
+      instrumentationTime: new Date(0),
+      status: 0,
+      other: false,
+    }
+  );
   const [otherSymptom, setOtherSymptom] = useState<OtherSymptomTypeNew>();
+  const [answers, setAnswers] = useState<AnswerNewType[]>([]);
+
+  const handleAnswersChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, id: number) => {
+    for (let i = 0; i < answers.length; i++) {
+      if (answers[i].questionId === id) {
+        answers.splice(i, 1)
+      }
+    }
+    setAnswers([
+      ...answers,
+      {
+        answer: e.target.value === "true",
+        questionId: id,
+      }
+    ]);
+  };
+
+  const handleInterviewChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setInterview({
+      ...interview,
+      [e.target.name]: e.target.value,
+      other: e.target.value === "true"
+    });
+  };
 
   const getQuestions = async () => {
     try {
@@ -123,7 +151,6 @@ const InterviewCreate: React.FC = memo(() => {
                         margin="dense"
                         name="instrumentationTime"
                         label="計測時間"
-                        value={interview?.instrumentationTime}
                         id="time"
                         type="time"
                         InputLabelProps={{
@@ -132,6 +159,7 @@ const InterviewCreate: React.FC = memo(() => {
                         inputProps={{
                           step: 300, // 5 min
                         }}
+                        onChange={(e) => handleInterviewChange(e)}
                         className={classes.textField}
                       />
                     </Box>
@@ -142,8 +170,7 @@ const InterviewCreate: React.FC = memo(() => {
                         margin="dense"
                         name="temperature"
                         label="体温"
-                        value={interview?.temperature}
-                        // onChange={(e) => handleChange(e)}
+                        onChange={(e) => handleInterviewChange(e)}
                         inputProps={{ maxLength: 2, pattern: "^[0-9_]+$" }}
                         className={classes.textField}
                       />
@@ -158,8 +185,7 @@ const InterviewCreate: React.FC = memo(() => {
                         margin="dense"
                         name="oxygenSaturation"
                         label="酸素飽和度"
-                        value={interview?.oxygenSaturation}
-                        // onChange={(e) => handleChange(e)}
+                        onChange={(e) => handleInterviewChange(e)}
                         inputProps={{ maxLength: 3, pattern: "^[0-9_]+$" }}
                         className={classes.textField}
                       />
@@ -176,8 +202,8 @@ const InterviewCreate: React.FC = memo(() => {
                         <MultiLineBody body={question.content} />
                         <RadioGroup
                           aria-label="quiz"
-                          name="quiz"
-                        // onChange={handlePatientOrDoctorChange}
+                          name="answer"
+                          onChange={(e) => handleAnswersChange(e, index + 1)}
                         >
                           <FormControlLabel
                             value="true"
@@ -198,8 +224,8 @@ const InterviewCreate: React.FC = memo(() => {
                       </Typography>
                       <RadioGroup
                         aria-label="quiz"
-                        name="quiz"
-                      // onChange={handlePatientOrDoctorChange}
+                        name="other"
+                        onChange={(e) => handleInterviewChange(e)}
                       >
                         <FormControlLabel
                           value="true"
@@ -223,7 +249,6 @@ const InterviewCreate: React.FC = memo(() => {
                       margin="dense"
                       name="painDegree"
                       label="痛みの程度"
-                      value={otherSymptom?.painDegree}
                       // onChange={(e) => handleChange(e)}
                       inputProps={{ maxLength: 1, pattern: "^[0-5_]+$" }}
                       className={classes.textField}
@@ -237,7 +262,6 @@ const InterviewCreate: React.FC = memo(() => {
                       margin="dense"
                       name="concrete"
                       label="具体的な症状"
-                      value={otherSymptom?.concrete}
                       // onChange={(e) => handleChange(e)}
                       inputProps={{ maxLength: 300 }}
                     />

@@ -40,6 +40,12 @@ export type AnswerType = {
   interviewId: number
   questionId: number
 }
+
+export type AnswerNewType = {
+  answer: boolean
+  questionId: number
+}
+
 export type QuestionType = {
   id: number
   name: string
