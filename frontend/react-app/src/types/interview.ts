@@ -42,8 +42,8 @@ export type AnswerType = {
 }
 
 export type AnswerNewType = {
-  answer: boolean
-  questionId: number
+  answer: boolean;
+  questionId: number;
 }
 
 export type QuestionType = {
