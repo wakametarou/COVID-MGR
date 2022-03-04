@@ -2,38 +2,43 @@ import React, { useContext } from "react"
 import { useNavigate, Link } from "react-router-dom"
 import Cookies from "js-cookie"
 
-import { makeStyles, Theme } from "@material-ui/core/styles"
+import { makeStyles, createStyles, Theme } from "@material-ui/core/styles"
 
-import AppBar from "@material-ui/core/AppBar"
-import Toolbar from "@material-ui/core/Toolbar"
-import Typography from "@material-ui/core/Typography"
-import IconButton from "@material-ui/core/IconButton"
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  IconButton,
+  Box,
+} from "@material-ui/core"
 import MenuIcon from "@material-ui/icons/Menu"
 
-// 追加
 import { theme } from "styles/layouts/Style"
 import { ThemeProvider } from "@material-ui/styles"
 import Hidden from '@material-ui/core/Hidden'
-import { AuthButtons } from "./Button"
+import { HeaderButtons } from "./Button"
 
 import { signOut } from "lib/api/auth"
 
 import { AuthContext } from "App"
 
-const useStyles = makeStyles((theme: Theme) => ({
-  iconButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-    textDecoration: "none",
-    color: "inherit",
-    // width: 200
-  },
-  linkBtn: {
-    textTransform: "none"
-  }
-}))
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    iconButton: {
+      marginRight: theme.spacing(2),
+    },
+    title: {
+      flexGrow: 1,
+      textDecoration: "none",
+      color: "inherit",
+    },
+    toolbar: {
+      justifyContent: 'space-between',
+    },
+    box: {
+      width: 110,
+    }
+  }))
 
 const Header: React.FC = () => {
   const { setIsSignedIn } = useContext(AuthContext)
@@ -61,20 +66,23 @@ const Header: React.FC = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <AppBar
-        position="static"
-      >
-        <Toolbar>
-          <Typography
-            component={Link}
-            to="/"
-            variant="h6"
-            className={classes.title}
-          >
-            COVID-Mgr
-          </Typography>
+      <AppBar position="static">
+        <Toolbar
+          className={classes.toolbar}
+        >
+          <Box className={classes.box}>
+            <Typography
+              component={Link}
+              to="/"
+              variant="h6"
+              className={classes.title}
+            >
+              COVID-Mgr
+            </Typography>
+          </Box>
+
           <Hidden xsDown implementation="css">
-            <AuthButtons classes={classes} handleSignOut={handleSignOut} />
+            <HeaderButtons classes={classes} handleSignOut={handleSignOut} />
           </Hidden>
           <Hidden smUp implementation="css">
             <IconButton
