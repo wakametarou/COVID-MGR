@@ -7,7 +7,7 @@ class Api::V1::UsersController < ApplicationController
       users_array = users.map do |user|
         {
           id: user.id,
-          image: PatientProfile.find_by(user_id: user.id)&.image,
+          image: PatientProfile.find_by(user_id: user.id)&.image&.url,
           name: user.name,
           sex: user.sex,
           room_number: PatientProfile.find_by(user_id: user.id)&.room_number,
@@ -36,7 +36,7 @@ class Api::V1::UsersController < ApplicationController
         },
         patient_profile: {
           id: patient_profile&.id,
-          image: patient_profile&.image,
+          image: patient_profile&.image&.url,
           room_number: patient_profile&.room_number,
           phone_number: patient_profile&.phone_number,
           emergency_address: patient_profile&.emergency_address,
