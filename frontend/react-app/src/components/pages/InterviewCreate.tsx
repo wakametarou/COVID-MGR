@@ -1,5 +1,12 @@
 import React, { memo, useState, useEffect, useCallback } from 'react';
-import { InterviewNewType, QuestionType, OtherSymptomTypeNew, AnswerNewType } from 'types/interview';
+import {
+  InterviewNewType,
+  QuestionType,
+  OtherSymptomTypeNew,
+  AnswerNewType,
+  InterviewCreateType
+} from 'types/interview';
+import { interviewCreate } from 'lib/api/interview'
 import { interviewNew } from 'lib/api/interview'
 import { useNavigate, Link } from "react-router-dom";
 
@@ -107,7 +114,6 @@ const MultiLineBody = ({ body }: { body: string }) => {
 };
 
 const InterviewCreate: React.FC = memo(() => {
-  const classes = useStyles();
   const [questions, setQuestions] = useState<QuestionType[]>([]);
   const [interview, setInterview] = useState<InterviewNewType>({
     temperature: 100,
@@ -116,16 +122,69 @@ const InterviewCreate: React.FC = memo(() => {
     status: 0,
     other: undefined,
   });
-
   const [answers, setAnswers] = useState<AnswerNewType[]>([]);
   const [otherSymptom, setOtherSymptom] = useState<OtherSymptomTypeNew>({
     painDegree: 6,
     concrete: "",
   });
-  const [buttonDisAllow, setButtonDisAllow] = useState<boolean>(true)
+  const [temperature, setTemperature] = useState<number>(100);
+  const [oxygenSaturation, setOxygenSaturation] = useState<number>(1000);
+  const [instrumentationTime, setInstrumentationTime] = useState<Date>(new Date('2000/12/31 00:00'));
+  const [other, setOther] = useState<boolean>();
+  const [status, setStatus] = useState<number>(0);
+  const [buttonDisAllow, setButtonDisAllow] = useState<boolean>(true);
+  const [open, setOpen] = useState<boolean>(false);
+
   useEffect(() => {
-    console.log(otherSymptom)
-    setStatus(answers.length)
+    ButtonPermit();
+  }, [interview, answers, otherSymptom]);
+  useEffect(() => {
+    handleInterviewChange(temperature, oxygenSaturation, instrumentationTime, other, status)
+  }, [temperature, oxygenSaturation, instrumentationTime, other, status]);
+  useEffect(() => {
+    statusCounter();
+  }, [answers]);
+  useEffect(() => {
+    getQuestions();
+  }, []);
+
+  const classes = useStyles();
+  const navigate = useNavigate();
+
+  const getQuestions = async () => {
+    try {
+      const res = await interviewNew()
+      setQuestions(res.data)
+      console.log("get Questions.")
+    } catch (err) {
+      console.log(err)
+    }
+  };
+
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const params: InterviewCreateType = {
+      interview: interview,
+      answers: answers,
+      otherSymptom: otherSymptom
+    }
+    try {
+      const res = await interviewCreate(params);
+      console.log(res.data);
+      navigate("/Mypage");
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const ButtonPermit = () => {
     if (interview.other === true) {
       if (
         interview.temperature !== 100 &&
@@ -137,16 +196,16 @@ const InterviewCreate: React.FC = memo(() => {
         otherSymptom.concrete !== ""
       ) {
         console.log('開く実行')
-        setButtonDisAllow(false)
+        setButtonDisAllow(false);
       } else {
         console.log('閉じる実行')
-        setButtonDisAllow(true)
+        setButtonDisAllow(true);
       }
     } else if (interview.other === false) {
       setOtherSymptom({
         painDegree: 6,
         concrete: "",
-      })
+      });
       if (
         interview.temperature !== 100 &&
         interview.oxygenSaturation !== 1000 &&
@@ -161,15 +220,24 @@ const InterviewCreate: React.FC = memo(() => {
         setButtonDisAllow(true)
       }
     }
-  }, [interview, answers])
+  };
 
-  const [temperature, setTemperature] = useState<number>(100);
-  const [oxygenSaturation, setOxygenSaturation] = useState<number>(1000);
-  const [instrumentationTime, setInstrumentationTime] = useState<Date>(new Date('2000/12/31 00:00'));
-  const [other, setOther] = useState<boolean>();
-  const [status, setStatus] = useState<number>(0);
+  const statusCounter = () => {
+    let count = 0
+    for (let i = 0; i < answers.length; i++) {
+      if (answers[i].answer === true) {
+        count += 1
+      }
+    };
+    setStatus(count)
+  };
+
   const handleInterviewChange = (
-    temperature: number, oxygenSaturation: number, instrumentationTime: Date, other: boolean | undefined, status: number
+    temperature: number,
+    oxygenSaturation: number,
+    instrumentationTime: Date,
+    other: boolean | undefined,
+    status: number
   ) => {
     setInterview({
       ...interview,
@@ -180,9 +248,6 @@ const InterviewCreate: React.FC = memo(() => {
       status: status,
     });
   };
-  useEffect(() => {
-    handleInterviewChange(temperature, oxygenSaturation, instrumentationTime, other, status)
-  }, [temperature, oxygenSaturation, instrumentationTime, other, status]);
 
   const handleAnswersChange = (answer: boolean, id: number) => {
     for (let i = 0; i < answers.length; i++) {
@@ -225,28 +290,6 @@ const InterviewCreate: React.FC = memo(() => {
       }
     }
   };
-
-  const [open, setOpen] = useState<boolean>(false);
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const getQuestions = async () => {
-    try {
-      const res = await interviewNew()
-      setQuestions(res.data)
-      console.log("get Questions.")
-    } catch (err) {
-      console.log(err)
-    }
-  };
-
-  useEffect(() => {
-    getQuestions()
-  }, []);
 
   return (
     <>
@@ -520,7 +563,7 @@ const InterviewCreate: React.FC = memo(() => {
               <Button
                 className={classes.button}
                 type="submit"
-              // onClick={handleSubmit}
+                onClick={handleSubmit}
               >
                 完了
               </Button>

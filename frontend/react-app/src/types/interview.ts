@@ -51,3 +51,9 @@ export type QuestionType = {
   name: string
   content: string
 }
+
+export type InterviewCreateType = {
+  interview: InterviewNewType;
+  answers: AnswerNewType[];
+  otherSymptom: OtherSymptomTypeNew;
+}
