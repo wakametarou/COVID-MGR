@@ -79,7 +79,7 @@ const Header: React.FC = () => {
           </Button>
           <Box>
             <Hidden xsDown implementation="css">
-              <AuthButtons classes={classes} handleSignOut={handleSignOut} />
+              <HeaderButtons classes={classes} handleSignOut={handleSignOut} />
             </Hidden>
             <Hidden smUp implementation="css">
               <IconButton
