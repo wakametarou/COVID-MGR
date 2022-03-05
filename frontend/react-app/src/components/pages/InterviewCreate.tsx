@@ -52,8 +52,6 @@ const useStyles = makeStyles((theme: Theme) =>
     concreteBox: {
       margin: 10,
       display: 'flex',
-
-      // alignItems: 'center',
     },
     unitText: {
       marginLeft: 3,
@@ -111,17 +109,59 @@ const MultiLineBody = ({ body }: { body: string }) => {
 const InterviewCreate: React.FC = memo(() => {
   const classes = useStyles();
   const [questions, setQuestions] = useState<QuestionType[]>([]);
-  const [interview, setInterview] = useState<InterviewNewType>(
-    {
-      temperature: 0,
-      oxygenSaturation: 0,
-      instrumentationTime: new Date('1000/01/01 00:00'),
-      status: 0,
-      other: false,
+  const [interview, setInterview] = useState<InterviewNewType>({
+    temperature: 100,
+    oxygenSaturation: 1000,
+    instrumentationTime: new Date('2000/12/31 00:00'),
+    //answersを使ったstatusのカウントを作る
+    status: 0,
+    other: false,
+  });
+  const [answers, setAnswers] = useState<AnswerNewType[]>([{
+    answer: false,
+    questionId: 9,
+  },]);
+  const [otherSymptom, setOtherSymptom] = useState<OtherSymptomTypeNew>({
+    painDegree: 6,
+    concrete: "",
+  });
+  const [buttonDisAllow, setButtonDisAllow] = useState<boolean>(true)
+  console.log(interview)
+  console.log(answers)
+  console.log(otherSymptom)
+  useEffect(() => {
+    if (interview.other === true) {
+      if (
+        interview.temperature !== 100 &&
+        interview.oxygenSaturation !== 1000 &&
+        interview.instrumentationTime !== new Date('2000/12/31 00:00') &&
+        answers.length === 9 &&
+        otherSymptom.painDegree !== 6 &&
+        otherSymptom.concrete !== ""
+      ) {
+        console.log('開く実行')
+        setButtonDisAllow(false)
+      } else {
+        console.log('閉じる実行')
+        setButtonDisAllow(true)
+      }
+    } else if (interview.other === false) {
+      if (
+        interview.temperature !== 100 &&
+        interview.oxygenSaturation !== 1000 &&
+        interview.instrumentationTime !== new Date('2000/12/31 00:00') &&
+        answers.length === 9
+      ) {
+        console.log('開く実行')
+        setButtonDisAllow(false)
+      } else {
+        console.log('閉じる実行')
+        setButtonDisAllow(true)
+      }
     }
-  );
-  const handleInterviewChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  }, [interview, answers])
 
+  const handleInterviewChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setInterview({
       ...interview,
       [e.target.name]: e.target.value,
@@ -129,27 +169,7 @@ const InterviewCreate: React.FC = memo(() => {
       other: e.target.value === "true"
     });
   };
-  console.log(interview.instrumentationTime)
 
-  const [otherSymptom, setOtherSymptom] = useState<OtherSymptomTypeNew>(
-    {
-      painDegree: 0,
-      concrete: "",
-    }
-  );
-  const handleOtherChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setOtherSymptom({
-      ...otherSymptom,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const [answers, setAnswers] = useState<AnswerNewType[]>([
-    {
-      answer: false,
-      questionId: 9,
-    },
-  ]);
   const handleAnswersChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, id: number) => {
     for (let i = 0; i < answers.length; i++) {
       if (answers[i].questionId === id) {
@@ -165,7 +185,14 @@ const InterviewCreate: React.FC = memo(() => {
     ]);
   };
 
-  const AnswerSelection = useCallback((id: number) => {
+  const handleOtherChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setOtherSymptom({
+      ...otherSymptom,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const AnswerSelection = (id: number) => {
     for (let i = 0; i < answers.length; i++) {
       if (answers[i].questionId === id) {
         if (answers[i].answer === true) {
@@ -183,7 +210,7 @@ const InterviewCreate: React.FC = memo(() => {
         }
       }
     }
-  }, [answers]);
+  };
 
   const [open, setOpen] = useState<boolean>(false);
   const handleClickOpen = () => {
@@ -357,6 +384,7 @@ const InterviewCreate: React.FC = memo(() => {
                 戻る
               </Button>
               <Button
+                disabled={buttonDisAllow}
                 className={classes.button}
                 onClick={handleClickOpen}
               >
