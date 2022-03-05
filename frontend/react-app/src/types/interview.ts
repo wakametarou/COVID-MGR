@@ -14,7 +14,7 @@ export type InterviewNewType = {
   oxygenSaturation: number;
   instrumentationTime: Date;
   status: number;
-  other: boolean;
+  other: boolean | undefined;
 };
 
 export type OtherSymptomType = {
