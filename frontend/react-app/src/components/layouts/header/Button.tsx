@@ -1,9 +1,20 @@
 import { useContext } from "react"
 import { Link } from "react-router-dom"
-import Button from "@material-ui/core/Button"
+import {
+  Button,
+  IconButton,
+} from "@material-ui/core"
+import {
+  AccountCircle,
+  ExitToApp,
+  Assignment,
+  Hotel,
+  PersonAdd,
+  MeetingRoom,
+} from '@material-ui/icons';
 import { AuthContext } from "App"
 
-export const AuthButtons = ({ classes, handleSignOut }: any) => {
+export const HeaderButtons = ({ classes, handleSignOut }: any) => {
   const { loading, currentUser, isSignedIn } = useContext(AuthContext)
 
   // 認証完了後はサインアウト用のボタンを表示
@@ -12,52 +23,57 @@ export const AuthButtons = ({ classes, handleSignOut }: any) => {
     if (isSignedIn) {
       return (
         <>
-          <Button
+          <IconButton
             component={Link}
             to="/mypage"
             color="inherit"
-            className={classes.linkBtn}
           >
-            My Page
-          </Button>
-          {currentUser?.patientOrDoctor ||
-            <Button
+            <AccountCircle />
+          </IconButton>
+          {currentUser?.patientOrDoctor
+            ?
+            <IconButton
+              component={Link}
+              to="/interview/create"
+              color="inherit"
+            >
+              <Assignment />
+            </IconButton>
+            :
+            <IconButton
               component={Link}
               to="/patients"
               color="inherit"
-              className={classes.linkBtn}
             >
-              Patients
-            </Button>
+              <Hotel />
+            </IconButton>
           }
-          <Button
+          <IconButton
             color="inherit"
             className={classes.linkBtn}
             onClick={handleSignOut}
           >
-            Sign out
-          </Button>
+            <ExitToApp />
+          </IconButton>
         </>
       )
     } else {
       return (
         <>
-          <Button
+          <IconButton
             component={Link}
             to="/signin"
             color="inherit"
-            className={classes.linkBtn}
           >
-            Sign in
-          </Button>
-          <Button
+            <MeetingRoom />
+          </IconButton>
+          <IconButton
             component={Link}
             to="/signup"
             color="inherit"
-            className={classes.linkBtn}
           >
-            Sign Up
-          </Button>
+            <PersonAdd />
+          </IconButton>
         </>
       )
     }

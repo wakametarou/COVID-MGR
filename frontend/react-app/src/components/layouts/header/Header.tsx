@@ -2,6 +2,7 @@ import React, { useContext } from "react"
 import { useNavigate, Link } from "react-router-dom"
 import Cookies from "js-cookie"
 
+
 import { makeStyles, Theme } from "@material-ui/core/styles"
 import {
   AppBar,
@@ -12,15 +13,15 @@ import {
 import IconButton from "@material-ui/core/IconButton"
 import MenuIcon from "@material-ui/icons/Menu"
 
-// 追加
 import { theme } from "styles/layouts/Style"
 import { ThemeProvider } from "@material-ui/styles"
 import Hidden from '@material-ui/core/Hidden'
-import { AuthButtons } from "./Button"
+import { HeaderButtons } from "./Button"
 
 import { signOut } from "lib/api/auth"
 
 import { AuthContext } from "App"
+
 
 import image from 'img/title-logo.png'
 

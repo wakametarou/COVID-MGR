@@ -13,6 +13,7 @@ import Interview from "components/pages/Interview"
 import InterviewCreate from "components/pages/InterviewCreate"
 import PatientEdit from "components/pages/PatientEdit"
 import PatientCreate from "components/pages/PatientCreate"
+import Completed from "components/pages/Completed"
 
 
 import { getCurrentUser } from "lib/api/auth"
@@ -86,6 +87,7 @@ const App: React.FC = () => {
               <Route path="create" element={LoginCheck({ component: <PatientCreate /> })} />
               <Route path="edit" element={LoginCheck({ component: <PatientEdit /> })} />
             </Route>
+            <Route path="completed" element={LoginCheck({ component: <Completed /> })} />
           </Routes>
         </CommonLayout>
       </AuthContext.Provider>
