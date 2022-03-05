@@ -117,18 +117,13 @@ const InterviewCreate: React.FC = memo(() => {
     other: undefined,
   });
 
-  const [answers, setAnswers] = useState<AnswerNewType[]>([{
-    answer: false,
-    questionId: 9,
-  },]);
+  const [answers, setAnswers] = useState<AnswerNewType[]>([]);
   const [otherSymptom, setOtherSymptom] = useState<OtherSymptomTypeNew>({
     painDegree: 6,
     concrete: "",
   });
   const [buttonDisAllow, setButtonDisAllow] = useState<boolean>(true)
   useEffect(() => {
-    console.log(interview)
-    // console.log(answers)
     // console.log(otherSymptom)
     setStatus(answers.length)
     if (interview.other === true) {
@@ -168,7 +163,6 @@ const InterviewCreate: React.FC = memo(() => {
   const [oxygenSaturation, setOxygenSaturation] = useState<number>(1000);
   const [instrumentationTime, setInstrumentationTime] = useState<Date>(new Date('2000/12/31 00:00'));
   const [other, setOther] = useState<boolean>();
-  //answersを使ったstatusのカウントを作る
   const [status, setStatus] = useState<number>(0);
   const handleInterviewChange = (
     temperature: number, oxygenSaturation: number, instrumentationTime: Date, other: boolean | undefined, status: number
@@ -186,7 +180,7 @@ const InterviewCreate: React.FC = memo(() => {
     handleInterviewChange(temperature, oxygenSaturation, instrumentationTime, other, status)
   }, [temperature, oxygenSaturation, instrumentationTime, other, status]);
 
-  const handleAnswersChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, id: number) => {
+  const handleAnswersChange = (answer: boolean, id: number) => {
     for (let i = 0; i < answers.length; i++) {
       if (answers[i].questionId === id) {
         answers.splice(i, 1)
@@ -195,7 +189,7 @@ const InterviewCreate: React.FC = memo(() => {
     setAnswers([
       ...answers,
       {
-        answer: e.target.value === "true",
+        answer: answer,
         questionId: id,
       }
     ]);
@@ -272,7 +266,6 @@ const InterviewCreate: React.FC = memo(() => {
                         name="temperature"
                         label="体温"
                         type="number"
-                        // onChange={(e) => handleInterviewChange(e)}
                         onChange={(e) => setTemperature(Number(e.target.value))}
                         inputProps={{ maxLength: 2, pattern: "^[0-9_]+$" }}
                         className={classes.textField}
@@ -325,7 +318,7 @@ const InterviewCreate: React.FC = memo(() => {
                         <RadioGroup
                           aria-label="quiz"
                           name="answer"
-                          onChange={(e) => handleAnswersChange(e, question.id)}
+                          onChange={(e) => handleAnswersChange(e.target.value === "true", question.id)}
                         >
                           <FormControlLabel
                             value="true"
