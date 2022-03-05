@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom";
 
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
@@ -8,6 +8,7 @@ import CardContent from '@material-ui/core/CardContent'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import Avatar from '@material-ui/core/Avatar'
+import Box from '@material-ui/core/Box'
 import { pink } from '@material-ui/core/colors'
 
 import Pagination from '@material-ui/lab/Pagination';
@@ -104,6 +105,20 @@ const useStyles = makeStyles((theme: Theme) =>
       width: 90,
       margin: 10
     },
+    patientsBox: {
+      minHeight: 510,
+    },
+    boxBottom: {
+      display: 'flex',
+      justifyContent: 'center',
+      marginTop: 30,
+    },
+    downButton: {
+      width: 100,
+      backgroundColor: pink[100],
+      margin: 5,
+      boxShadow: "1px 1px 3px 0 grey",
+    },
   }),
 );
 
@@ -151,79 +166,89 @@ const Patients: React.FC = memo(() => {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
+    <Box className={classes.root}>
       <Typography variant="h5" component="h1" style={{ marginBottom: 30 }}>
         患者様一覧
       </Typography>
-      {displayedUsers.map((user, index) => (
-        <Card className={classes.cardRoot} key={index}>
-          <CardContent className={classes.cardContent}>
-            <div className={classes.itemBlock}>
-              <div className={classes.avatar}>
-                <Avatar alt="Remy Sharp" src={user.image} />
-              </div>
-              <Typography className={classes.listItem}>
-                {user.name}
-              </Typography>
-              {user.sex ?
+      <Box className={classes.patientsBox}>
+        {displayedUsers.map((user, index) => (
+          <Card className={classes.cardRoot} key={index}>
+            <CardContent className={classes.cardContent}>
+              <Box className={classes.itemBlock}>
+                <Box className={classes.avatar}>
+                  <Avatar alt="Remy Sharp" src={user.image} />
+                </Box>
                 <Typography className={classes.listItem}>
-                  男性
+                  {user.name}
                 </Typography>
-                :
-                <Typography className={classes.listItem}>
-                  女性
-                </Typography>
-              }
-            </div>
-            <div className={classes.itemBlock}>
-              {user.roomNumber ?
-                <Typography className={classes.listItem}>
-                  {user.roomNumber}
-                </Typography>
-                :
-                <Typography className={classes.listItem}>
-                  未入力
-                </Typography>
-              }
-              <div className={classes.statusBox}>
-                <div className={classes.statusText}>
-                  状態
-                </div>
-                {(() => {
-                  if (user.status >= 4) {
-                    return <div className={classes.statusRed}></div>
-                  } else if (user.status >= 3) {
-                    return <div className={classes.statusOrange}></div>
-                  } else if (user.status >= 2) {
-                    return <div className={classes.statusYellow}></div>
-                  } else if (user.status >= 1) {
-                    return <div className={classes.statusGreen}></div>
-                  } else {
-                    return <div className={classes.statusColor}>未入力</div>
-                  }
-                })()}
-              </div>
-              <CardActions>
-                <Button
-                  className={classes.button}
-                  onClick={() => onClickPatient(user.id)}
-                >
-                  詳細
-                </Button>
-              </CardActions>
-            </div>
-          </CardContent>
-        </Card>
-      ))}
-      <div className={classes.paginationRoot}>
+                {user.sex ?
+                  <Typography className={classes.listItem}>
+                    男性
+                  </Typography>
+                  :
+                  <Typography className={classes.listItem}>
+                    女性
+                  </Typography>
+                }
+              </Box>
+              <Box className={classes.itemBlock}>
+                {user.roomNumber ?
+                  <Typography className={classes.listItem}>
+                    {user.roomNumber}
+                  </Typography>
+                  :
+                  <Typography className={classes.listItem}>
+                    未入力
+                  </Typography>
+                }
+                <Box className={classes.statusBox}>
+                  <Box className={classes.statusText}>
+                    状態
+                  </Box>
+                  {(() => {
+                    if (user.status >= 4) {
+                      return <div className={classes.statusRed}></div>
+                    } else if (user.status >= 3) {
+                      return <div className={classes.statusOrange}></div>
+                    } else if (user.status >= 2) {
+                      return <div className={classes.statusYellow}></div>
+                    } else if (user.status >= 1) {
+                      return <div className={classes.statusGreen}></div>
+                    } else {
+                      return <div className={classes.statusColor}>未入力</div>
+                    }
+                  })()}
+                </Box>
+                <CardActions>
+                  <Button
+                    className={classes.button}
+                    onClick={() => onClickPatient(user.id)}
+                  >
+                    詳細
+                  </Button>
+                </CardActions>
+              </Box>
+            </CardContent>
+          </Card>
+        ))}
+      </Box>
+      <Box className={classes.paginationRoot}>
         <Pagination
           count={pageCount}
           color="secondary"
           onChange={handleChange}
           page={page}
         />
-      </div>
-    </div>
+      </Box>
+      <Box className={classes.boxBottom}></Box>
+      <Button
+        className={classes.downButton}
+        component={Link}
+        to="/mypage"
+      >
+        マイページへ
+      </Button>
+    </Box>
   )
 })
 

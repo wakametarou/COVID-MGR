@@ -1,7 +1,7 @@
-import React, { useContext, useState, useEffect, useCallback } from "react";
+import React, { memo, useContext, useState, useEffect, useCallback } from "react";
 import { AuthContext } from "App";
 
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 
 import { InterviewType, UserType } from "types/interview";
 import { interviewsIndex, interviewsIndexUser } from "lib/api/interview";
@@ -27,6 +27,9 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
+    },
+    interviewBox: {
+      minHeight: 510,
     },
     boxBottom: {
       display: 'flex',
@@ -90,16 +93,20 @@ const useStyles = makeStyles((theme: Theme) =>
       marginRight: 20,
     },
     downButton: {
-      width: 90,
+      width: 100,
       backgroundColor: pink[100],
+      margin: 5,
       boxShadow: "1px 1px 3px 0 grey",
     },
   }),
 );
 
-const Interviews: React.FC = () => {
+const Interviews: React.FC = memo(() => {
   const { currentUser } = useContext(AuthContext)
-  const [user, setUser] = useState<UserType>()
+  const [user, setUser] = useState<UserType>({
+    id: 0,
+    name: "unknownuser",
+  })
   const [interviews, setInterviews] = useState<InterviewType[]>([])
   const [page, setPage] = useState<number>(1)
   const [pageCount, setPageCount] = useState<number>()
@@ -116,39 +123,33 @@ const Interviews: React.FC = () => {
     navigate(`/interview/${id}`)
   }, [navigate])
 
-  const saveInterviews = (res: InterviewType[]) => {
-    if (res) {
-      setInterviews(res)
-      console.log("get interviews")
-    } else {
-      console.log("Failed to get the interviews")
-    }
-  }
-  const saveInterviewsUser = (res: any) => {
-    if (res) {
-      setInterviews(res.interviews);
-      setUser(res.user)
-      console.log("get interviews")
-    } else {
-      console.log("Failed to get the interviews")
-    }
-  }
-  const getInterviews = async (query: any) => {
+  const getInterviews = async () => {
     try {
-      if (currentUser?.patientOrDoctor) {
-        const res = await interviewsIndex()
-        saveInterviews(res.data)
-      } else {
-        const res = await interviewsIndexUser(query.id)
-        saveInterviewsUser(res.data)
-      }
+      const res = await interviewsIndex()
+      setInterviews(res.data)
+      console.log("get interviews")
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const getInterviewsUser = async (query: any) => {
+    try {
+      const res = await interviewsIndexUser(query.id)
+      setInterviews(res.data.interviews)
+      setUser(res.data.user)
+      console.log("get interviews and user")
     } catch (err) {
       console.log(err)
     }
   }
 
   useEffect(() => {
-    getInterviews(query)
+    if (currentUser?.patientOrDoctor) {
+      getInterviews()
+    } else {
+      getInterviewsUser(query)
+    }
   }, [query])
   useEffect(() => {
     setPageCount(Math.ceil(interviews.length / displayNum))
@@ -164,82 +165,89 @@ const Interviews: React.FC = () => {
 
   return (
     <>
-      {currentUser?.patientOrDoctor == false &&
-        <Box className={classes.box}>
+      <Box className={classes.box}>
+        {currentUser?.patientOrDoctor
+          ?
+          <Typography variant="h5" component="h1" style={{ marginBottom: 30 }}>
+            {currentUser?.name}様の問診一覧
+          </Typography>
+          :
           <Typography variant="h5" component="h1" style={{ marginBottom: 30 }}>
             {user?.name}様の問診一覧
           </Typography>
-        </Box>
-      }
+        }
+      </Box>
       <Box className={classes.box}>
-        {displayedInterviews.map((interview, index) => (
-          <Card className={classes.card} key={index}>
-            <Grid container justifyContent="center">
-              <Grid item xs={12} sm={6}>
-                <CardContent className={classes.cardContent}>
-                  <Typography className={classes.listItem} style={{ marginTop: 15 }}>
-                    {dayjs(interview.createdAt).format('M/D')}
-                  </Typography>
-                  <Box className={classes.contentBox}>
-                    <Typography className={classes.title}>
-                      体温
-                    </Typography>
-                    <Typography className={classes.listItem}>
-                      {interview.temperature}°C
-                    </Typography>
-                  </Box>
-                  <Box className={classes.contentBox}>
-                    <Typography className={classes.title}>
-                      酸素飽和度
-                    </Typography>
-                    <Typography className={classes.listItem}>
-                      {interview.oxygenSaturation}%
-                    </Typography>
-                  </Box>
-                </CardContent>
-              </Grid>
-              <Grid item xs={12} sm={6} >
-                <Box className={classes.cardContent}>
+        <Box className={classes.interviewBox}>
+          {displayedInterviews.map((interview, index) => (
+            <Card className={classes.card} key={index}>
+              <Grid container justifyContent="center">
+                <Grid item xs={12} sm={6}>
                   <CardContent className={classes.cardContent}>
+                    <Typography className={classes.listItem} style={{ marginTop: 15 }}>
+                      {dayjs(interview.createdAt).format('M/D')}
+                    </Typography>
                     <Box className={classes.contentBox}>
                       <Typography className={classes.title}>
-                        計測時間
+                        体温
                       </Typography>
                       <Typography className={classes.listItem}>
-                        {dayjs(interview.instrumentationTime).format('HH:mm')}
+                        {interview.temperature}°C
                       </Typography>
                     </Box>
                     <Box className={classes.contentBox}>
                       <Typography className={classes.title}>
-                        状態
+                        酸素飽和度
                       </Typography>
-                      {(() => {
-                        if (interview.status >= 4) {
-                          return <Box className={classes.statusRed} />
-                        } else if (interview.status >= 3) {
-                          return <Box className={classes.statusOrange} />
-                        } else if (interview.status >= 2) {
-                          return <Box className={classes.statusYellow} />
-                        } else if (interview.status >= 1) {
-                          return <Box className={classes.statusGreen} />
-                        }
-                      })()}
+                      <Typography className={classes.listItem}>
+                        {interview.oxygenSaturation}%
+                      </Typography>
                     </Box>
                   </CardContent>
-                  <CardActions>
-                    <Button
-                      className={classes.button}
-                      onClick={() => onClickInterview(interview.id)}
-                    >
-                      詳細
-                    </Button>
-                  </CardActions>
-                </Box>
+                </Grid>
+                <Grid item xs={12} sm={6} >
+                  <Box className={classes.cardContent}>
+                    <CardContent className={classes.cardContent}>
+                      <Box className={classes.contentBox}>
+                        <Typography className={classes.title}>
+                          計測時間
+                        </Typography>
+                        <Typography className={classes.listItem}>
+                          {dayjs(interview.instrumentationTime).format('HH:mm')}
+                        </Typography>
+                      </Box>
+                      <Box className={classes.contentBox}>
+                        <Typography className={classes.title}>
+                          状態
+                        </Typography>
+                        {(() => {
+                          if (interview.status >= 4) {
+                            return <Box className={classes.statusRed} />
+                          } else if (interview.status >= 3) {
+                            return <Box className={classes.statusOrange} />
+                          } else if (interview.status >= 2) {
+                            return <Box className={classes.statusYellow} />
+                          } else if (interview.status >= 0) {
+                            return <Box className={classes.statusGreen} />
+                          }
+                        })()}
+                      </Box>
+                    </CardContent>
+                    <CardActions>
+                      <Button
+                        className={classes.button}
+                        onClick={() => onClickInterview(interview.id)}
+                      >
+                        詳細
+                      </Button>
+                    </CardActions>
+                  </Box>
+                </Grid>
               </Grid>
-            </Grid>
-          </Card>
-        ))
-        }
+            </Card>
+          ))
+          }
+        </Box>
         <Pagination
           count={pageCount}
           color="secondary"
@@ -248,10 +256,28 @@ const Interviews: React.FC = () => {
         />
       </Box >
       <Box className={classes.boxBottom}>
-        {user &&
+        {currentUser?.patientOrDoctor
+          ?
+          <>
+            <Button
+              className={classes.downButton}
+              component={Link}
+              to="/mypage"
+            >
+              マイページへ
+            </Button>
+            <Button
+              className={classes.downButton}
+              component={Link}
+              to="/interview/create"
+            >
+              問診作成
+            </Button>
+          </>
+          :
           <Button
             className={classes.downButton}
-            onClick={() => onClickPatient(user.id)}
+            onClick={() => onClickPatient(user?.id)}
           >
             患者様一覧
           </Button>
@@ -259,6 +285,6 @@ const Interviews: React.FC = () => {
       </Box>
     </>
   )
-}
+});
 
 export default Interviews

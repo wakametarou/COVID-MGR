@@ -220,7 +220,7 @@ const Interview: React.FC = () => {
                         return <Box className={classes.statusOrange} />
                       } else if (interview.status >= 2) {
                         return <Box className={classes.statusYellow} />
-                      } else if (interview.status >= 1) {
+                      } else if (interview.status >= 0) {
                         return <Box className={classes.statusGreen} />
                       }
                     })()
