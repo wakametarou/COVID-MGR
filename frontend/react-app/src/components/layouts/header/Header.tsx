@@ -2,15 +2,15 @@ import React, { useContext } from "react"
 import { useNavigate, Link } from "react-router-dom"
 import Cookies from "js-cookie"
 
-import { makeStyles, createStyles, Theme } from "@material-ui/core/styles"
 
+import { makeStyles, Theme } from "@material-ui/core/styles"
 import {
   AppBar,
   Toolbar,
-  Typography,
-  IconButton,
   Box,
+  Button,
 } from "@material-ui/core"
+import IconButton from "@material-ui/core/IconButton"
 import MenuIcon from "@material-ui/icons/Menu"
 
 import { theme } from "styles/layouts/Style"
@@ -22,23 +22,20 @@ import { signOut } from "lib/api/auth"
 
 import { AuthContext } from "App"
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    iconButton: {
-      marginRight: theme.spacing(2),
-    },
-    title: {
-      flexGrow: 1,
-      textDecoration: "none",
-      color: "inherit",
-    },
-    toolbar: {
-      justifyContent: 'space-between',
-    },
-    box: {
-      width: 110,
-    }
-  }))
+
+import image from 'img/title-logo.png'
+
+const useStyles = makeStyles((theme: Theme) => ({
+  iconButton: {
+    marginRight: theme.spacing(2),
+  },
+  linkBtn: {
+    textTransform: "none"
+  },
+  toolBar: {
+    justifyContent: 'space-between',
+  }
+}))
 
 const Header: React.FC = () => {
   const { setIsSignedIn } = useContext(AuthContext)
@@ -66,33 +63,34 @@ const Header: React.FC = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <AppBar position="static">
-        <Toolbar
-          className={classes.toolbar}
-        >
-          <Box className={classes.box}>
-            <Typography
-              component={Link}
-              to="/"
-              variant="h6"
-              className={classes.title}
-            >
-              COVID-Mgr
-            </Typography>
+      <AppBar
+        position="static"
+      >
+        <Toolbar className={classes.toolBar}>
+          <Button
+            component={Link}
+            to="/"
+          >
+            <img
+              src={image}
+              loading="lazy"
+              width="200"
+            />
+          </Button>
+          <Box>
+            <Hidden xsDown implementation="css">
+              <AuthButtons classes={classes} handleSignOut={handleSignOut} />
+            </Hidden>
+            <Hidden smUp implementation="css">
+              <IconButton
+                edge="start"
+                className={classes.iconButton}
+                color="inherit"
+              >
+                <MenuIcon />
+              </IconButton>
+            </Hidden>
           </Box>
-
-          <Hidden xsDown implementation="css">
-            <HeaderButtons classes={classes} handleSignOut={handleSignOut} />
-          </Hidden>
-          <Hidden smUp implementation="css">
-            <IconButton
-              edge="start"
-              className={classes.iconButton}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-          </Hidden>
         </Toolbar>
       </AppBar>
     </ThemeProvider>

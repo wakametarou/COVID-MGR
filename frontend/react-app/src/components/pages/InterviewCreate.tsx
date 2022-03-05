@@ -1,9 +1,16 @@
-import React, { memo, useState, useEffect, useCallback } from 'react';
-import { InterviewNewType, QuestionType, OtherSymptomTypeNew, AnswerNewType } from 'types/interview';
+import React, { memo, useState, useEffect } from 'react';
+import {
+  InterviewNewType,
+  QuestionType,
+  OtherSymptomTypeNew,
+  AnswerNewType,
+  InterviewCreateType
+} from 'types/interview';
+import { interviewCreate } from 'lib/api/interview'
 import { interviewNew } from 'lib/api/interview'
 import { useNavigate, Link } from "react-router-dom";
 
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
 import {
   Card,
   CardActions,
@@ -27,7 +34,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/ja";
 dayjs.locale('ja');
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     titleBox: {
       display: 'flex',
@@ -46,7 +53,12 @@ const useStyles = makeStyles((theme: Theme) =>
     contentBox: {
       margin: 10,
       display: 'flex',
+      justifyContent: 'center',
       alignItems: 'center',
+    },
+    concreteBox: {
+      margin: 10,
+      display: 'flex',
     },
     unitText: {
       marginLeft: 3,
@@ -76,9 +88,14 @@ const useStyles = makeStyles((theme: Theme) =>
       flexDirection: 'column',
       justifyContent: 'center',
       margin: 10,
+      width: 100,
     },
     tempTitle: {
       fontSize: 12,
+      textAlign: 'center',
+    },
+    textConfirm: {
+      marginTop: 5,
       textAlign: 'center',
     },
   }),
@@ -97,92 +114,42 @@ const MultiLineBody = ({ body }: { body: string }) => {
 };
 
 const InterviewCreate: React.FC = memo(() => {
-  const classes = useStyles();
   const [questions, setQuestions] = useState<QuestionType[]>([]);
-  const [interview, setInterview] = useState<InterviewNewType>(
-    {
-      temperature: 0,
-      oxygenSaturation: 0,
-      instrumentationTime: new Date(0),
-      status: 0,
-      other: false,
-    }
-  );
-  const handleInterviewChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setInterview({
-      ...interview,
-      [e.target.name]: e.target.value,
-      other: e.target.value === "true"
-    });
-  };
-
-  const [otherSymptom, setOtherSymptom] = useState<OtherSymptomTypeNew>(
-    {
-      painDegree: 0,
-      concrete: "",
-    }
-  );
-  const handleOtherChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setOtherSymptom({
-      ...otherSymptom,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const [answers, setAnswers] = useState<AnswerNewType[]>([{ answer: false, questionId: 1 }]);
-  const handleAnswersChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, id: number) => {
-    for (let i = 0; i < answers.length; i++) {
-      if (answers[i].questionId === id) {
-        answers.splice(i, 1)
-      }
-      // else {
-      //   setAnswers([
-      //     ...answers,
-      //     {
-      //       answer: e.target.value === "true",
-      //       questionId: id,
-      //     }
-      //   ]);
-      // }
-    }
-    setAnswers([
-      ...answers,
-      {
-        answer: e.target.value === "true",
-        questionId: id,
-      }
-    ]);
-  };
-
-  const AnswerSelection = useCallback((index: number) => {
-    // for (let i = 0; i < answers.length; i++) {
-    // if (answers[i].questionId === index + 1) {
-    const answer = answers.find(el => el.questionId = index);
-    if (answer?.answer === true) {
-      return (
-        <Typography>
-          はい
-        </Typography>
-      )
-    } else if (answer?.answer === false) {
-      return (
-        <Typography>
-          いいえ
-        </Typography>
-      )
-    }
-    // }
-    // }
-  }, [answers]);
-  console.log(answers);
-
+  const [interview, setInterview] = useState<InterviewNewType>({
+    temperature: 100,
+    oxygenSaturation: 1000,
+    instrumentationTime: new Date('2000/12/31 00:00'),
+    status: 0,
+    other: undefined,
+  });
+  const [answers, setAnswers] = useState<AnswerNewType[]>([]);
+  const [otherSymptom, setOtherSymptom] = useState<OtherSymptomTypeNew>({
+    painDegree: 6,
+    concrete: "",
+  });
+  const [temperature, setTemperature] = useState<number>(100);
+  const [oxygenSaturation, setOxygenSaturation] = useState<number>(1000);
+  const [instrumentationTime, setInstrumentationTime] = useState<Date>(new Date('2000/12/31 00:00'));
+  const [other, setOther] = useState<boolean>();
+  const [status, setStatus] = useState<number>(0);
+  const [buttonDisAllow, setButtonDisAllow] = useState<boolean>(true);
   const [open, setOpen] = useState<boolean>(false);
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
+
+  useEffect(() => {
+    ButtonPermit();
+  }, [interview, answers, otherSymptom]);
+  useEffect(() => {
+    handleInterviewChange(temperature, oxygenSaturation, instrumentationTime, other, status)
+  }, [temperature, oxygenSaturation, instrumentationTime, other, status]);
+  useEffect(() => {
+    statusCounter();
+  }, [answers]);
+  useEffect(() => {
+    getQuestions();
+  }, []);
+
+  const classes = useStyles();
+  const navigate = useNavigate();
 
   const getQuestions = async () => {
     try {
@@ -194,9 +161,135 @@ const InterviewCreate: React.FC = memo(() => {
     }
   };
 
-  useEffect(() => {
-    getQuestions()
-  }, []);
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const params: InterviewCreateType = {
+      interview: interview,
+      answers: answers,
+      otherSymptom: otherSymptom
+    }
+    try {
+      const res = await interviewCreate(params);
+      console.log(res.data);
+      navigate("/Mypage");
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const ButtonPermit = () => {
+    if (interview.other === true) {
+      if (
+        interview.temperature !== 100 &&
+        interview.oxygenSaturation !== 1000 &&
+        interview.instrumentationTime !== new Date('2000/12/31 00:00') &&
+        interview.other !== undefined &&
+        answers.length === 9 &&
+        otherSymptom.painDegree !== 6 &&
+        otherSymptom.concrete !== ""
+      ) {
+        console.log('開く実行')
+        setButtonDisAllow(false);
+      } else {
+        console.log('閉じる実行')
+        setButtonDisAllow(true);
+      }
+    } else if (interview.other === false) {
+      setOtherSymptom({
+        painDegree: 6,
+        concrete: "",
+      });
+      if (
+        interview.temperature !== 100 &&
+        interview.oxygenSaturation !== 1000 &&
+        interview.instrumentationTime !== new Date('2000/12/31 00:00') &&
+        interview.other !== undefined &&
+        answers.length === 9
+      ) {
+        console.log('開く実行')
+        setButtonDisAllow(false)
+      } else {
+        console.log('閉じる実行')
+        setButtonDisAllow(true)
+      }
+    }
+  };
+
+  const statusCounter = () => {
+    let count = 0
+    for (let i = 0; i < answers.length; i++) {
+      if (answers[i].answer === true) {
+        count += 1
+      }
+    };
+    setStatus(count)
+  };
+
+  const handleInterviewChange = (
+    temperature: number,
+    oxygenSaturation: number,
+    instrumentationTime: Date,
+    other: boolean | undefined,
+    status: number
+  ) => {
+    setInterview({
+      ...interview,
+      temperature: temperature,
+      oxygenSaturation: oxygenSaturation,
+      instrumentationTime: instrumentationTime,
+      other: other,
+      status: status,
+    });
+  };
+
+  const handleAnswersChange = (answer: boolean, id: number) => {
+    for (let i = 0; i < answers.length; i++) {
+      if (answers[i].questionId === id) {
+        answers.splice(i, 1)
+      }
+    }
+    setAnswers([
+      ...answers,
+      {
+        answer: answer,
+        questionId: id,
+      }
+    ]);
+  };
+
+  const handleOtherChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setOtherSymptom({
+      ...otherSymptom,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const AnswerSelection = (id: number) => {
+    for (let i = 0; i < answers.length; i++) {
+      if (answers[i].questionId === id) {
+        if (answers[i].answer === true) {
+          return (
+            <Typography className={classes.textConfirm}>
+              はい
+            </Typography>
+          )
+        } else if (answers[i].answer === false) {
+          return (
+            <Typography className={classes.textConfirm}>
+              いいえ
+            </Typography>
+          )
+        }
+      }
+    }
+  };
 
   return (
     <>
@@ -219,7 +312,8 @@ const InterviewCreate: React.FC = memo(() => {
                         margin="dense"
                         name="temperature"
                         label="体温"
-                        onChange={(e) => handleInterviewChange(e)}
+                        type="number"
+                        onChange={(e) => setTemperature(Number(e.target.value))}
                         inputProps={{ maxLength: 2, pattern: "^[0-9_]+$" }}
                         className={classes.textField}
                       />
@@ -234,7 +328,7 @@ const InterviewCreate: React.FC = memo(() => {
                         margin="dense"
                         name="oxygenSaturation"
                         label="酸素飽和度"
-                        onChange={(e) => handleInterviewChange(e)}
+                        onChange={(e) => setOxygenSaturation(Number(e.target.value))}
                         inputProps={{ maxLength: 3, pattern: "^[0-9_]+$" }}
                         className={classes.textField}
                       />
@@ -257,7 +351,7 @@ const InterviewCreate: React.FC = memo(() => {
                         inputProps={{
                           step: 300, // 5 min
                         }}
-                        onChange={(e) => handleInterviewChange(e)}
+                        onChange={(e) => setInstrumentationTime(new Date('1000/01/01 ' + e.target.value))}
                         className={classes.textField}
                       />
                     </Box>
@@ -271,7 +365,7 @@ const InterviewCreate: React.FC = memo(() => {
                         <RadioGroup
                           aria-label="quiz"
                           name="answer"
-                          onChange={(e) => handleAnswersChange(e, index + 1)}
+                          onChange={(e) => handleAnswersChange(e.target.value === "true", question.id)}
                         >
                           <FormControlLabel
                             value="true"
@@ -293,7 +387,7 @@ const InterviewCreate: React.FC = memo(() => {
                       <RadioGroup
                         aria-label="quiz"
                         name="other"
-                        onChange={(e) => handleInterviewChange(e)}
+                        onChange={(e) => setOther(e.target.value === "true")}
                       >
                         <FormControlLabel
                           value="true"
@@ -348,6 +442,7 @@ const InterviewCreate: React.FC = memo(() => {
                 戻る
               </Button>
               <Button
+                disabled={buttonDisAllow}
                 className={classes.button}
                 onClick={handleClickOpen}
               >
@@ -411,73 +506,48 @@ const InterviewCreate: React.FC = memo(() => {
                     {questions.map((question, index) => (
                       <Box className={classes.questionBox} key={index}>
                         <MultiLineBody body={question.content} />
-                        {AnswerSelection(index + 1)}
-                        {/* <RadioGroup
-                          aria-label="quiz"
-                          name="answer"
-                          onChange={(e) => handleAnswersChange(e, index + 1)}
-                        >
-                          <FormControlLabel
-                            value="true"
-                            control={<Radio />}
-                            label="はい"
-                          />
-                          <FormControlLabel
-                            value="false"
-                            control={<Radio />}
-                            label="いいえ"
-                          />
-                        </RadioGroup> */}
+                        {AnswerSelection(question.id)}
                       </Box>
                     ))}
                     <Box className={classes.questionBox}>
                       <Typography>
                         ・その他症状
                       </Typography>
-                      <RadioGroup
-                        aria-label="quiz"
-                        name="other"
-                        onChange={(e) => handleInterviewChange(e)}
-                      >
-                        <FormControlLabel
-                          value="true"
-                          control={<Radio />}
-                          label="はい"
-                        />
-                        <FormControlLabel
-                          value="false"
-                          control={<Radio />}
-                          label="いいえ"
-                        />
-                      </RadioGroup>
+                      {interview.other
+                        ? <Typography className={classes.textConfirm}>
+                          はい
+                        </Typography>
+                        :
+                        <Typography className={classes.textConfirm}>
+                          いいえ
+                        </Typography>
+                      }
                     </Box>
                   </Box>
                 </Grid>
                 {interview.other &&
                   <Grid item xs={12}>
                     <Box className={classes.otherBox}>
-                      <TextField
-                        variant="outlined"
-                        required
-                        margin="dense"
-                        name="painDegree"
-                        label="痛みの程度"
-                        onChange={(e) => handleOtherChange(e)}
-                        inputProps={{ maxLength: 1, pattern: "^[0-5_]+$" }}
-                        className={classes.textField}
-                      />
-                      <TextField
-                        id="outlined-multiline-static"
-                        multiline
-                        rows={10}
-                        variant="outlined"
-                        required
-                        margin="dense"
-                        name="concrete"
-                        label="具体的な症状"
-                        onChange={(e) => handleOtherChange(e)}
-                        inputProps={{ maxLength: 300 }}
-                      />
+                      <Box className={classes.tempBox}>
+                        <Typography className={classes.tempTitle}>
+                          痛みの程度
+                        </Typography>
+                        <Box className={classes.contentBox}>
+                          <Typography>
+                            {otherSymptom.painDegree}
+                          </Typography>
+                        </Box>
+                      </Box>
+                      <Box className={classes.tempBox}>
+                        <Typography className={classes.tempTitle}>
+                          具体的な症状
+                        </Typography>
+                        <Box className={classes.concreteBox}>
+                          <Typography>
+                            <MultiLineBody body={otherSymptom.concrete} />
+                          </Typography>
+                        </Box>
+                      </Box>
                     </Box>
                   </Grid>
                 }
@@ -493,9 +563,9 @@ const InterviewCreate: React.FC = memo(() => {
               <Button
                 className={classes.button}
                 type="submit"
-              // onClick={handleSubmit}
+                onClick={handleSubmit}
               >
-                確認
+                完了
               </Button>
             </DialogActions>
           </Dialog>

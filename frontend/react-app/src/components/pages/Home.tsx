@@ -7,6 +7,7 @@ import {
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 import imageTop from 'img/photo01.jpg'
+import imageHome from 'img/home-logo.png'
 import imageDoctor from 'img/Doctors-pana.png'
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -52,9 +53,12 @@ const Home: React.FC = () => {
   return (
     <Box>
       <Box className={classes.topBox}>
-        <Typography variant='h2'>
-          COVID-Mgr
-        </Typography>
+        <img
+          src={imageHome}
+          loading="lazy"
+          width="300"
+          height="70"
+        />
       </Box>
       <Box className={classes.contentBox}>
         <Grid container >

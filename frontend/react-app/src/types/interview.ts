@@ -14,7 +14,7 @@ export type InterviewNewType = {
   oxygenSaturation: number;
   instrumentationTime: Date;
   status: number;
-  other: boolean;
+  other: boolean | undefined;
 };
 
 export type OtherSymptomType = {
@@ -42,12 +42,18 @@ export type AnswerType = {
 }
 
 export type AnswerNewType = {
-  answer: boolean
-  questionId: number
+  answer: boolean;
+  questionId: number;
 }
 
 export type QuestionType = {
   id: number
   name: string
   content: string
+}
+
+export type InterviewCreateType = {
+  interview: InterviewNewType;
+  answers: AnswerNewType[];
+  otherSymptom: OtherSymptomTypeNew;
 }

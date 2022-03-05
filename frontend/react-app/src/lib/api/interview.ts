@@ -1,5 +1,8 @@
 import client from "lib/api/client"
 import Cookies from "js-cookie"
+import {
+  InterviewCreateType
+} from "types/interview"
 
 export const interviewsIndex = () => {
   return client.get("/interviews/index", {
@@ -33,6 +36,16 @@ export const interviewShow = (id: number) => {
 
 export const interviewNew = () => {
   return client.get("/interviews/new", {
+    headers: {
+      "access-token": Cookies.get("_access_token")!,
+      "client": Cookies.get("_client")!,
+      "uid": Cookies.get("_uid")!
+    }
+  })
+}
+
+export const interviewCreate = (params: InterviewCreateType) => {
+  return client.post("/interviews/create", params, {
     headers: {
       "access-token": Cookies.get("_access_token")!,
       "client": Cookies.get("_client")!,
