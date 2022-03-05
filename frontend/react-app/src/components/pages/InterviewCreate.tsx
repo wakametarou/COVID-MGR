@@ -124,7 +124,7 @@ const InterviewCreate: React.FC = memo(() => {
   });
   const [buttonDisAllow, setButtonDisAllow] = useState<boolean>(true)
   useEffect(() => {
-    // console.log(otherSymptom)
+    console.log(otherSymptom)
     setStatus(answers.length)
     if (interview.other === true) {
       if (
@@ -143,6 +143,10 @@ const InterviewCreate: React.FC = memo(() => {
         setButtonDisAllow(true)
       }
     } else if (interview.other === false) {
+      setOtherSymptom({
+        painDegree: 6,
+        concrete: "",
+      })
       if (
         interview.temperature !== 100 &&
         interview.oxygenSaturation !== 1000 &&

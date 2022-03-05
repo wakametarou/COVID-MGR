@@ -3,10 +3,12 @@ import { useNavigate, Link } from "react-router-dom"
 import Cookies from "js-cookie"
 
 import { makeStyles, Theme } from "@material-ui/core/styles"
-
-import AppBar from "@material-ui/core/AppBar"
-import Toolbar from "@material-ui/core/Toolbar"
-import Typography from "@material-ui/core/Typography"
+import {
+  AppBar,
+  Toolbar,
+  Box,
+  Button,
+} from "@material-ui/core"
 import IconButton from "@material-ui/core/IconButton"
 import MenuIcon from "@material-ui/icons/Menu"
 
@@ -20,18 +22,17 @@ import { signOut } from "lib/api/auth"
 
 import { AuthContext } from "App"
 
+import image from 'img/title-logo.png'
+
 const useStyles = makeStyles((theme: Theme) => ({
   iconButton: {
     marginRight: theme.spacing(2),
   },
-  title: {
-    flexGrow: 1,
-    textDecoration: "none",
-    color: "inherit",
-    // width: 200
-  },
   linkBtn: {
     textTransform: "none"
+  },
+  toolBar: {
+    justifyContent: 'space-between',
   }
 }))
 
@@ -64,27 +65,31 @@ const Header: React.FC = () => {
       <AppBar
         position="static"
       >
-        <Toolbar>
-          <Typography
+        <Toolbar className={classes.toolBar}>
+          <Button
             component={Link}
             to="/"
-            variant="h6"
-            className={classes.title}
           >
-            COVID-Mgr
-          </Typography>
-          <Hidden xsDown implementation="css">
-            <AuthButtons classes={classes} handleSignOut={handleSignOut} />
-          </Hidden>
-          <Hidden smUp implementation="css">
-            <IconButton
-              edge="start"
-              className={classes.iconButton}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-          </Hidden>
+            <img
+              src={image}
+              loading="lazy"
+              width="200"
+            />
+          </Button>
+          <Box>
+            <Hidden xsDown implementation="css">
+              <AuthButtons classes={classes} handleSignOut={handleSignOut} />
+            </Hidden>
+            <Hidden smUp implementation="css">
+              <IconButton
+                edge="start"
+                className={classes.iconButton}
+                color="inherit"
+              >
+                <MenuIcon />
+              </IconButton>
+            </Hidden>
+          </Box>
         </Toolbar>
       </AppBar>
     </ThemeProvider>
