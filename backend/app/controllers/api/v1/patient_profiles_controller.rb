@@ -2,19 +2,38 @@ class Api::V1::PatientProfilesController < ApplicationController
   before_action :authenticate_api_v1_user!
 
   def show
-    if profile = PatientProfile.find_by(user_id: current_api_v1_user.id)
-      patient_profile = {
-        image: profile.image.url,
-        room_number: profile.room_number,
-        phone_number: profile.phone_number,
-        emergency_address: profile.emergency_address,
-        address: profile.address,
-        building: profile.building,
-      }
-      render json: patient_profile
-    else
-      render json: { status: 404 }
-    end
+    
+      if patient_profile = PatientProfile.find_by(user_id: current_api_v1_user.id)
+        if interview = Interview.find_by(user_id: current_api_v1_user.id)
+        data = {
+          profile:{
+            image: patient_profile.image.url,
+            room_number: patient_profile.room_number,
+            phone_number: patient_profile.phone_number,
+            emergency_address: patient_profile.emergency_address,
+            address: patient_profile.address,
+            building: patient_profile.building,
+          },
+          interview: interview.user_id
+        }
+        render json: data
+        else
+          data = {
+            profile:{
+              image: patient_profile.image.url,
+              room_number: patient_profile.room_number,
+              phone_number: patient_profile.phone_number,
+              emergency_address: patient_profile.emergency_address,
+              address: patient_profile.address,
+              building: patient_profile.building,
+            },
+          }
+          render json: data
+        end
+      else
+        render json: { status: 404 }
+      end
+    
   end
 
   def create

@@ -17,7 +17,6 @@ import {
   Grid,
   Avatar,
   Box,
-  CardHeader,
 } from '@material-ui/core';
 
 import { pink } from '@material-ui/core/colors';
@@ -27,7 +26,7 @@ const useStyles = makeStyles(() =>
   createStyles({
     card: {
       minWidth: 320,
-      height: 350,
+      height: 420,
       display: 'flex',
       flexDirection: 'column',
     },
@@ -36,6 +35,7 @@ const useStyles = makeStyles(() =>
       justifyContent: 'center',
     },
     image: {
+      marginTop: 30,
       width: 80,
       height: 80,
     },
@@ -57,7 +57,8 @@ const useStyles = makeStyles(() =>
     },
     cardActions: {
       display: 'flex',
-      justifyContent: 'center'
+      flexDirection: 'column',
+      justifyContent: 'center',
     },
     button: {
       width: 100,
@@ -67,21 +68,27 @@ const useStyles = makeStyles(() =>
     box: {
       height: 170,
     },
+    downBox: {
+
+    },
   }),
 );
 
 const Mypage: React.FC = () => {
   const { currentUser } = useContext(AuthContext);
   const [profile, setProfile] = useState<PatientProfileType>();
+  const [interview, setInterview] = useState<number>(0);
 
   const getProfiles = async () => {
     try {
       const res = await patientShow()
-      if (res.data.roomNumber) {
-        console.log(res)
-        setProfile(res.data)
+      console.log(res)
+      if (res.data.interview) {
+        setInterview(res.data.interview)
+        setProfile(res.data.profile)
         console.log("get patientprofile")
       } else {
+        setProfile(res.data.profile)
         console.log("user is doctor")
       }
     } catch (err) {
@@ -91,7 +98,7 @@ const Mypage: React.FC = () => {
 
   useEffect(() => {
     getProfiles()
-  }, [])
+  }, []);
 
   const classes = useStyles();
 
@@ -184,30 +191,43 @@ const Mypage: React.FC = () => {
               }
             </CardContent>
             <CardActions className={classes.cardActions}>
-              {profile ?
+              <Box className={classes.downBox}>
+                {profile ?
+                  <Button
+                    className={classes.button}
+                    component={Link}
+                    to="/patient/edit"
+                  >
+                    編集
+                  </Button>
+                  :
+                  <Button
+                    className={classes.button}
+                    component={Link}
+                    to="/patient/create"
+                  >
+                    作成
+                  </Button>
+                }
                 <Button
                   className={classes.button}
                   component={Link}
-                  to="/patient/edit"
+                  to="/interview/create"
                 >
-                  編集
+                  問診作成
                 </Button>
-                :
-                <Button
-                  className={classes.button}
-                  component={Link}
-                  to="/patient/create"
-                >
-                  作成
-                </Button>
+              </Box>
+              {interview !== 0 &&
+                <Box className={classes.downBox}>
+                  <Button
+                    className={classes.button}
+                    component={Link}
+                    to="/interviews"
+                  >
+                    問診一覧
+                  </Button>
+                </Box>
               }
-              <Button
-                className={classes.button}
-                component={Link}
-                to="/interview/create"
-              >
-                問診
-              </Button>
             </CardActions>
           </Card>
         </Grid>

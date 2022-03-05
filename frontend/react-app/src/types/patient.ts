@@ -13,12 +13,12 @@ export type UserType = {
   sex: boolean
 }
 export type PatientProfileType = {
-  image: string
-  roomNumber: string
-  phoneNumber: string
-  emergencyAddress: string
-  address: string
-  building: string
+  image: string;
+  roomNumber: string;
+  phoneNumber: string;
+  emergencyAddress: string;
+  address: string;
+  building: string;
 }
 export type InterviewType = {
   id: number
