@@ -7,6 +7,7 @@ export type InterviewType = {
   other: boolean;
   userId: number;
   createdAt: Date;
+  updated_at: Date;
 };
 
 export type InterviewNewType = {

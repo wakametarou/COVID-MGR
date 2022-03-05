@@ -145,6 +145,9 @@ const InterviewCreate: React.FC = memo(() => {
     statusCounter();
   }, [answers]);
   useEffect(() => {
+    resetOther();
+  }, [other]);
+  useEffect(() => {
     getQuestions();
   }, []);
 
@@ -202,10 +205,6 @@ const InterviewCreate: React.FC = memo(() => {
         setButtonDisAllow(true);
       }
     } else if (interview.other === false) {
-      setOtherSymptom({
-        painDegree: 6,
-        concrete: "",
-      });
       if (
         interview.temperature !== 100 &&
         interview.oxygenSaturation !== 1000 &&
@@ -290,6 +289,15 @@ const InterviewCreate: React.FC = memo(() => {
       }
     }
   };
+
+  const resetOther = () => {
+    if (other === false) {
+      setOtherSymptom({
+        painDegree: 6,
+        concrete: "",
+      });
+    }
+  }
 
   return (
     <>
