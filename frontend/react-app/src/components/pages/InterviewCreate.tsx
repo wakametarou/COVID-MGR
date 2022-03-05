@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect, useCallback } from 'react';
+import React, { memo, useState, useEffect } from 'react';
 import {
   InterviewNewType,
   QuestionType,
@@ -10,7 +10,7 @@ import { interviewCreate } from 'lib/api/interview'
 import { interviewNew } from 'lib/api/interview'
 import { useNavigate, Link } from "react-router-dom";
 
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
 import {
   Card,
   CardActions,
@@ -34,7 +34,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/ja";
 dayjs.locale('ja');
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     titleBox: {
       display: 'flex',
