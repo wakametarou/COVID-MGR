@@ -129,6 +129,7 @@ const Patients: React.FC = memo(() => {
   const [displayedUsers, setDisplayedUsers] = useState<UsersType[]>([])//表示データ
   const displayNum = 5; //1ページあたりの項目数
   const navigate = useNavigate()
+  console.log(users)
 
   const onClickPatient = useCallback((id: number) => {
     navigate(`/patient/${id}`)
@@ -206,11 +207,11 @@ const Patients: React.FC = memo(() => {
                     状態
                   </Box>
                   {(() => {
-                    if (user.status >= 4) {
+                    if (user.status >= 5) {
                       return <div className={classes.statusRed}></div>
-                    } else if (user.status >= 3) {
+                    } else if (user.status >= 4) {
                       return <div className={classes.statusOrange}></div>
-                    } else if (user.status >= 2) {
+                    } else if (user.status >= 3) {
                       return <div className={classes.statusYellow}></div>
                     } else if (user.status >= 1) {
                       return <div className={classes.statusGreen}></div>
