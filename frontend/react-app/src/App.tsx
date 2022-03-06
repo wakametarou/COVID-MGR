@@ -25,14 +25,25 @@ export const AuthContext = createContext({} as {
   setLoading: React.Dispatch<React.SetStateAction<boolean>>
   isSignedIn: boolean
   setIsSignedIn: React.Dispatch<React.SetStateAction<boolean>>
-  currentUser: UserType | undefined
-  setCurrentUser: React.Dispatch<React.SetStateAction<UserType | undefined>>
+  currentUser: UserType
+  setCurrentUser: React.Dispatch<React.SetStateAction<UserType>>
 })
 
 const App: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true)
   const [isSignedIn, setIsSignedIn] = useState<boolean>(false)
-  const [currentUser, setCurrentUser] = useState<UserType | undefined>()
+  const [currentUser, setCurrentUser] = useState<UserType>({
+    id: 0,
+    uid: "",
+    provider: "",
+    email: "",
+    name: "",
+    patientOrDoctor: false,
+    sex: false,
+    allowPasswordChange: false,
+    created_at: new Date(0),
+    updated_at: new Date(0),
+  });
 
   const LoginCheck = ({ component }: { component: JSX.Element }): JSX.Element => {
     if (isSignedIn) {

@@ -90,7 +90,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: 90,
       backgroundColor: pink[100],
       boxShadow: "1px 1px 3px 0 grey",
-      marginRight: 20,
+      margin: 15,
     },
     downButton: {
       width: 100,
@@ -102,74 +102,75 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const Interviews: React.FC = memo(() => {
-  const { currentUser } = useContext(AuthContext)
+  const { currentUser } = useContext(AuthContext);
   const [user, setUser] = useState<UserType>({
     id: 0,
-    name: "unknownuser",
-  })
-  const [interviews, setInterviews] = useState<InterviewType[]>([])
+    name: "",
+  });
+  const [interviews, setInterviews] = useState<InterviewType[]>([]);
   const [page, setPage] = useState<number>(1)
-  const [pageCount, setPageCount] = useState<number>()
-  const [displayedInterviews, setDisplayedInterviews] = useState<InterviewType[]>([])
+  const [pageCount, setPageCount] = useState<number>();
+  const [displayedInterviews, setDisplayedInterviews] = useState<InterviewType[]>([]);
   const displayNum = 5;
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const query = useParams();
 
   const onClickPatient = useCallback((id: number) => {
-    navigate(`/patient/${id}`)
-  }, [navigate])
+    navigate(`/patient/${id}`);
+  }, [navigate]);
 
   const onClickInterview = useCallback((id: number) => {
-    navigate(`/interview/${id}`)
-  }, [navigate])
+    navigate(`/interview/${id}`);
+  }, [navigate]);
 
   const getInterviews = async () => {
     try {
-      const res = await interviewsIndex()
-      setInterviews(res.data)
-      console.log("get interviews")
+      const res = await interviewsIndex();
+      setInterviews(res.data);
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
   }
 
   const getInterviewsUser = async (query: any) => {
     try {
-      const res = await interviewsIndexUser(query.id)
-      setInterviews(res.data.interviews)
-      setUser(res.data.user)
-      console.log("get interviews and user")
+      const res = await interviewsIndexUser(query.id);
+      setInterviews(res.data.interviews);
+      setUser(res.data.user);
     } catch (err) {
-      console.log(err)
-    }
-  }
+      console.log(err);
+    };
+  };
 
   useEffect(() => {
-    if (currentUser?.patientOrDoctor) {
-      getInterviews()
+    if (currentUser.patientOrDoctor) {
+      getInterviews();
     } else {
-      getInterviewsUser(query)
-    }
-  }, [query])
+      getInterviewsUser(query);
+    };
+  }, [currentUser, query]);
+
   useEffect(() => {
-    setPageCount(Math.ceil(interviews.length / displayNum))
-    setDisplayedInterviews(interviews.slice(((page - 1) * displayNum), page * displayNum))
-  }, [interviews])
+    if (interviews) {
+      setPageCount(Math.ceil(interviews.length / displayNum))
+      setDisplayedInterviews(interviews.slice(((page - 1) * displayNum), page * displayNum))
+    };
+  }, [interviews]);
 
   const handleChange = (event: React.ChangeEvent<unknown>, index: number) => {
     setPage(index);
-    setDisplayedInterviews(interviews.slice(((index - 1) * displayNum), index * displayNum))
-  }
+    setDisplayedInterviews(interviews.slice(((index - 1) * displayNum), index * displayNum));
+  };
 
   const classes = useStyles();
 
   return (
     <>
       <Box className={classes.box}>
-        {currentUser?.patientOrDoctor
+        {currentUser.patientOrDoctor
           ?
           <Typography variant="h5" component="h1" style={{ marginBottom: 30 }}>
-            {currentUser?.name}様の問診一覧
+            {currentUser.name}様の問診一覧
           </Typography>
           :
           <Typography variant="h5" component="h1" style={{ marginBottom: 30 }}>
@@ -256,7 +257,7 @@ const Interviews: React.FC = memo(() => {
         />
       </Box >
       <Box className={classes.boxBottom}>
-        {currentUser?.patientOrDoctor
+        {currentUser.patientOrDoctor
           ?
           <>
             <Button

@@ -1,8 +1,8 @@
-import React, { useCallback, useState, useEffect } from "react"
-import { useParams, Link, useNavigate } from "react-router-dom"
-import MultiLineBody from "components/layouts/MultiLineBody/MultiLineBody"
+import React, { useCallback, useState, useEffect } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import MultiLineBody from "components/layouts/MultiLineBody/MultiLineBody";
 
-import { userShow } from "lib/api/patient"
+import { userShow } from "lib/api/patient";
 import {
   UserType,
   PatientProfileType,
@@ -10,7 +10,7 @@ import {
   OtherSymptomType,
   AnswerType,
   QuestionType
-} from "types/patient"
+} from "types/patient";
 
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';

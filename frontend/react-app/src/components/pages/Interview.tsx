@@ -1,22 +1,25 @@
-import React, { useState, useEffect, useCallback } from "react"
-import { InterviewType, OtherSymptomType, AnswerType, QuestionType } from "types/interview"
-import { interviewShow } from "lib/api/interview"
-import { useParams, useNavigate } from "react-router-dom"
+import React, { useState, useEffect, useCallback } from "react";
+import MultiLineBody from "components/layouts/MultiLineBody/MultiLineBody";
+import { InterviewType, OtherSymptomType, AnswerType, QuestionType } from "types/interview";
+import { interviewShow } from "lib/api/interview";
+import { useParams, useNavigate } from "react-router-dom";
 
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
+import {
+  Grid,
+  Box,
+  Card,
+  CardContent,
+  Typography,
+  Button,
+} from '@material-ui/core';
 import { pink } from '@material-ui/core/colors';
 
 import dayjs from "dayjs";
 import "dayjs/locale/ja";
 dayjs.locale('ja');
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     box: {
       display: 'flex',
@@ -51,21 +54,13 @@ const useStyles = makeStyles((theme: Theme) =>
       width: 80,
       textAlign: 'center',
     },
-    otherItem: {
-      fontSize: 16,
-      // width: 80,
-      // whiteSpace: 'pre-wrap',
-      textAlign: 'center',
-    },
     itemInterview: {
       fontSize: 16,
     },
     cardContent: {
       display: 'flex',
-      // justifyContent: 'center',
       flexWrap: 'wrap',
     },
-
     interviewContent: {
       display: 'flex',
       justifyContent: 'space-around',
@@ -110,16 +105,31 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const Interview: React.FC = () => {
-  const [interview, setInterview] = useState<InterviewType>()
-  const [otherSymptom, setOtherSymptom] = useState<OtherSymptomType>()
-  const [answers, setAnswers] = useState<AnswerType[]>([])
-  const [questions, setQuestions] = useState<QuestionType[]>([])
+  const [interview, setInterview] = useState<InterviewType>({
+    id: 0,
+    temperature: 0,
+    oxygenSaturation: 0,
+    instrumentationTime: new Date(0),
+    status: 0,
+    other: false,
+    userId: 0,
+    createdAt: new Date(0),
+    updated_at: new Date(0),
+  });
+  const [otherSymptom, setOtherSymptom] = useState<OtherSymptomType>({
+    id: 0,
+    painDegree: 0,
+    concrete: "",
+    interviewId: 0,
+  });
+  const [answers, setAnswers] = useState<AnswerType[]>([]);
+  const [questions, setQuestions] = useState<QuestionType[]>([]);
   const query = useParams();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const onClickInterviews = useCallback((id: number) => {
     navigate(`/Interviews/${id}`)
-  }, [navigate])
+  }, [navigate]);
 
   const getInterview = async (query: any) => {
     try {
@@ -139,10 +149,10 @@ const Interview: React.FC = () => {
     } catch (err) {
       console.log(err)
     }
-  }
+  };
   useEffect(() => {
     getInterview(query)
-  }, [query])
+  }, [query]);
 
   const fechAnswers = (questionId: number) => {
     for (let i = 0; i < answers.length; i++) {
@@ -162,7 +172,7 @@ const Interview: React.FC = () => {
         )
       }
     }
-  }
+  };
 
   const classes = useStyles();
 
@@ -189,7 +199,7 @@ const Interview: React.FC = () => {
                     体温
                   </Typography>
                   <Typography className={classes.item}>
-                    {interview?.temperature}
+                    {interview.temperature}
                   </Typography>
                 </Box>
                 <Box className={classes.interviewBox}>
@@ -197,7 +207,7 @@ const Interview: React.FC = () => {
                     酸素飽和度
                   </Typography>
                   <Typography className={classes.item}>
-                    {interview?.oxygenSaturation}
+                    {interview.oxygenSaturation}
                   </Typography>
                 </Box>
                 <Box className={classes.interviewBox}>
@@ -205,26 +215,24 @@ const Interview: React.FC = () => {
                     計測時間
                   </Typography>
                   <Typography className={classes.item}>
-                    {dayjs(interview?.instrumentationTime).format('HH:mm')}
+                    {dayjs(interview.instrumentationTime).format('HH:mm')}
                   </Typography>
                 </Box>
                 <Box className={classes.contentBox}>
                   <Typography className={classes.title}>
                     状態
                   </Typography>
-                  {interview &&
-                    (() => {
-                      if (interview.status >= 5) {
-                        return <Box className={classes.statusRed} />
-                      } else if (interview.status >= 4) {
-                        return <Box className={classes.statusOrange} />
-                      } else if (interview.status >= 3) {
-                        return <Box className={classes.statusYellow} />
-                      } else if (interview.status >= 1) {
-                        return <Box className={classes.statusGreen} />
-                      }
-                    })()
-                  }
+                  {(() => {
+                    if (interview.status >= 5) {
+                      return <Box className={classes.statusRed} />
+                    } else if (interview.status >= 4) {
+                      return <Box className={classes.statusOrange} />
+                    } else if (interview.status >= 3) {
+                      return <Box className={classes.statusYellow} />
+                    } else if (interview.status >= 1) {
+                      return <Box className={classes.statusGreen} />
+                    }
+                  })()}
                 </Box>
               </CardContent>
             </Grid>
@@ -241,7 +249,7 @@ const Interview: React.FC = () => {
               </CardContent>
             </Grid>
             <Grid item xs={12}>
-              {interview?.other &&
+              {interview.other &&
                 <>
                   <Typography className={classes.cardTitle} style={{ marginTop: 15 }}>
                     その他症状
@@ -259,9 +267,9 @@ const Interview: React.FC = () => {
                       <Typography className={classes.title}>
                         詳細
                       </Typography>
-                      <Typography className={classes.otherItem}>
-                        {otherSymptom?.concrete.replace(/\n/g, '<br />')}
-                      </Typography>
+                      {/* <Typography className={classes.otherItem}> */}
+                      <MultiLineBody body={otherSymptom.concrete} />
+                      {/* </Typography> */}
                     </Box>
                   </CardContent>
                 </>

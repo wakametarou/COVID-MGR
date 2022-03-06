@@ -108,7 +108,7 @@ const Mypage: React.FC = () => {
 
         <Card className={classes.card}>
           <Box className={classes.cardHeaderBox}>
-            {currentUser?.patientOrDoctor
+            {currentUser.patientOrDoctor
               ?
               <Avatar alt="Remy Sharp" src={profile?.image} className={classes.image} style={{ backgroundColor: pink[100] }} />
               :
@@ -117,21 +117,21 @@ const Mypage: React.FC = () => {
           </Box>
           <CardContent>
             <Typography variant="h5" style={{ marginBottom: 10 }} >
-              {currentUser?.name}
+              {currentUser.name}
             </Typography>
             <Box className={classes.contentBox}>
               <Typography>
                 メールアドレス
               </Typography>
               <Typography>
-                {currentUser?.email}
+                {currentUser.email}
               </Typography>
             </Box>
             <Box className={classes.contentBox}>
               <Typography>
                 性別
               </Typography>
-              {currentUser?.sex
+              {currentUser.sex
                 ?
                 <Typography>
                   男性
@@ -144,7 +144,7 @@ const Mypage: React.FC = () => {
             </Box>
           </CardContent>
           <CardActions className={classes.cardActions}>
-            {currentUser?.patientOrDoctor === false &&
+            {currentUser.patientOrDoctor === false &&
               <Button
                 component={Link}
                 to="/patients"
@@ -158,7 +158,7 @@ const Mypage: React.FC = () => {
           </CardActions>
         </Card>
       </Grid>
-      {currentUser?.patientOrDoctor &&
+      {currentUser.patientOrDoctor &&
         <Grid item xs={12} sm={6}>
           <Card className={classes.card}>
             <Box className={classes.cardHeaderBox}>
