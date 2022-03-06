@@ -221,13 +221,13 @@ const Interviews: React.FC = memo(() => {
                           状態
                         </Typography>
                         {(() => {
-                          if (interview.status >= 4) {
+                          if (interview.status >= 5) {
                             return <Box className={classes.statusRed} />
-                          } else if (interview.status >= 3) {
+                          } else if (interview.status >= 4) {
                             return <Box className={classes.statusOrange} />
-                          } else if (interview.status >= 2) {
+                          } else if (interview.status >= 3) {
                             return <Box className={classes.statusYellow} />
-                          } else if (interview.status >= 0) {
+                          } else if (interview.status >= 1) {
                             return <Box className={classes.statusGreen} />
                           }
                         })()}

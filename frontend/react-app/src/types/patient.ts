@@ -33,7 +33,7 @@ export type OtherSymptomType = {
   id: number
   painDegree: number
   concrete: string
-  interviewId: string
+  interviewId: number
 }
 export type AnswerType = {
   id: number

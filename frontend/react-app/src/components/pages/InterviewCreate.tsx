@@ -222,7 +222,7 @@ const InterviewCreate: React.FC = memo(() => {
   };
 
   const statusCounter = () => {
-    let count = 0
+    let count = 1
     for (let i = 0; i < answers.length; i++) {
       if (answers[i].answer === true) {
         count += 1
