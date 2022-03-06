@@ -1,4 +1,5 @@
 import React, { memo, useState, useEffect } from 'react';
+import MultiLineBody from "components/layouts/MultiLineBody/MultiLineBody";
 import {
   InterviewNewType,
   QuestionType,
@@ -100,18 +101,6 @@ const useStyles = makeStyles(() =>
     },
   }),
 );
-
-const MultiLineBody = ({ body }: { body: string }) => {
-  const texts = body.split('\n').map((item, index) => {
-    return (
-      <React.Fragment key={index}>
-        {item}
-        <br />
-      </React.Fragment>
-    );
-  });
-  return <div>{texts}</div>;
-};
 
 const InterviewCreate: React.FC = memo(() => {
   const [questions, setQuestions] = useState<QuestionType[]>([]);

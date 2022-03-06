@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="eZT_BmYwKZDDpAdGqNE_" name="Page-1">
-        <mxGraphModel dx="438" dy="485" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="800" pageHeight="700" math="0" shadow="0">
+        <mxGraphModel dx="604" dy="647" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="800" pageHeight="700" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -37,11 +37,11 @@
                 <mxCell id="108" value="User/Patient&#10;一覧" style="rounded=1;fillColor=#1ba1e2;strokeColor=#006EAF;fontColor=#ffffff;fontStyle=1;fontFamily=Tahoma;fontSize=14" parent="1" vertex="1">
                     <mxGeometry x="99" y="340" width="130" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="197" value="" style="edgeStyle=none;html=1;strokeWidth=2;exitX=0.065;exitY=1.005;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fillColor=#d80073;strokeColor=#A50040;" parent="1" source="98" target="196" edge="1">
+                <mxCell id="197" value="" style="edgeStyle=none;html=1;strokeWidth=2;exitX=0.099;exitY=0.994;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fillColor=#d80073;strokeColor=#A50040;" parent="1" source="98" target="196" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="540" y="420" as="targetPoint"/>
                         <Array as="points">
-                            <mxPoint x="61" y="490"/>
+                            <mxPoint x="67" y="490"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
@@ -70,15 +70,17 @@
                 <mxCell id="224" style="edgeStyle=none;rounded=1;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;" parent="1" source="127" target="128" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="127" value="Interviews&#10;入力内容確認" style="rounded=1;strokeColor=#A50040;fontColor=#ffffff;fontStyle=1;fontFamily=Tahoma;fontSize=14;fillColor=#d80073;" parent="1" vertex="1">
+                <mxCell id="127" value="Interviews&#10;入力内容確認" style="rounded=1;strokeColor=#3700CC;fontColor=#ffffff;fontStyle=1;fontFamily=Tahoma;fontSize=14;fillColor=#6a00ff;" parent="1" vertex="1">
                     <mxGeometry x="270" y="580" width="130" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="235" style="edgeStyle=none;html=1;entryX=0.704;entryY=1.036;entryDx=0;entryDy=0;entryPerimeter=0;strokeWidth=2;fillColor=#d80073;strokeColor=#A50040;" parent="1" source="128" target="196" edge="1">
+                <mxCell id="235" style="edgeStyle=none;html=1;strokeWidth=2;fillColor=#d80073;strokeColor=#A50040;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="128" target="98" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="505" y="550"/>
-                            <mxPoint x="191" y="550"/>
+                            <mxPoint x="505" y="660"/>
+                            <mxPoint x="30" y="660"/>
+                            <mxPoint x="30" y="240"/>
                         </Array>
+                        <mxPoint x="30" y="240" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="128" value="問診送信完了" style="rounded=1;strokeColor=#A50040;fontColor=#ffffff;fontStyle=1;fontFamily=Tahoma;fontSize=14;fillColor=#d80073;" parent="1" vertex="1">
@@ -135,13 +137,7 @@
                 <mxCell id="200" style="edgeStyle=none;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;" parent="1" source="196" target="111" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="234" style="edgeStyle=none;html=1;strokeWidth=2;fillColor=#d80073;strokeColor=#A50040;" parent="1" edge="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="134.25" y="520" as="sourcePoint"/>
-                        <mxPoint x="134.7500000000001" y="580" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="196" value="Interviews&#10;一覧" style="rounded=1;fillColor=#60a917;strokeColor=#2D7600;fontColor=#ffffff;fontStyle=1;fontFamily=Tahoma;fontSize=14" parent="1" vertex="1">
+                <mxCell id="196" value="Interviews&#10;一覧×2" style="rounded=1;fillColor=#60a917;strokeColor=#2D7600;fontColor=#ffffff;fontStyle=1;fontFamily=Tahoma;fontSize=14" parent="1" vertex="1">
                     <mxGeometry x="99" y="460" width="130" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="117" value="PatientProfile&#10;編集" style="rounded=1;fillColor=#60a917;strokeColor=#2D7600;fontColor=#ffffff;fontStyle=1;fontFamily=Tahoma;fontSize=14" parent="1" vertex="1">
@@ -185,6 +181,18 @@
                         <mxPoint x="750" y="100" as="targetPoint"/>
                         <Array as="points"/>
                     </mxGeometry>
+                </mxCell>
+                <mxCell id="242" value="" style="edgeStyle=none;html=1;strokeWidth=2;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fillColor=#d80073;strokeColor=#A50040;" edge="1" parent="1" target="123">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="89" y="500" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="60" y="610"/>
+                        </Array>
+                        <mxPoint x="60" y="280" as="sourcePoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="243" value="User/Patient&#10;ページ" style="rounded=1;fillColor=#6a00ff;strokeColor=#3700CC;fontColor=#ffffff;fontStyle=1;fontFamily=Tahoma;fontSize=14" vertex="1" parent="1">
+                    <mxGeometry x="640" y="280" width="120" height="50" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>

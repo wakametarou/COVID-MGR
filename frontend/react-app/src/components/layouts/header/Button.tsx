@@ -30,7 +30,7 @@ export const HeaderButtons = ({ classes, handleSignOut }: any) => {
           >
             <AccountCircle />
           </IconButton>
-          {currentUser?.patientOrDoctor
+          {currentUser.patientOrDoctor
             ?
             <IconButton
               component={Link}
