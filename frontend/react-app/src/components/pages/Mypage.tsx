@@ -6,8 +6,8 @@ import { patientShow } from "lib/api/patient";
 
 import {
   makeStyles, createStyles,
-  // Theme
 } from '@material-ui/core/styles';
+
 import {
   Card,
   CardActions,
