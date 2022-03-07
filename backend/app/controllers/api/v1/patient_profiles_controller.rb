@@ -2,38 +2,32 @@ class Api::V1::PatientProfilesController < ApplicationController
   before_action :authenticate_api_v1_user!
 
   def show
-    
+    data = {}
+    case current_api_v1_user.patient_or_doctor
+    when true then
       if patient_profile = PatientProfile.find_by(user_id: current_api_v1_user.id)
-        if interview = Interview.find_by(user_id: current_api_v1_user.id)
-        data = {
-          profile:{
-            image: patient_profile.image.url,
-            room_number: patient_profile.room_number,
-            phone_number: patient_profile.phone_number,
-            emergency_address: patient_profile.emergency_address,
-            address: patient_profile.address,
-            building: patient_profile.building,
-          },
-          interview: interview.user_id
+        profile = {
+          image: patient_profile.image.url,
+          room_number: patient_profile.room_number,
+          phone_number: patient_profile.phone_number,
+          emergency_address: patient_profile.emergency_address,
+          address: patient_profile.address,
+          building: patient_profile.building,
         }
-        render json: data
-        else
-          data = {
-            profile:{
-              image: patient_profile.image.url,
-              room_number: patient_profile.room_number,
-              phone_number: patient_profile.phone_number,
-              emergency_address: patient_profile.emergency_address,
-              address: patient_profile.address,
-              building: patient_profile.building,
-            },
-          }
-          render json: data
-        end
-      else
-        render json: { status: 404 }
+        data[:profile]= profile
       end
-    
+      if interview = Interview.find_by(user_id: current_api_v1_user.id)
+        data[:interview]=interview.user_id
+      end
+      if data.empty?
+        data={status:404}
+      end
+      render json: data
+    when false then
+      render json: data = { status: 401 }
+    else
+      render json: { status: 404 }
+    end
   end
 
   def create
