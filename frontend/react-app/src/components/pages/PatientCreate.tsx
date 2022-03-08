@@ -109,6 +109,7 @@ const PatientCreate: React.FC = memo(() => {
       setButtonDisAllow(true);
     };
   };
+
   return (
     <form>
       <Card className={classes.card}>
