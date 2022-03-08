@@ -1,8 +1,13 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { patientCreate } from "lib/api/patient";
-import { useNavigate, Link } from "react-router-dom";
+import React, { memo, useState, useCallback } from "react";
+import { useNavigate, Link, } from "react-router-dom";
 
-import { makeStyles, createStyles, } from '@material-ui/core/styles';
+import { patientCreate } from "lib/api/patient";
+
+import {
+  makeStyles,
+  createStyles,
+  Theme,
+} from '@material-ui/core/styles';
 import {
   Card,
   CardContent,
@@ -11,13 +16,11 @@ import {
   TextField,
   CardHeader,
   Button,
-  Input,
-  Hidden,
   Box,
 } from '@material-ui/core';
 import { pink } from '@material-ui/core/colors';
 
-const useStyles = makeStyles((theme) =>
+const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     card: {
       minWidth: 320,
@@ -46,7 +49,7 @@ const useStyles = makeStyles((theme) =>
   }),
 );
 
-const PatientCreate: React.FC = () => {
+const PatientCreate: React.FC = memo(() => {
   const classes = useStyles();
   const navigate = useNavigate();
   const [preview, setPreview] = useState<string>("");
@@ -176,6 +179,6 @@ const PatientCreate: React.FC = () => {
       </Card>
     </form>
   );
-};
+});
 
 export default PatientCreate

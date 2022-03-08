@@ -1,10 +1,14 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { useParams, useNavigate, } from "react-router-dom";
 import MultiLineBody from "components/layouts/MultiLineBody/MultiLineBody";
+
 import { InterviewType, OtherSymptomType, AnswerType, QuestionType } from "types/interview";
 import { interviewShow } from "lib/api/interview";
-import { useParams, useNavigate } from "react-router-dom";
 
-import { makeStyles, createStyles } from '@material-ui/core/styles';
+import {
+  makeStyles,
+  createStyles,
+} from '@material-ui/core/styles';
 import {
   Grid,
   Box,

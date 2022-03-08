@@ -1,9 +1,14 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { memo, useState, useEffect, useCallback } from "react";
+import { useNavigate, Link, } from "react-router-dom";
+
 import { patientShow, patientUpdate } from "lib/api/patient";
 import { PatientProfileType } from "types/patient";
-import { useNavigate, Link } from "react-router-dom";
 
-import { makeStyles, createStyles, } from '@material-ui/core/styles';
+import {
+  makeStyles,
+  createStyles,
+  Theme,
+} from '@material-ui/core/styles';
 import {
   Card,
   CardContent,
@@ -16,7 +21,7 @@ import {
 } from '@material-ui/core';
 import { pink } from '@material-ui/core/colors';
 
-const useStyles = makeStyles((theme) =>
+const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     card: {
       minWidth: 320,
@@ -45,7 +50,7 @@ const useStyles = makeStyles((theme) =>
   }),
 );
 
-const PatientEdit: React.FC = () => {
+const PatientEdit: React.FC = memo(() => {
   const classes = useStyles();
   const [profile, setProfile] = useState<PatientProfileType>(
     {
@@ -223,6 +228,6 @@ const PatientEdit: React.FC = () => {
       </Card>
     </form>
   );
-};
+});
 
 export default PatientEdit

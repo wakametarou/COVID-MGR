@@ -1,19 +1,23 @@
 import React, { memo, useContext, useState, useEffect, useCallback } from "react";
+import { useNavigate, useParams, Link, } from "react-router-dom";
+
 import { AuthContext } from "App";
-
-import { useNavigate, useParams, Link } from "react-router-dom";
-
 import { InterviewType, UserType } from "types/interview";
 import { interviewsIndex, interviewsIndexUser } from "lib/api/interview";
 
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-import Box from '@material-ui/core/Box';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
+import {
+  makeStyles,
+  createStyles,
+} from '@material-ui/core/styles';
+import {
+  Box,
+  Card,
+  CardContent,
+  CardActions,
+  Button,
+  Typography,
+  Grid,
+} from '@material-ui/core';
 import Pagination from '@material-ui/lab/Pagination';
 import { pink } from '@material-ui/core/colors';
 
@@ -21,7 +25,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/ja";
 dayjs.locale('ja');
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     box: {
       display: 'flex',

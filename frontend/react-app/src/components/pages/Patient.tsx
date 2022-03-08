@@ -1,5 +1,5 @@
-import React, { useCallback, useState, useEffect } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import React, { useCallback, useState, useEffect, } from "react";
+import { useParams, Link, useNavigate, } from "react-router-dom";
 import MultiLineBody from "components/layouts/MultiLineBody/MultiLineBody";
 
 import { userShow } from "lib/api/patient";
@@ -9,18 +9,23 @@ import {
   InterviewType,
   OtherSymptomType,
   AnswerType,
-  QuestionType
+  QuestionType,
 } from "types/patient";
 
-import { makeStyles, createStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-import Avatar from '@material-ui/core/Avatar';
-import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
+import {
+  makeStyles,
+  createStyles,
+} from '@material-ui/core/styles';
+import {
+  Grid,
+  Card,
+  CardHeader,
+  CardContent,
+  Typography,
+  Avatar,
+  Box,
+  Button,
+} from '@material-ui/core';
 import { pink } from '@material-ui/core/colors';
 
 import dayjs from "dayjs";

@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
-import { AuthContext } from "App";
 import { Link } from "react-router-dom";
+
+import { AuthContext } from "App";
 import { PatientProfileType } from "types/patient";
 import { patientShow } from "lib/api/patient";
 
 import {
-  makeStyles, createStyles,
+  makeStyles,
+  createStyles,
 } from '@material-ui/core/styles';
-
 import {
   Card,
   CardActions,
