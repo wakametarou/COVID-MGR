@@ -1,6 +1,5 @@
-import React, { memo, useState, useCallback } from "react";
+import React, { memo, useState, useCallback, useEffect } from "react";
 import { useNavigate, Link, } from "react-router-dom";
-
 import { patientCreate } from "lib/api/patient";
 
 import {
@@ -59,6 +58,11 @@ const PatientCreate: React.FC = memo(() => {
   const [emergencyAddress, setEmergencyAddress] = useState<string>("");
   const [address, setAddress] = useState<string>("");
   const [building, setBuilding] = useState<string>("");
+  const [buttonDisAllow, setButtonDisAllow] = useState<boolean>(true);
+
+  useEffect(() => {
+    ButtonPermit();
+  }, [roomNumber, phoneNumber, emergencyAddress, address, building]);
 
   const uploadImage = useCallback((e) => {
     const file = e.target.files[0]
@@ -81,7 +85,7 @@ const PatientCreate: React.FC = memo(() => {
     return formData
   };
 
-  const handleSubmit = async () => {
+  const onSubmit = async () => {
     const data = createFormData()
     try {
       const res = await patientCreate(data);
@@ -92,6 +96,19 @@ const PatientCreate: React.FC = memo(() => {
     }
   };
 
+  const ButtonPermit = () => {
+    if (
+      roomNumber !== "" &&
+      phoneNumber !== "" &&
+      emergencyAddress !== "" &&
+      address !== "" &&
+      building !== ""
+    ) {
+      setButtonDisAllow(false);
+    } else {
+      setButtonDisAllow(true);
+    };
+  };
   return (
     <form>
       <Card className={classes.card}>
@@ -119,7 +136,7 @@ const PatientCreate: React.FC = memo(() => {
             name="roomNumber"
             label="部屋番号"
             onChange={(e) => setRoomNumber(e.target.value)}
-            inputProps={{ maxLength: 4, pattern: "^[0-9_]+$" }}
+            inputProps={{ maxLength: 4, type: "number" }}
           />
           <TextField
             variant="outlined"
@@ -129,7 +146,7 @@ const PatientCreate: React.FC = memo(() => {
             name="phoneNumber"
             label="電話番号"
             onChange={(e) => setPhoneNumber(e.target.value)}
-            inputProps={{ maxLength: 11, pattern: "^[0-9_]+$" }}
+            inputProps={{ maxLength: 11, type: "number" }}
           />
           <TextField
             variant="outlined"
@@ -139,7 +156,7 @@ const PatientCreate: React.FC = memo(() => {
             name="emergencyAddress"
             label="緊急連絡先"
             onChange={(e) => setEmergencyAddress(e.target.value)}
-            inputProps={{ maxLength: 11, pattern: "^[0-9_]+$" }}
+            inputProps={{ maxLength: 11, type: "number" }}
           />
           <TextField
             variant="outlined"
@@ -171,8 +188,9 @@ const PatientCreate: React.FC = memo(() => {
             戻る
           </Button>
           <Button
+            disabled={buttonDisAllow}
             className={classes.button}
-            onClick={handleSubmit}
+            onClick={onSubmit}
           >
             作成
           </Button>
