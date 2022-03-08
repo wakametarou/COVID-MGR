@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { patientCreate } from "lib/api/patient";
-import { PatientProfileType } from "types/patient";
 import { useNavigate, Link } from "react-router-dom";
 
 import { makeStyles, createStyles, } from '@material-ui/core/styles';
@@ -12,6 +11,9 @@ import {
   TextField,
   CardHeader,
   Button,
+  Input,
+  Hidden,
+  Box,
 } from '@material-ui/core';
 import { pink } from '@material-ui/core/colors';
 
@@ -46,30 +48,40 @@ const useStyles = makeStyles((theme) =>
 
 const PatientCreate: React.FC = () => {
   const classes = useStyles();
-  const [profile, setProfile] = useState<PatientProfileType>(
-    {
-      image: "",
-      roomNumber: "",
-      phoneNumber: "",
-      emergencyAddress: "",
-      address: "",
-      building: "",
-    }
-  );
   const navigate = useNavigate();
+  const [preview, setPreview] = useState<string>("");
+  const [image, setImage] = useState<File>();
+  const [roomNumber, setRoomNumber] = useState<string>("");
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [emergencyAddress, setEmergencyAddress] = useState<string>("");
+  const [address, setAddress] = useState<string>("");
+  const [building, setBuilding] = useState<string>("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setProfile({
-      ...profile,
-      [e.target.name]: e.target.value,
-    });
+  const uploadImage = useCallback((e) => {
+    const file = e.target.files[0]
+    setImage(file)
+  }, []);
+
+  const previewImage = useCallback((e) => {
+    const file = e.target.files[0]
+    setPreview(window.URL.createObjectURL(file))
+  }, []);
+
+  const createFormData = (): FormData => {
+    const formData = new FormData()
+    formData.append("roomNumber", roomNumber)
+    formData.append("phoneNumber", phoneNumber)
+    formData.append("emergencyAddress", emergencyAddress)
+    formData.append("address", address)
+    formData.append("building", building)
+    if (image) formData.append("image", image)
+    return formData
   };
 
-  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
+    const data = createFormData()
     try {
-      const res = await patientCreate(profile);
-      console.log(res.data);
+      const res = await patientCreate(data);
       navigate("/Mypage");
     } catch (e) {
       console.log(e);
@@ -81,7 +93,20 @@ const PatientCreate: React.FC = () => {
       <Card className={classes.card}>
         <CardHeader className={classes.header} title="患者様情報" />
         <CardContent className={classes.cardContent}>
-          <Avatar alt="Remy Sharp" src={profile.image} className={classes.large} />
+          <Avatar alt="Remy Sharp" src={preview} className={classes.large} />
+          <Box>
+            <label htmlFor="icon-button-file">
+              <input
+                accept="image/*"
+                id="icon-button-file"
+                type="file"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  uploadImage(e)
+                  previewImage(e)
+                }}
+              />
+            </label>
+          </Box>
           <TextField
             variant="outlined"
             required
@@ -89,8 +114,7 @@ const PatientCreate: React.FC = () => {
             margin="dense"
             name="roomNumber"
             label="部屋番号"
-            value={profile.roomNumber}
-            onChange={(e) => handleChange(e)}
+            onChange={(e) => setRoomNumber(e.target.value)}
             inputProps={{ maxLength: 4, pattern: "^[0-9_]+$" }}
           />
           <TextField
@@ -100,8 +124,7 @@ const PatientCreate: React.FC = () => {
             margin="dense"
             name="phoneNumber"
             label="電話番号"
-            value={profile.phoneNumber}
-            onChange={(e) => handleChange(e)}
+            onChange={(e) => setPhoneNumber(e.target.value)}
             inputProps={{ maxLength: 11, pattern: "^[0-9_]+$" }}
           />
           <TextField
@@ -111,8 +134,7 @@ const PatientCreate: React.FC = () => {
             margin="dense"
             name="emergencyAddress"
             label="緊急連絡先"
-            value={profile.emergencyAddress}
-            onChange={(e) => handleChange(e)}
+            onChange={(e) => setEmergencyAddress(e.target.value)}
             inputProps={{ maxLength: 11, pattern: "^[0-9_]+$" }}
           />
           <TextField
@@ -122,8 +144,7 @@ const PatientCreate: React.FC = () => {
             margin="dense"
             name="address"
             label="住所"
-            value={profile.address}
-            onChange={(e) => handleChange(e)}
+            onChange={(e) => setAddress(e.target.value)}
             inputProps={{ maxLength: 100 }}
           />
           <TextField
@@ -133,8 +154,7 @@ const PatientCreate: React.FC = () => {
             margin="dense"
             name="building"
             label="建物名、部屋番号"
-            value={profile.building}
-            onChange={(e) => handleChange(e)}
+            onChange={(e) => setBuilding(e.target.value)}
             inputProps={{ maxLength: 100 }}
           />
         </CardContent>
@@ -148,7 +168,6 @@ const PatientCreate: React.FC = () => {
           </Button>
           <Button
             className={classes.button}
-            type="submit"
             onClick={handleSubmit}
           >
             作成

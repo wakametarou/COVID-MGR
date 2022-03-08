@@ -9,13 +9,14 @@ import {
   Toolbar,
   Box,
   Button,
+  Hidden,
+  IconButton,
 } from "@material-ui/core"
-import IconButton from "@material-ui/core/IconButton"
+// import IconButton from "@material-ui/core/IconButton"
 import MenuIcon from "@material-ui/icons/Menu"
 
 import { theme } from "styles/layouts/Style"
 import { ThemeProvider } from "@material-ui/styles"
-import Hidden from '@material-ui/core/Hidden'
 import { HeaderButtons } from "./Button"
 
 import { signOut } from "lib/api/auth"

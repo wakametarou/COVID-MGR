@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { patientShow, patientUpdate } from "lib/api/patient";
 import { PatientProfileType } from "types/patient";
 import { useNavigate, Link } from "react-router-dom";
@@ -12,6 +12,7 @@ import {
   TextField,
   CardHeader,
   Button,
+  Box,
 } from '@material-ui/core';
 import { pink } from '@material-ui/core/colors';
 
@@ -46,46 +47,87 @@ const useStyles = makeStyles((theme) =>
 
 const PatientEdit: React.FC = () => {
   const classes = useStyles();
-  const [profile, setProfile] = useState<PatientProfileType>({
-    image: "",
-    roomNumber: "",
-    phoneNumber: "",
-    emergencyAddress: "",
-    address: "",
-    building: "",
-  });
-  const navigate = useNavigate();
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setProfile({
-      ...profile,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const getProfils = async () => {
-    try {
-      const res = await patientShow();
-      setProfile(res.data);
-      console.log("get patientprofile");
-    } catch (e) {
-      console.log(e);
+  const [profile, setProfile] = useState<PatientProfileType>(
+    {
+      image: undefined,
+      roomNumber: "",
+      phoneNumber: "",
+      emergencyAddress: "",
+      address: "",
+      building: "",
     }
-  };
+  );
+  const [preview, setPreview] = useState<string>("");
+  const [image, setImage] = useState<File>();
+  const [roomNumber, setRoomNumber] = useState<string>("");
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [emergencyAddress, setEmergencyAddress] = useState<string>("");
+  const [address, setAddress] = useState<string>("");
+  const [building, setBuilding] = useState<string>("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     getProfils();
   }, []);
 
-  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  useEffect(() => {
+    setRoomNumber(profile.roomNumber)
+    setPhoneNumber(profile.phoneNumber)
+    setEmergencyAddress(profile.emergencyAddress)
+    setAddress(profile.address)
+    setBuilding(profile.building)
+  }, [profile]);
+
+  const getProfils = async () => {
     try {
-      const res = await patientUpdate(profile);
-      console.log(res.data);
+      const res = await patientShow();
+      setProfile(res.data.profile);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const createFormData = (): FormData => {
+    const formData = new FormData()
+    formData.append("roomNumber", roomNumber)
+    formData.append("phoneNumber", phoneNumber)
+    formData.append("emergencyAddress", emergencyAddress)
+    formData.append("address", address)
+    formData.append("building", building)
+    if (image) formData.append("image", image)
+    return formData
+  };
+
+  const handleSubmit = async () => {
+    const data = createFormData()
+    try {
+      const res = await patientUpdate(data);
       navigate("/Mypage");
     } catch (e) {
       console.log(e);
     }
+  };
+
+  const uploadImage = useCallback((e) => {
+    const file = e.target.files[0]
+    setImage(file)
+  }, []);
+
+  const previewImage = useCallback((e) => {
+    const file = e.target.files[0]
+    setPreview(window.URL.createObjectURL(file))
+  }, []);
+
+  const ImagePreview = (preview: string) => {
+    if (preview) {
+      return (
+        <Avatar alt="Remy Sharp" src={preview} className={classes.large} />
+      );
+    } else {
+      return (
+        <Avatar alt="Remy Sharp" src={profile?.image} className={classes.large} />
+      );
+    };
   };
 
   return (
@@ -93,7 +135,20 @@ const PatientEdit: React.FC = () => {
       <Card className={classes.card}>
         <CardHeader className={classes.header} title="患者様情報" />
         <CardContent className={classes.cardContent}>
-          <Avatar alt="Remy Sharp" src={profile.image} className={classes.large} />
+          {ImagePreview(preview)}
+          <Box>
+            <label htmlFor="icon-button-file">
+              <input
+                accept="image/*"
+                id="icon-button-file"
+                type="file"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  uploadImage(e)
+                  previewImage(e)
+                }}
+              />
+            </label>
+          </Box>
           <TextField
             variant="outlined"
             required
@@ -101,8 +156,8 @@ const PatientEdit: React.FC = () => {
             margin="dense"
             name="roomNumber"
             label="部屋番号"
-            value={profile.roomNumber}
-            onChange={(e) => handleChange(e)}
+            value={roomNumber}
+            onChange={(e) => setRoomNumber(e.target.value)}
             inputProps={{ maxLength: 4 }}
           />
           <TextField
@@ -112,8 +167,8 @@ const PatientEdit: React.FC = () => {
             margin="dense"
             name="phoneNumber"
             label="電話番号"
-            value={profile.phoneNumber}
-            onChange={(e) => handleChange(e)}
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
             inputProps={{ maxLength: 11 }}
           />
           <TextField
@@ -123,8 +178,8 @@ const PatientEdit: React.FC = () => {
             margin="dense"
             name="emergencyAddress"
             label="緊急連絡先"
-            value={profile.emergencyAddress}
-            onChange={(e) => handleChange(e)}
+            value={emergencyAddress}
+            onChange={(e) => setEmergencyAddress(e.target.value)}
             inputProps={{ maxLength: 11 }}
           />
           <TextField
@@ -134,8 +189,8 @@ const PatientEdit: React.FC = () => {
             margin="dense"
             name="address"
             label="住所"
-            value={profile.address}
-            onChange={(e) => handleChange(e)}
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
             inputProps={{ maxLength: 100 }}
           />
           <TextField
@@ -145,8 +200,8 @@ const PatientEdit: React.FC = () => {
             margin="dense"
             name="building"
             label="建物名、部屋番号"
-            value={profile.building}
-            onChange={(e) => handleChange(e)}
+            value={building}
+            onChange={(e) => setBuilding(e.target.value)}
             inputProps={{ maxLength: 100 }}
           />
         </CardContent>
@@ -160,7 +215,6 @@ const PatientEdit: React.FC = () => {
           </Button>
           <Button
             className={classes.button}
-            type="submit"
             onClick={handleSubmit}
           >
             編集

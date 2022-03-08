@@ -13,7 +13,14 @@ export type UserType = {
   sex: boolean
 }
 export type PatientProfileType = {
-  image: string;
+  image: string | undefined;
+  roomNumber: string;
+  phoneNumber: string;
+  emergencyAddress: string;
+  address: string;
+  building: string;
+}
+export type PatientProfileNewType = {
   roomNumber: string;
   phoneNumber: string;
   emergencyAddress: string;

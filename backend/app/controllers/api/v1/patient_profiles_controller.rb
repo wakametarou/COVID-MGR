@@ -32,6 +32,8 @@ class Api::V1::PatientProfilesController < ApplicationController
 
   def create
     patient_profile = PatientProfile.new(patient_profile_params)
+    puts "patient_profile_params"
+    puts patient_profile_params
     if patient_profile.save
       render json: patient_profile
     else
@@ -51,7 +53,7 @@ class Api::V1::PatientProfilesController < ApplicationController
   private
 
   def patient_profile_params
-    params.require(:patient_profile).permit(
+    params.permit(
       :image, :room_number, :phone_number, :emergency_address, :address, :building, :user_id
     ).merge(user_id: current_api_v1_user.id)
   end

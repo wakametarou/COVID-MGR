@@ -1,7 +1,7 @@
 import client from "lib/api/client"
 import Cookies from "js-cookie"
 
-import { PatientProfileType } from "types/patient"
+import { PatientProfileType, PatientProfileNewType } from "types/patient"
 
 export const patientShow = () => {
   return client.get("/patient_profiles/show", {
@@ -13,22 +13,25 @@ export const patientShow = () => {
   })
 }
 
-export const patientCreate = (params: PatientProfileType) => {
-  return client.post("/patient_profiles/create", params, {
+export const patientCreate = (patientProfile: FormData) => {
+  return client.post("/patient_profiles/create", patientProfile, {
     headers: {
       "access-token": Cookies.get("_access_token")!,
       "client": Cookies.get("_client")!,
-      "uid": Cookies.get("_uid")!
+      "uid": Cookies.get("_uid")!,
+      "Content-Type": "multipart/form-data"
     }
-  })
+  },
+  )
 }
 
-export const patientUpdate = (params: PatientProfileType) => {
-  return client.put("/patient_profiles/update", params, {
+export const patientUpdate = (patientProfile: FormData) => {
+  return client.put("/patient_profiles/update", patientProfile, {
     headers: {
       "access-token": Cookies.get("_access_token")!,
       "client": Cookies.get("_client")!,
-      "uid": Cookies.get("_uid")!
+      "uid": Cookies.get("_uid")!,
+      "Content-Type": "multipart/form-data"
     }
   })
 }
