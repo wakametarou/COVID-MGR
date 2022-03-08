@@ -20,6 +20,14 @@ export type PatientProfileType = {
   address: string;
   building: string;
 }
+export type PatientProfileNewType = {
+  // image: File | undefined;
+  roomNumber: string;
+  phoneNumber: string;
+  emergencyAddress: string;
+  address: string;
+  building: string;
+}
 export type InterviewType = {
   id: number
   temperature: number
