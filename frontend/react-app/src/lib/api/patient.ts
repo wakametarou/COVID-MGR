@@ -10,7 +10,7 @@ export const patientShow = () => {
       "client": Cookies.get("_client")!,
       "uid": Cookies.get("_uid")!
     }
-  })
+  });
 }
 
 export const patientCreate = (patientProfile: FormData) => {
@@ -21,8 +21,7 @@ export const patientCreate = (patientProfile: FormData) => {
       "uid": Cookies.get("_uid")!,
       "Content-Type": "multipart/form-data"
     }
-  },
-  )
+  });
 }
 
 export const patientUpdate = (patientProfile: FormData) => {
@@ -33,7 +32,7 @@ export const patientUpdate = (patientProfile: FormData) => {
       "uid": Cookies.get("_uid")!,
       "Content-Type": "multipart/form-data"
     }
-  })
+  });
 }
 
 export const usersIndex = () => {
@@ -43,7 +42,7 @@ export const usersIndex = () => {
       "client": Cookies.get("_client")!,
       "uid": Cookies.get("_uid")!
     }
-  })
+  });
 }
 
 export const userShow = (id: number) => {
@@ -53,5 +52,5 @@ export const userShow = (id: number) => {
       "client": Cookies.get("_client")!,
       "uid": Cookies.get("_uid")!
     }
-  })
+  });
 }
