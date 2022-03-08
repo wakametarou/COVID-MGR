@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :interview_enquete do
+  factory :user do
     
   end
 end

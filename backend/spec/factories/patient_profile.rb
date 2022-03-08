@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :answer_enquete do
+  factory :patient_profile do
     
   end
 end

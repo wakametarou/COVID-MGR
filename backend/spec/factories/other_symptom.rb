@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :other_symptom_enquete do
+  factory :other_symptom do
     
   end
 end
