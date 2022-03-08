@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "dayjs": "^1.10.7"
+    "dayjs": "^1.10.7",
+    "react-hook-form": "^7.27.1"
   }
 }

@@ -1,21 +1,26 @@
-import React, { useState, useEffect, useContext } from "react"
-import { useNavigate } from "react-router-dom"
-import Cookies from "js-cookie"
+import React, { memo, useState, useEffect, useContext } from "react";
+import { useNavigate, } from "react-router-dom";
+import Cookies from "js-cookie";
 
-import { makeStyles, Theme } from "@material-ui/core/styles"
-import TextField from "@material-ui/core/TextField"
-import Card from "@material-ui/core/Card"
-import CardContent from "@material-ui/core/CardContent"
-import CardHeader from "@material-ui/core/CardHeader"
-import Button from "@material-ui/core/Button"
+import { AuthContext } from "App";
+import AlertMessage from "components/utils/AlertMessage";
+import { signUp } from "lib/api/auth";
+import { SignUpParamsType } from "types/index";
 
-import { AuthContext } from "App"
-import AlertMessage from "components/utils/AlertMessage"
-import { signUp } from "lib/api/auth"
-import { SignUpParamsType } from "types/index"
-import Radio from '@material-ui/core/Radio'
-import RadioGroup from '@material-ui/core/RadioGroup'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
+import {
+  makeStyles,
+  Theme,
+} from "@material-ui/core/styles";
+import {
+  TextField,
+  Card,
+  CardContent,
+  CardHeader,
+  Button,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+} from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
@@ -36,23 +41,21 @@ const useStyles = makeStyles((theme: Theme) => ({
   rowBox: {
     display: "flex",
     justifyContent: "space-around"
-  }
-}))
+  },
+}));
 
-const SignUp: React.FC = () => {
-  const classes = useStyles()
-  const navigate = useNavigate()
-
-  const { setIsSignedIn, setCurrentUser } = useContext(AuthContext)
-
-  const [name, setName] = useState<string>("")
-  const [email, setEmail] = useState<string>("")
-  const [password, setPassword] = useState<string>("")
-  const [passwordConfirmation, setPasswordConfirmation] = useState<string>("")
-  const [patientOrDoctor, setPatientOrDoctor] = useState<boolean>()
-  const [sex, setSex] = useState<boolean>()
-  const [alertMessageOpen, setAlertMessageOpen] = useState<boolean>(false)
-  const [buttonDisAllow, setButtonDisAllow] = useState<boolean>(true)
+const SignUp: React.FC = memo(() => {
+  const classes = useStyles();
+  const navigate = useNavigate();
+  const { setIsSignedIn, setCurrentUser } = useContext(AuthContext);
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState<string>("");
+  const [patientOrDoctor, setPatientOrDoctor] = useState<boolean>();
+  const [sex, setSex] = useState<boolean>();
+  const [alertMessageOpen, setAlertMessageOpen] = useState<boolean>(false);
+  const [buttonDisAllow, setButtonDisAllow] = useState<boolean>(true);
 
   useEffect(() => {
     if (
@@ -66,8 +69,8 @@ const SignUp: React.FC = () => {
       setButtonDisAllow(false)
     } else {
       setButtonDisAllow(true)
-    }
-  }, [patientOrDoctor, sex, name, email, password, passwordConfirmation])
+    };
+  }, [patientOrDoctor, sex, name, email, password, passwordConfirmation]);
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
@@ -79,12 +82,11 @@ const SignUp: React.FC = () => {
       passwordConfirmation: passwordConfirmation,
       patientOrDoctor: patientOrDoctor,
       sex: sex
-    }
+    };
 
     try {
       const res = await signUp(params)
       console.log(res)
-
       if (res.status === 200) {
         Cookies.set("_access_token", res.headers["access-token"])
         Cookies.set("_client", res.headers["client"])
@@ -102,8 +104,8 @@ const SignUp: React.FC = () => {
     } catch (err) {
       console.log(err)
       setAlertMessageOpen(true)
-    }
-  }
+    };
+  };
 
   const handlePatientOrDoctorChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPatientOrDoctor(event.target.value === "true");
@@ -214,7 +216,7 @@ const SignUp: React.FC = () => {
         message="入力した値に誤りがあります。"
       />
     </>
-  )
-}
+  );
+});
 
 export default SignUp

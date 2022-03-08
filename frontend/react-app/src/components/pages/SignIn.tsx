@@ -1,20 +1,25 @@
-import React, { useState, useContext } from "react"
-import { useNavigate, Link } from "react-router-dom"
-import Cookies from "js-cookie"
+import React, { memo, useState, useContext } from "react";
+import { useNavigate, Link, } from "react-router-dom";
+import Cookies from "js-cookie";
 
-import { makeStyles, Theme } from "@material-ui/core/styles"
-import { Typography } from "@material-ui/core"
-import TextField from "@material-ui/core/TextField"
-import Card from "@material-ui/core/Card"
-import CardContent from "@material-ui/core/CardContent"
-import CardHeader from "@material-ui/core/CardHeader"
-import Button from "@material-ui/core/Button"
-import Box from "@material-ui/core/Box"
+import { AuthContext } from "App";
+import AlertMessage from "components/utils/AlertMessage";
+import { signIn } from "lib/api/auth";
+import { SignInParamsType } from "types/index";
 
-import { AuthContext } from "App"
-import AlertMessage from "components/utils/AlertMessage"
-import { signIn } from "lib/api/auth"
-import { SignInParamsType } from "types/index"
+import {
+  makeStyles,
+  Theme,
+} from "@material-ui/core/styles";
+import {
+  Typography,
+  TextField,
+  Card,
+  CardContent,
+  CardHeader,
+  Button,
+  Box,
+} from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
@@ -37,24 +42,23 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   link: {
     textDecoration: "none"
-  }
-}))
+  },
+}));
 
-// サインイン用ページ
-const SignIn: React.FC = () => {
-  const classes = useStyles()
-  const navigate = useNavigate()
-  const { setIsSignedIn, setCurrentUser } = useContext(AuthContext)
-  const [email, setEmail] = useState<string>("")
-  const [password, setPassword] = useState<string>("")
-  const [alertMessageOpen, setAlertMessageOpen] = useState<boolean>(false)
+const SignIn: React.FC = memo(() => {
+  const classes = useStyles();
+  const navigate = useNavigate();
+  const { setIsSignedIn, setCurrentUser } = useContext(AuthContext);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [alertMessageOpen, setAlertMessageOpen] = useState<boolean>(false);
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     const params: SignInParamsType = {
       email: email,
       password: password
-    }
+    };
 
     try {
       const res = await signIn(params)
@@ -69,12 +73,12 @@ const SignIn: React.FC = () => {
         console.log("Signed in successfully!")
       } else {
         setAlertMessageOpen(true)
-      }
+      };
     } catch (err) {
       console.log(err)
       setAlertMessageOpen(true)
-    }
-  }
+    };
+  };
 
   return (
     <>
@@ -133,7 +137,7 @@ const SignIn: React.FC = () => {
         message="入力した値に誤りがあります。"
       />
     </>
-  )
-}
+  );
+});
 
 export default SignIn

@@ -1,5 +1,7 @@
 import React, { memo, useState, useEffect } from 'react';
+import { useNavigate, Link, } from "react-router-dom";
 import MultiLineBody from "components/layouts/MultiLineBody/MultiLineBody";
+
 import {
   InterviewNewType,
   QuestionType,
@@ -9,9 +11,11 @@ import {
 } from 'types/interview';
 import { interviewCreate } from 'lib/api/interview'
 import { interviewNew } from 'lib/api/interview'
-import { useNavigate, Link } from "react-router-dom";
 
-import { makeStyles, createStyles } from '@material-ui/core/styles';
+import {
+  makeStyles,
+  createStyles,
+} from '@material-ui/core/styles';
 import {
   Card,
   CardActions,
@@ -162,7 +166,7 @@ const InterviewCreate: React.FC = memo(() => {
     }
     try {
       const res = await interviewCreate(params);
-      console.log(res.data);
+      console.log(res);
       navigate("/completed");
     } catch (e) {
       console.log(e);
@@ -311,7 +315,7 @@ const InterviewCreate: React.FC = memo(() => {
                         label="体温"
                         type="number"
                         onChange={(e) => setTemperature(Number(e.target.value))}
-                        inputProps={{ maxLength: 2, pattern: "^[0-9_]+$" }}
+                        inputProps={{ type: "number" }}
                         className={classes.textField}
                       />
                       <Typography>
@@ -326,7 +330,7 @@ const InterviewCreate: React.FC = memo(() => {
                         name="oxygenSaturation"
                         label="酸素飽和度"
                         onChange={(e) => setOxygenSaturation(Number(e.target.value))}
-                        inputProps={{ maxLength: 3, pattern: "^[0-9_]+$" }}
+                        inputProps={{ type: "number" }}
                         className={classes.textField}
                       />
                       <Typography className={classes.unitText}>
@@ -409,8 +413,9 @@ const InterviewCreate: React.FC = memo(() => {
                         margin="dense"
                         name="painDegree"
                         label="痛みの程度"
+                        placeholder="数で入力"
                         onChange={(e) => handleOtherChange(e)}
-                        inputProps={{ maxLength: 1, pattern: "^[0-5_]+$" }}
+                        inputProps={{ type: "number" }}
                         className={classes.textField}
                       />
                       <TextField

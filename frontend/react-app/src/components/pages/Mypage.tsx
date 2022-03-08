@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
-import { AuthContext } from "App";
 import { Link } from "react-router-dom";
+
+import { AuthContext } from "App";
 import { PatientProfileType } from "types/patient";
 import { patientShow } from "lib/api/patient";
 
 import {
-  makeStyles, createStyles,
+  makeStyles,
+  createStyles,
 } from '@material-ui/core/styles';
-
 import {
   Card,
   CardActions,
@@ -86,10 +87,8 @@ const Mypage: React.FC = () => {
       if (res.data.interview) {
         setInterview(res.data.interview)
         setProfile(res.data.profile)
-        console.log("get patientprofile")
       } else {
         setProfile(res.data.profile)
-        console.log("user is doctor")
       }
     } catch (err) {
       console.log(err)

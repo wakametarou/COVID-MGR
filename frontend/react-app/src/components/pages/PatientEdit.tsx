@@ -1,9 +1,14 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { memo, useState, useEffect, useCallback } from "react";
+import { useNavigate, Link, } from "react-router-dom";
+
 import { patientShow, patientUpdate } from "lib/api/patient";
 import { PatientProfileType } from "types/patient";
-import { useNavigate, Link } from "react-router-dom";
 
-import { makeStyles, createStyles, } from '@material-ui/core/styles';
+import {
+  makeStyles,
+  createStyles,
+  Theme,
+} from '@material-ui/core/styles';
 import {
   Card,
   CardContent,
@@ -16,7 +21,7 @@ import {
 } from '@material-ui/core';
 import { pink } from '@material-ui/core/colors';
 
-const useStyles = makeStyles((theme) =>
+const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     card: {
       minWidth: 320,
@@ -45,8 +50,9 @@ const useStyles = makeStyles((theme) =>
   }),
 );
 
-const PatientEdit: React.FC = () => {
+const PatientEdit: React.FC = memo(() => {
   const classes = useStyles();
+  const navigate = useNavigate();
   const [profile, setProfile] = useState<PatientProfileType>(
     {
       image: undefined,
@@ -64,7 +70,7 @@ const PatientEdit: React.FC = () => {
   const [emergencyAddress, setEmergencyAddress] = useState<string>("");
   const [address, setAddress] = useState<string>("");
   const [building, setBuilding] = useState<string>("");
-  const navigate = useNavigate();
+  const [buttonDisAllow, setButtonDisAllow] = useState<boolean>(true);
 
   useEffect(() => {
     getProfils();
@@ -77,6 +83,10 @@ const PatientEdit: React.FC = () => {
     setAddress(profile.address)
     setBuilding(profile.building)
   }, [profile]);
+
+  useEffect(() => {
+    ButtonPermit();
+  }, [roomNumber, phoneNumber, emergencyAddress, address, building]);
 
   const getProfils = async () => {
     try {
@@ -102,6 +112,7 @@ const PatientEdit: React.FC = () => {
     const data = createFormData()
     try {
       const res = await patientUpdate(data);
+      console.log(res)
       navigate("/Mypage");
     } catch (e) {
       console.log(e);
@@ -117,6 +128,20 @@ const PatientEdit: React.FC = () => {
     const file = e.target.files[0]
     setPreview(window.URL.createObjectURL(file))
   }, []);
+
+  const ButtonPermit = () => {
+    if (
+      roomNumber !== "" &&
+      phoneNumber !== "" &&
+      emergencyAddress !== "" &&
+      address !== "" &&
+      building !== ""
+    ) {
+      setButtonDisAllow(false);
+    } else {
+      setButtonDisAllow(true);
+    };
+  };
 
   const ImagePreview = (preview: string) => {
     if (preview) {
@@ -158,7 +183,7 @@ const PatientEdit: React.FC = () => {
             label="部屋番号"
             value={roomNumber}
             onChange={(e) => setRoomNumber(e.target.value)}
-            inputProps={{ maxLength: 4 }}
+            inputProps={{ type: "number" }}
           />
           <TextField
             variant="outlined"
@@ -169,7 +194,7 @@ const PatientEdit: React.FC = () => {
             label="電話番号"
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
-            inputProps={{ maxLength: 11 }}
+            inputProps={{ type: "number" }}
           />
           <TextField
             variant="outlined"
@@ -180,7 +205,7 @@ const PatientEdit: React.FC = () => {
             label="緊急連絡先"
             value={emergencyAddress}
             onChange={(e) => setEmergencyAddress(e.target.value)}
-            inputProps={{ maxLength: 11 }}
+            inputProps={{ type: "number" }}
           />
           <TextField
             variant="outlined"
@@ -214,6 +239,7 @@ const PatientEdit: React.FC = () => {
             戻る
           </Button>
           <Button
+            disabled={buttonDisAllow}
             className={classes.button}
             onClick={handleSubmit}
           >
@@ -223,6 +249,6 @@ const PatientEdit: React.FC = () => {
       </Card>
     </form>
   );
-};
+});
 
 export default PatientEdit

@@ -1,16 +1,20 @@
 import React from "react"
+
+import {
+  makeStyles,
+  createStyles,
+} from '@material-ui/core/styles';
 import {
   Box,
   Grid,
   Typography,
 } from '@material-ui/core';
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 import imageTop from 'img/photo01.jpg'
 import imageHome from 'img/home-logo.png'
 import imageDoctor from 'img/Doctors-pana.png'
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     topBox: {
       backgroundImage: `url(${imageTop})`,
