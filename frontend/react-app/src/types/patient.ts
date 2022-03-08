@@ -13,7 +13,7 @@ export type UserType = {
   sex: boolean
 }
 export type PatientProfileType = {
-  image: string;
+  image: string | undefined;
   roomNumber: string;
   phoneNumber: string;
   emergencyAddress: string;
@@ -21,7 +21,6 @@ export type PatientProfileType = {
   building: string;
 }
 export type PatientProfileNewType = {
-  // image: File | undefined;
   roomNumber: string;
   phoneNumber: string;
   emergencyAddress: string;

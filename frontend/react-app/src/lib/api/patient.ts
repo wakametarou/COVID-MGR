@@ -25,12 +25,13 @@ export const patientCreate = (patientProfile: FormData) => {
   )
 }
 
-export const patientUpdate = (params: PatientProfileType) => {
-  return client.put("/patient_profiles/update", params, {
+export const patientUpdate = (patientProfile: FormData) => {
+  return client.put("/patient_profiles/update", patientProfile, {
     headers: {
       "access-token": Cookies.get("_access_token")!,
       "client": Cookies.get("_client")!,
-      "uid": Cookies.get("_uid")!
+      "uid": Cookies.get("_uid")!,
+      "Content-Type": "multipart/form-data"
     }
   })
 }

@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { patientCreate } from "lib/api/patient";
-import { PatientProfileType, PatientProfileNewType } from "types/patient";
 import { useNavigate, Link } from "react-router-dom";
 
 import { makeStyles, createStyles, } from '@material-ui/core/styles';
@@ -77,7 +76,7 @@ const PatientCreate: React.FC = () => {
     formData.append("building", building)
     if (image) formData.append("image", image)
     return formData
-  }
+  };
 
   const handleSubmit = async () => {
     const data = createFormData()
@@ -88,8 +87,6 @@ const PatientCreate: React.FC = () => {
       console.log(e);
     }
   };
-
-
 
   return (
     <form>
