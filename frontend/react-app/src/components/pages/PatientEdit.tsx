@@ -183,7 +183,7 @@ const PatientEdit: React.FC = memo(() => {
             label="部屋番号"
             value={roomNumber}
             onChange={(e) => setRoomNumber(e.target.value)}
-            inputProps={{ maxLength: 4, type: "number" }}
+            inputProps={{ type: "number" }}
           />
           <TextField
             variant="outlined"
@@ -194,7 +194,7 @@ const PatientEdit: React.FC = memo(() => {
             label="電話番号"
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
-            inputProps={{ maxLength: 11, type: "number" }}
+            inputProps={{ type: "number" }}
           />
           <TextField
             variant="outlined"
@@ -205,7 +205,7 @@ const PatientEdit: React.FC = memo(() => {
             label="緊急連絡先"
             value={emergencyAddress}
             onChange={(e) => setEmergencyAddress(e.target.value)}
-            inputProps={{ maxLength: 11, type: "number" }}
+            inputProps={{ type: "number" }}
           />
           <TextField
             variant="outlined"
