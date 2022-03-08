@@ -85,6 +85,7 @@ const PatientCreate: React.FC = memo(() => {
     const data = createFormData()
     try {
       const res = await patientCreate(data);
+      console.log(res);
       navigate("/Mypage");
     } catch (e) {
       console.log(e);

@@ -166,7 +166,7 @@ const InterviewCreate: React.FC = memo(() => {
     }
     try {
       const res = await interviewCreate(params);
-      console.log(res.data);
+      console.log(res);
       navigate("/completed");
     } catch (e) {
       console.log(e);

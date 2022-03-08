@@ -87,7 +87,6 @@ const SignUp: React.FC = memo(() => {
     try {
       const res = await signUp(params)
       console.log(res)
-
       if (res.status === 200) {
         Cookies.set("_access_token", res.headers["access-token"])
         Cookies.set("_client", res.headers["client"])

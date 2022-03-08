@@ -114,6 +114,7 @@ const useStyles = makeStyles(() =>
 
 const Patient: React.FC = () => {
   const classes = useStyles();
+  const navigate = useNavigate();
   const [user, setUser] = useState<UserType>()
   const [patientProfile, setPatientProfile] = useState<PatientProfileType>();
   const [interview, setInterview] = useState<InterviewType>({
@@ -134,11 +135,14 @@ const Patient: React.FC = () => {
   const [answers, setAnswers] = useState<AnswerType[]>([]);
   const [questions, setQuestions] = useState<QuestionType[]>([]);
   const query = useParams();
-  const navigate = useNavigate();
+
+  useEffect(() => {
+    getUser(query)
+  }, [query]);
 
   const onClickInterviews = useCallback((id: number) => {
     navigate(`/Interviews/${id}`)
-  }, [navigate])
+  }, [navigate]);
 
   const getUser = async (query: any) => {
     try {
@@ -158,10 +162,6 @@ const Patient: React.FC = () => {
       console.log(err)
     }
   }
-
-  useEffect(() => {
-    getUser(query)
-  }, [query])
 
   const fechAnswers = (questionId: number) => {
     for (let i = 0; i < answers.length; i++) {
