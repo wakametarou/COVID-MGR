@@ -87,10 +87,8 @@ const Mypage: React.FC = () => {
       if (res.data.interview) {
         setInterview(res.data.interview)
         setProfile(res.data.profile)
-        console.log("get patientprofile")
       } else {
         setProfile(res.data.profile)
-        console.log("user is doctor")
       }
     } catch (err) {
       console.log(err)
