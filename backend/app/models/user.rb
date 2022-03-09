@@ -5,9 +5,9 @@ class User < ActiveRecord::Base
 
   with_options presence: true do
     validates :name
-    validates :sex
-    validates :patient_or_doctor
   end
+  validates :sex, inclusion: { in: [true, false] }
+  validates :patient_or_doctor, inclusion: { in: [true, false] }
   has_one :patient_profile, dependent: :destroy
   has_many :interviews, dependent: :destroy
 end
