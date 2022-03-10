@@ -25,4 +25,13 @@ FactoryBot.define do
     password { "testpassword" }
     password_confirmation { "testpassword" }
   end
+
+  factory :doctor, class: 'User' do
+    name { "高野 勝義" }
+    patient_or_doctor { false }
+    sex { true }
+    email { "test_user_3@test.com" }
+    password { "testpassword" }
+    password_confirmation { "testpassword" }
+  end
 end
