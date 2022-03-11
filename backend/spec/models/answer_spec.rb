@@ -21,4 +21,23 @@ RSpec.describe Answer, type: :model do
       end
     end
   end
+
+  describe '入力項目の有無' do
+    let(:new_answer){Answer.new}
+    context 'db保存時に必須入力であること' do
+      it '質問IDが必須であること' do
+        expect(new_answer).not_to be_valid
+        expect(new_answer.errors[:question_id]).to include(I18n.t('errors.messages.blank'))
+      end
+
+      it '問診idが必須であること' do
+        expect(new_answer).not_to be_valid
+        expect(new_answer.errors[:interview_id]).to include(I18n.t('errors.messages.blank'))
+      end
+
+      it '保存できないこと' do
+        expect(new_answer.save).to be_falsey
+      end
+    end
+  end
 end
