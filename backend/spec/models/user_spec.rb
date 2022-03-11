@@ -1,8 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  describe '共通メソッド' do
-    it_behaves_like '患者様情報'
+  # describe '共通メソッド' do
+  #   it_behaves_like '患者様情報'
+  # end
+  describe 'サインアップ機能' do
+    context 'サインインする' do
+      it '正しく登録出来る事'do
+        user = FactoryBot.build(:user)
+        expect(user).to be_valid
+        user.save
+        answered_user = User.find_by(email: "test_user@test.com");
+        expect(answered_user.name).to eq("高野 晃")
+        expect(answered_user.patient_or_doctor).to eq(true)
+        expect(answered_user.sex).to eq(true)
+        expect(answered_user.email).to eq("test_user@test.com")
+      end
+    end
   end
 
   describe '入力項目の有無' do
