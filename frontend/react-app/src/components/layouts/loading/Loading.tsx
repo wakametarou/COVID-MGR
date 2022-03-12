@@ -1,5 +1,4 @@
 import React from "react";
-// import ReactLoading from "react-loading";
 import { BoxLoading } from 'react-loading-typescript';
 
 import {
@@ -20,9 +19,6 @@ const useStyles = makeStyles(() =>
       justifyContent: 'center',
       alignItems: 'center',
     },
-    // typography: {
-
-    // },
   }),
 );
 
