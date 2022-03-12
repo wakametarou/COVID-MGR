@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate, } from "react-router-dom";
 import MultiLineBody from "components/layouts/MultiLineBody/MultiLineBody";
+import Loading from "components/layouts/loading/Loading";
 
 import { InterviewType, OtherSymptomType, AnswerType, QuestionType } from "types/interview";
 import { interviewShow } from "lib/api/interview";
@@ -109,6 +110,7 @@ const useStyles = makeStyles(() =>
 );
 
 const Interview: React.FC = () => {
+  const [loading, setLoading] = useState<boolean>(true)
   const [interview, setInterview] = useState<InterviewType>({
     id: 0,
     temperature: 0,
@@ -153,6 +155,7 @@ const Interview: React.FC = () => {
     } catch (err) {
       console.log(err)
     }
+    setLoading(false)
   };
   useEffect(() => {
     getInterview(query)
@@ -180,119 +183,123 @@ const Interview: React.FC = () => {
 
   const classes = useStyles();
 
-  return (
-    <>
-      <Box className={classes.box}>
-        <Typography variant="h5" component="h1" style={{ marginBottom: 30 }}>
-          問診詳細
-        </Typography>
-      </Box>
-      <Box className={classes.box}>
-        <Card>
-          <Typography className={classes.cardTitle} style={{ marginTop: 15 }}>
-            問診作成日
+  if (loading) {
+    return (
+      <Loading />
+    );
+  } else {
+    return (
+      <>
+        <Box className={classes.box}>
+          <Typography variant="h5" component="h1" style={{ marginBottom: 30 }}>
+            問診詳細
           </Typography>
-          <Typography className={classes.item}>
-            {dayjs(interview?.createdAt).format('HH:mm')}
-          </Typography>
-          <Grid container >
-            <Grid item xs={12} >
-              <CardContent className={classes.cardContent}>
-                <Box className={classes.interviewBox}>
-                  <Typography className={classes.title}>
-                    体温
-                  </Typography>
-                  <Typography className={classes.item}>
-                    {interview.temperature}
-                  </Typography>
-                </Box>
-                <Box className={classes.interviewBox}>
-                  <Typography className={classes.title}>
-                    酸素飽和度
-                  </Typography>
-                  <Typography className={classes.item}>
-                    {interview.oxygenSaturation}
-                  </Typography>
-                </Box>
-                <Box className={classes.interviewBox}>
-                  <Typography className={classes.title}>
-                    計測時間
-                  </Typography>
-                  <Typography className={classes.item}>
-                    {dayjs(interview.instrumentationTime).format('HH:mm')}
-                  </Typography>
-                </Box>
-                <Box className={classes.contentBox}>
-                  <Typography className={classes.title}>
-                    状態
-                  </Typography>
-                  {(() => {
-                    if (interview.status >= 5) {
-                      return <Box className={classes.statusRed} />
-                    } else if (interview.status >= 4) {
-                      return <Box className={classes.statusOrange} />
-                    } else if (interview.status >= 3) {
-                      return <Box className={classes.statusYellow} />
-                    } else if (interview.status >= 1) {
-                      return <Box className={classes.statusGreen} />
-                    }
-                  })()}
-                </Box>
-              </CardContent>
-            </Grid>
-            <Grid item xs={12}>
-              <CardContent className={classes.interviewContent}>
-                {questions.map((question, index) => (
-                  <Box className={classes.interviewBox} key={index}>
+        </Box>
+        <Box className={classes.box}>
+          <Card>
+            <Typography className={classes.cardTitle} style={{ marginTop: 15 }}>
+              問診作成日
+            </Typography>
+            <Typography className={classes.item}>
+              {dayjs(interview?.createdAt).format('HH:mm')}
+            </Typography>
+            <Grid container >
+              <Grid item xs={12} >
+                <CardContent className={classes.cardContent}>
+                  <Box className={classes.interviewBox}>
                     <Typography className={classes.title}>
-                      {question.name}
+                      体温
                     </Typography>
-                    {fechAnswers(question.id)}
+                    <Typography className={classes.item}>
+                      {interview.temperature}
+                    </Typography>
                   </Box>
-                ))}
-              </CardContent>
-            </Grid>
-            <Grid item xs={12}>
-              {interview.other &&
-                <>
-                  <Typography className={classes.cardTitle} style={{ marginTop: 15 }}>
-                    その他症状
-                  </Typography>
-                  <CardContent className={classes.cardContent}>
-                    <Box className={classes.interviewBox}>
+                  <Box className={classes.interviewBox}>
+                    <Typography className={classes.title}>
+                      酸素飽和度
+                    </Typography>
+                    <Typography className={classes.item}>
+                      {interview.oxygenSaturation}
+                    </Typography>
+                  </Box>
+                  <Box className={classes.interviewBox}>
+                    <Typography className={classes.title}>
+                      計測時間
+                    </Typography>
+                    <Typography className={classes.item}>
+                      {dayjs(interview.instrumentationTime).format('HH:mm')}
+                    </Typography>
+                  </Box>
+                  <Box className={classes.contentBox}>
+                    <Typography className={classes.title}>
+                      状態
+                    </Typography>
+                    {(() => {
+                      if (interview.status >= 5) {
+                        return <Box className={classes.statusRed} />
+                      } else if (interview.status >= 4) {
+                        return <Box className={classes.statusOrange} />
+                      } else if (interview.status >= 3) {
+                        return <Box className={classes.statusYellow} />
+                      } else if (interview.status >= 1) {
+                        return <Box className={classes.statusGreen} />
+                      }
+                    })()}
+                  </Box>
+                </CardContent>
+              </Grid>
+              <Grid item xs={12}>
+                <CardContent className={classes.interviewContent}>
+                  {questions.map((question, index) => (
+                    <Box className={classes.interviewBox} key={index}>
                       <Typography className={classes.title}>
-                        痛みの程度
+                        {question.name}
                       </Typography>
-                      <Typography className={classes.item}>
-                        {otherSymptom?.painDegree}
-                      </Typography>
+                      {fechAnswers(question.id)}
                     </Box>
-                    <Box className={classes.interviewBox}>
-                      <Typography className={classes.title}>
-                        詳細
-                      </Typography>
-                      {/* <Typography className={classes.otherItem}> */}
-                      <MultiLineBody body={otherSymptom.concrete} />
-                      {/* </Typography> */}
-                    </Box>
-                  </CardContent>
-                </>
-              }
+                  ))}
+                </CardContent>
+              </Grid>
+              <Grid item xs={12}>
+                {interview.other &&
+                  <>
+                    <Typography className={classes.cardTitle} style={{ marginTop: 15 }}>
+                      その他症状
+                    </Typography>
+                    <CardContent className={classes.cardContent}>
+                      <Box className={classes.interviewBox}>
+                        <Typography className={classes.title}>
+                          痛みの程度
+                        </Typography>
+                        <Typography className={classes.item}>
+                          {otherSymptom?.painDegree}
+                        </Typography>
+                      </Box>
+                      <Box className={classes.interviewBox}>
+                        <Typography className={classes.title}>
+                          詳細
+                        </Typography>
+                        <MultiLineBody body={otherSymptom.concrete} />
+                      </Box>
+                    </CardContent>
+                  </>
+                }
+              </Grid>
             </Grid>
-          </Grid>
-        </Card>
-      </Box>
-      <Box className={classes.boxBottom}>
-        {interview &&
-          <Button
-            className={classes.button}
-            onClick={() => onClickInterviews(interview.userId)}
-          >
-            問診一覧
-          </Button>
-        }
-      </Box>
-    </>
-  )
+          </Card>
+        </Box>
+        <Box className={classes.boxBottom}>
+          {interview &&
+            <Button
+              className={classes.button}
+              onClick={() => onClickInterviews(interview.userId)}
+            >
+              問診一覧
+            </Button>
+          }
+        </Box>
+      </>
+    );
+  };
 }
 export default Interview
