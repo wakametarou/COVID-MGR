@@ -6,7 +6,7 @@ RSpec.describe "PatientProfiles", type: :request do
       it "プロフィール表示" do
         user = FactoryBot.create(:user)
         auth_tokens = sign_in(user)
-        get "/api/v1//patient_profiles/show", headers: auth_tokens
+        get "/api/v1/patient_profiles/show", headers: auth_tokens
         expect(response).to have_http_status(200)
       end
 

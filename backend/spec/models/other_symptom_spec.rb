@@ -6,7 +6,7 @@ RSpec.describe OtherSymptom, type: :model do
       it '正しく作成出来る事'do
         user = FactoryBot.create(:user)
         interview = FactoryBot.create(:interview, user_id: user.id)
-        other = OtherSymptom.new(pain_degree: 1, concrete: "痛い", interview_id: interview.id)
+        other = FactoryBot.create(:other_symptom, interview_id: interview.id)
         expect(other).to be_valid
         other.save
         answered_other = OtherSymptom.find_by(interview_id: interview.id)
