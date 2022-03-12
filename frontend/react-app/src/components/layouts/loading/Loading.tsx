@@ -1,4 +1,6 @@
 import React from "react";
+// import ReactLoading from "react-loading";
+import { BoxLoading } from 'react-loading-typescript';
 
 import {
   makeStyles,
@@ -8,6 +10,7 @@ import {
   Box,
   Typography,
 } from '@material-ui/core';
+import { pink } from '@material-ui/core/colors';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -17,9 +20,9 @@ const useStyles = makeStyles(() =>
       justifyContent: 'center',
       alignItems: 'center',
     },
-    typography: {
+    // typography: {
 
-    },
+    // },
   }),
 );
 
@@ -31,6 +34,12 @@ const Loading: React.FC = () => {
       <Typography variant="h5" >
         読み込み中です…
       </Typography>
+      <BoxLoading
+        type="spin"
+        color={pink[100]}
+        height="100px"
+        width="100px"
+      />
     </Box>
   );
 };
