@@ -1,5 +1,6 @@
 import React, { memo, useContext, useState, useEffect, useCallback } from "react";
 import { useNavigate, useParams, Link, } from "react-router-dom";
+import Loading from "components/layouts/loading/Loading";
 
 import { AuthContext } from "App";
 import { InterviewType, UserType } from "types/interview";
@@ -106,6 +107,7 @@ const useStyles = makeStyles(() =>
 );
 
 const Interviews: React.FC = memo(() => {
+  const [loading, setLoading] = useState<boolean>(true);
   const { currentUser } = useContext(AuthContext);
   const [user, setUser] = useState<UserType>({
     id: 0,
@@ -133,8 +135,9 @@ const Interviews: React.FC = memo(() => {
       setInterviews(res.data);
     } catch (err) {
       console.log(err);
-    }
-  }
+    };
+    setLoading(false)
+  };
 
   const getInterviewsUser = async (query: any) => {
     try {
@@ -144,6 +147,7 @@ const Interviews: React.FC = memo(() => {
     } catch (err) {
       console.log(err);
     };
+    setLoading(false)
   };
 
   useEffect(() => {
@@ -168,128 +172,134 @@ const Interviews: React.FC = memo(() => {
 
   const classes = useStyles();
 
-  return (
-    <>
-      <Box className={classes.box}>
-        {currentUser.patientOrDoctor
-          ?
-          <Typography variant="h5" component="h1" style={{ marginBottom: 30 }}>
-            {currentUser.name}様の問診一覧
-          </Typography>
-          :
-          <Typography variant="h5" component="h1" style={{ marginBottom: 30 }}>
-            {user?.name}様の問診一覧
-          </Typography>
-        }
-      </Box>
-      <Box className={classes.box}>
-        <Box className={classes.interviewBox}>
-          {displayedInterviews.map((interview, index) => (
-            <Card className={classes.card} key={index}>
-              <Grid container justifyContent="center">
-                <Grid item xs={12} sm={6}>
-                  <CardContent className={classes.cardContent}>
-                    <Typography className={classes.listItem} style={{ marginTop: 15 }}>
-                      {dayjs(interview.createdAt).format('M/D')}
-                    </Typography>
-                    <Box className={classes.contentBox}>
-                      <Typography className={classes.title}>
-                        体温
-                      </Typography>
-                      <Typography className={classes.listItem}>
-                        {interview.temperature}°C
-                      </Typography>
-                    </Box>
-                    <Box className={classes.contentBox}>
-                      <Typography className={classes.title}>
-                        酸素飽和度
-                      </Typography>
-                      <Typography className={classes.listItem}>
-                        {interview.oxygenSaturation}%
-                      </Typography>
-                    </Box>
-                  </CardContent>
-                </Grid>
-                <Grid item xs={12} sm={6} >
-                  <Box className={classes.cardContent}>
-                    <CardContent className={classes.cardContent}>
-                      <Box className={classes.contentBox}>
-                        <Typography className={classes.title}>
-                          計測時間
-                        </Typography>
-                        <Typography className={classes.listItem}>
-                          {dayjs(interview.instrumentationTime).format('HH:mm')}
-                        </Typography>
-                      </Box>
-                      <Box className={classes.contentBox}>
-                        <Typography className={classes.title}>
-                          状態
-                        </Typography>
-                        {(() => {
-                          if (interview.status >= 5) {
-                            return <Box className={classes.statusRed} />
-                          } else if (interview.status >= 4) {
-                            return <Box className={classes.statusOrange} />
-                          } else if (interview.status >= 3) {
-                            return <Box className={classes.statusYellow} />
-                          } else if (interview.status >= 1) {
-                            return <Box className={classes.statusGreen} />
-                          }
-                        })()}
-                      </Box>
-                    </CardContent>
-                    <CardActions>
-                      <Button
-                        className={classes.button}
-                        onClick={() => onClickInterview(interview.id)}
-                      >
-                        詳細
-                      </Button>
-                    </CardActions>
-                  </Box>
-                </Grid>
-              </Grid>
-            </Card>
-          ))
+  if (loading) {
+    return (
+      <Loading />
+    );
+  } else {
+    return (
+      <>
+        <Box className={classes.box}>
+          {currentUser.patientOrDoctor
+            ?
+            <Typography variant="h5" component="h1" style={{ marginBottom: 30 }}>
+              {currentUser.name}様の問診一覧
+            </Typography>
+            :
+            <Typography variant="h5" component="h1" style={{ marginBottom: 30 }}>
+              {user?.name}様の問診一覧
+            </Typography>
           }
         </Box>
-        <Pagination
-          count={pageCount}
-          color="secondary"
-          onChange={handleChange}
-          page={page}
-        />
-      </Box >
-      <Box className={classes.boxBottom}>
-        {currentUser.patientOrDoctor
-          ?
-          <>
+        <Box className={classes.box}>
+          <Box className={classes.interviewBox}>
+            {displayedInterviews.map((interview, index) => (
+              <Card className={classes.card} key={index}>
+                <Grid container justifyContent="center">
+                  <Grid item xs={12} sm={6}>
+                    <CardContent className={classes.cardContent}>
+                      <Typography className={classes.listItem} style={{ marginTop: 15 }}>
+                        {dayjs(interview.createdAt).format('M/D')}
+                      </Typography>
+                      <Box className={classes.contentBox}>
+                        <Typography className={classes.title}>
+                          体温
+                        </Typography>
+                        <Typography className={classes.listItem}>
+                          {interview.temperature}°C
+                        </Typography>
+                      </Box>
+                      <Box className={classes.contentBox}>
+                        <Typography className={classes.title}>
+                          酸素飽和度
+                        </Typography>
+                        <Typography className={classes.listItem}>
+                          {interview.oxygenSaturation}%
+                        </Typography>
+                      </Box>
+                    </CardContent>
+                  </Grid>
+                  <Grid item xs={12} sm={6} >
+                    <Box className={classes.cardContent}>
+                      <CardContent className={classes.cardContent}>
+                        <Box className={classes.contentBox}>
+                          <Typography className={classes.title}>
+                            計測時間
+                          </Typography>
+                          <Typography className={classes.listItem}>
+                            {dayjs(interview.instrumentationTime).format('HH:mm')}
+                          </Typography>
+                        </Box>
+                        <Box className={classes.contentBox}>
+                          <Typography className={classes.title}>
+                            状態
+                          </Typography>
+                          {(() => {
+                            if (interview.status >= 5) {
+                              return <Box className={classes.statusRed} />
+                            } else if (interview.status >= 4) {
+                              return <Box className={classes.statusOrange} />
+                            } else if (interview.status >= 3) {
+                              return <Box className={classes.statusYellow} />
+                            } else if (interview.status >= 1) {
+                              return <Box className={classes.statusGreen} />
+                            }
+                          })()}
+                        </Box>
+                      </CardContent>
+                      <CardActions>
+                        <Button
+                          className={classes.button}
+                          onClick={() => onClickInterview(interview.id)}
+                        >
+                          詳細
+                        </Button>
+                      </CardActions>
+                    </Box>
+                  </Grid>
+                </Grid>
+              </Card>
+            ))
+            }
+          </Box>
+          <Pagination
+            count={pageCount}
+            color="secondary"
+            onChange={handleChange}
+            page={page}
+          />
+        </Box >
+        <Box className={classes.boxBottom}>
+          {currentUser.patientOrDoctor
+            ?
+            <>
+              <Button
+                className={classes.downButton}
+                component={Link}
+                to="/mypage"
+              >
+                マイページへ
+              </Button>
+              <Button
+                className={classes.downButton}
+                component={Link}
+                to="/interview/create"
+              >
+                問診作成
+              </Button>
+            </>
+            :
             <Button
               className={classes.downButton}
-              component={Link}
-              to="/mypage"
+              onClick={() => onClickPatient(user?.id)}
             >
-              マイページへ
+              患者様一覧
             </Button>
-            <Button
-              className={classes.downButton}
-              component={Link}
-              to="/interview/create"
-            >
-              問診作成
-            </Button>
-          </>
-          :
-          <Button
-            className={classes.downButton}
-            onClick={() => onClickPatient(user?.id)}
-          >
-            患者様一覧
-          </Button>
-        }
-      </Box>
-    </>
-  )
+          }
+        </Box>
+      </>
+    );
+  };
 });
 
 export default Interviews

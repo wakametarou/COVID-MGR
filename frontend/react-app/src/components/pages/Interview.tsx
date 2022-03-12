@@ -110,7 +110,7 @@ const useStyles = makeStyles(() =>
 );
 
 const Interview: React.FC = () => {
-  const [loading, setLoading] = useState<boolean>(true)
+  const [loading, setLoading] = useState<boolean>(true);
   const [interview, setInterview] = useState<InterviewType>({
     id: 0,
     temperature: 0,
@@ -151,10 +151,10 @@ const Interview: React.FC = () => {
         setAnswers(res.data.answers)
         setQuestions(res.data.questions)
         console.log("get interview")
-      }
+      };
     } catch (err) {
       console.log(err)
-    }
+    };
     setLoading(false)
   };
   useEffect(() => {
@@ -176,9 +176,9 @@ const Interview: React.FC = () => {
               </Typography>
             }
           </>
-        )
-      }
-    }
+        );
+      };
+    };
   };
 
   const classes = useStyles();
