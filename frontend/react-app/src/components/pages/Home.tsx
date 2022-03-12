@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 import {
   makeStyles,
@@ -10,9 +10,9 @@ import {
   Typography,
 } from '@material-ui/core';
 
-import imageTop from 'img/photo01.jpg'
-import imageHome from 'img/home-logo.png'
-import imageDoctor from 'img/Doctors-pana.png'
+import imageTop from 'img/photo01.jpg';
+import imageHome from 'img/home-logo.png';
+import imageDoctor from 'img/Doctors-pana.png';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -52,7 +52,7 @@ const useStyles = makeStyles(() =>
 );
 
 const Home: React.FC = () => {
-  const classes = useStyles()
+  const classes = useStyles();
 
   return (
     <Box>

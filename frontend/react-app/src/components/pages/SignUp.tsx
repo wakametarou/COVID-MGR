@@ -73,7 +73,7 @@ const SignUp: React.FC = memo(() => {
   }, [patientOrDoctor, sex, name, email, password, passwordConfirmation]);
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault()
+    e.preventDefault();
 
     const params: SignUpParamsType = {
       name: name,
@@ -209,7 +209,7 @@ const SignUp: React.FC = memo(() => {
           </CardContent>
         </Card>
       </form>
-      <AlertMessage // エラーが発生した場合はアラートを表示
+      <AlertMessage
         open={alertMessageOpen}
         setOpen={setAlertMessageOpen}
         severity="error"
