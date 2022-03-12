@@ -9,8 +9,8 @@ class Api::V1::InterviewsController < ApplicationController
     elsif current_api_v1_user.patient_or_doctor == false
       interviews = Interview.where(user_id: params[:id]).order(created_at: :desc)
       user = User.find(params[:id])
-      interviews_user[:interviews]= interviews
-      interviews_user[:user]= user
+      interviews_user[:interviews] = interviews
+      interviews_user[:user] = user
       render json: interviews_user
     else
       render json: { status: 404 }
@@ -23,18 +23,18 @@ class Api::V1::InterviewsController < ApplicationController
       questions = Question.all
       if interview.other == true
         other = OtherSymptom.find_by(interview_id: params[:id])
-        interviewInfo= {
+        interviewInfo = {
           interview: interview,
           answers: answers,
           questions: questions,
-          other: other,
+          other: other
         }
         render json: interviewInfo
       else
-        interviewInfo= {
+        interviewInfo = {
           interview: interview,
           answers: answers,
-          questions: questions,
+          questions: questions
         }
         render json: interviewInfo
       end

@@ -18,11 +18,11 @@ Question.create!(
     },
     {
       name: '吐き気',
-      content: "・嘔吐や吐き気が続いている"
+      content: '・嘔吐や吐き気が続いている'
     },
     {
       name: '下痢',
-      content: "・下痢が続いている"
+      content: '・下痢が続いている'
     },
     {
       name: '意識障害',

@@ -6,21 +6,21 @@ RSpec.describe User, type: :model do
   # end
   describe 'サインアップ機能' do
     context 'サインインする' do
-      it '正しく登録出来る事'do
+      it '正しく登録出来る事' do
         user = FactoryBot.build(:user)
         expect(user).to be_valid
         user.save
-        answered_user = User.find_by(email: "test_user@test.com");
-        expect(answered_user.name).to eq("高野 晃")
+        answered_user = User.find_by(email: 'test_user@test.com')
+        expect(answered_user.name).to eq('高野 晃')
         expect(answered_user.patient_or_doctor).to eq(true)
         expect(answered_user.sex).to eq(true)
-        expect(answered_user.email).to eq("test_user@test.com")
+        expect(answered_user.email).to eq('test_user@test.com')
       end
     end
   end
 
   describe '入力項目の有無' do
-    let(:new_user){User.new}
+    let(:new_user) { User.new }
     context 'db保存時に必須入力であること' do
       it '名前が必須であること' do
         expect(new_user).not_to be_valid
@@ -69,7 +69,7 @@ RSpec.describe User, type: :model do
     context '不正な形式のメールアドレスの場合' do
       it 'エラーになること' do
         new_user = User.new
-        new_user.email = "bad.email"
+        new_user.email = 'bad.email'
         expect(new_user).not_to be_valid
         expect(new_user.errors[:email]).to include('is not an email')
       end
