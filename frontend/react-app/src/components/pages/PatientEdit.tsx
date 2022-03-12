@@ -48,6 +48,9 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: pink[100],
       margin: 5,
     },
+    imgBox: {
+      margin: 10,
+    },
   }),
 );
 
@@ -169,7 +172,7 @@ const PatientEdit: React.FC = memo(() => {
           <CardHeader className={classes.header} title="患者様情報" />
           <CardContent className={classes.cardContent}>
             {ImagePreview(preview)}
-            <Box>
+            <Box className={classes.imgBox}>
               <label htmlFor="icon-button-file">
                 <input
                   accept="image/*"
