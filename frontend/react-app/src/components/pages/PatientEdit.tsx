@@ -1,5 +1,6 @@
 import React, { memo, useState, useEffect, useCallback } from "react";
 import { useNavigate, Link, } from "react-router-dom";
+import Loading from "components/layouts/loading/Loading";
 
 import { patientShow, patientUpdate } from "lib/api/patient";
 import { PatientProfileType } from "types/patient";
@@ -51,6 +52,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const PatientEdit: React.FC = memo(() => {
+  const [loading, setLoading] = useState<boolean>(true);
   const classes = useStyles();
   const navigate = useNavigate();
   const [profile, setProfile] = useState<PatientProfileType>(
@@ -94,7 +96,8 @@ const PatientEdit: React.FC = memo(() => {
       setProfile(res.data.profile);
     } catch (e) {
       console.log(e);
-    }
+    };
+    setLoading(false)
   };
 
   const createFormData = (): FormData => {
@@ -155,100 +158,106 @@ const PatientEdit: React.FC = memo(() => {
     };
   };
 
-  return (
-    <form>
-      <Card className={classes.card}>
-        <CardHeader className={classes.header} title="患者様情報" />
-        <CardContent className={classes.cardContent}>
-          {ImagePreview(preview)}
-          <Box>
-            <label htmlFor="icon-button-file">
-              <input
-                accept="image/*"
-                id="icon-button-file"
-                type="file"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  uploadImage(e)
-                  previewImage(e)
-                }}
-              />
-            </label>
-          </Box>
-          <TextField
-            variant="outlined"
-            required
-            fullWidth
-            margin="dense"
-            name="roomNumber"
-            label="部屋番号"
-            value={roomNumber}
-            onChange={(e) => setRoomNumber(e.target.value)}
-            inputProps={{ type: "number" }}
-          />
-          <TextField
-            variant="outlined"
-            required
-            fullWidth
-            margin="dense"
-            name="phoneNumber"
-            label="電話番号"
-            value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
-            inputProps={{ type: "number" }}
-          />
-          <TextField
-            variant="outlined"
-            required
-            fullWidth
-            margin="dense"
-            name="emergencyAddress"
-            label="緊急連絡先"
-            value={emergencyAddress}
-            onChange={(e) => setEmergencyAddress(e.target.value)}
-            inputProps={{ type: "number" }}
-          />
-          <TextField
-            variant="outlined"
-            required
-            fullWidth
-            margin="dense"
-            name="address"
-            label="住所"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            inputProps={{ maxLength: 100 }}
-          />
-          <TextField
-            variant="outlined"
-            required
-            fullWidth
-            margin="dense"
-            name="building"
-            label="建物名、部屋番号"
-            value={building}
-            onChange={(e) => setBuilding(e.target.value)}
-            inputProps={{ maxLength: 100 }}
-          />
-        </CardContent>
-        <CardActions className={classes.cardActions}>
-          <Button
-            className={classes.button}
-            component={Link}
-            to="/mypage"
-          >
-            戻る
-          </Button>
-          <Button
-            disabled={buttonDisAllow}
-            className={classes.button}
-            onClick={handleSubmit}
-          >
-            編集
-          </Button>
-        </CardActions>
-      </Card>
-    </form>
-  );
+  if (loading) {
+    return (
+      <Loading />
+    );
+  } else {
+    return (
+      <form>
+        <Card className={classes.card}>
+          <CardHeader className={classes.header} title="患者様情報" />
+          <CardContent className={classes.cardContent}>
+            {ImagePreview(preview)}
+            <Box>
+              <label htmlFor="icon-button-file">
+                <input
+                  accept="image/*"
+                  id="icon-button-file"
+                  type="file"
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    uploadImage(e)
+                    previewImage(e)
+                  }}
+                />
+              </label>
+            </Box>
+            <TextField
+              variant="outlined"
+              required
+              fullWidth
+              margin="dense"
+              name="roomNumber"
+              label="部屋番号"
+              value={roomNumber}
+              onChange={(e) => setRoomNumber(e.target.value)}
+              inputProps={{ type: "number" }}
+            />
+            <TextField
+              variant="outlined"
+              required
+              fullWidth
+              margin="dense"
+              name="phoneNumber"
+              label="電話番号"
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+              inputProps={{ type: "number" }}
+            />
+            <TextField
+              variant="outlined"
+              required
+              fullWidth
+              margin="dense"
+              name="emergencyAddress"
+              label="緊急連絡先"
+              value={emergencyAddress}
+              onChange={(e) => setEmergencyAddress(e.target.value)}
+              inputProps={{ type: "number" }}
+            />
+            <TextField
+              variant="outlined"
+              required
+              fullWidth
+              margin="dense"
+              name="address"
+              label="住所"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              inputProps={{ maxLength: 100 }}
+            />
+            <TextField
+              variant="outlined"
+              required
+              fullWidth
+              margin="dense"
+              name="building"
+              label="建物名、部屋番号"
+              value={building}
+              onChange={(e) => setBuilding(e.target.value)}
+              inputProps={{ maxLength: 100 }}
+            />
+          </CardContent>
+          <CardActions className={classes.cardActions}>
+            <Button
+              className={classes.button}
+              component={Link}
+              to="/mypage"
+            >
+              戻る
+            </Button>
+            <Button
+              disabled={buttonDisAllow}
+              className={classes.button}
+              onClick={handleSubmit}
+            >
+              編集
+            </Button>
+          </CardActions>
+        </Card>
+      </form>
+    );
+  };
 });
 
 export default PatientEdit

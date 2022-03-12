@@ -1,5 +1,6 @@
 import React, { memo, useCallback, useState, useEffect } from "react";
 import { useNavigate, Link, } from "react-router-dom";
+import Loading from "components/layouts/loading/Loading";
 
 import { UsersType } from "types/patient";
 import { usersIndex } from "lib/api/patient";
@@ -128,17 +129,18 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const Patients: React.FC = memo(() => {
-  const [users, setUsers] = useState<UsersType[]>([])//全データ
-  const [page, setPage] = useState<number>(1) //ページ番号
-  const [pageCount, setPageCount] = useState<number>()//ページ数
-  const [displayedUsers, setDisplayedUsers] = useState<UsersType[]>([])//表示データ
-  const displayNum = 5; //1ページあたりの項目数
-  const navigate = useNavigate()
-  console.log(users)
+  const [loading, setLoading] = useState<boolean>(true);
+  const [users, setUsers] = useState<UsersType[]>([]);
+  const [page, setPage] = useState<number>(1);
+  const [pageCount, setPageCount] = useState<number>();
+  const [displayedUsers, setDisplayedUsers] = useState<UsersType[]>([]);
+  const displayNum = 5;
+  const navigate = useNavigate();
+  console.log(users);
 
   const onClickPatient = useCallback((id: number) => {
     navigate(`/patient/${id}`)
-  }, [navigate])
+  }, [navigate]);
 
   const getUsers = async () => {
     try {
@@ -148,114 +150,119 @@ const Patients: React.FC = memo(() => {
         console.log("get patients")
       } else {
         console.log("Failed to get the patients")
-      }
+      };
     } catch (err) {
       console.log(err)
-    }
-  }
+    };
+    setLoading(false)
+  };
 
   useEffect(() => {
     getUsers()
-  }, [])
+  }, []);
   useEffect(() => {
     setPageCount(Math.ceil(users.length / displayNum))
     setDisplayedUsers(users.slice(((page - 1) * displayNum), page * displayNum))
-  }, [users])
+  }, [users]);
 
   const handleChange = (event: React.ChangeEvent<unknown>, index: number) => {
-    //ページ移動時にページ番号を更新
     setPage(index);
-    //ページ移動時に表示データを書き換える
     setDisplayedUsers(users.slice(((index - 1) * displayNum), index * displayNum))
-  }
+  };
 
   const classes = useStyles();
 
-  return (
-    <Box className={classes.root}>
-      <Typography variant="h5" component="h1" style={{ marginBottom: 30 }}>
-        患者様一覧
-      </Typography>
-      <Box className={classes.patientsBox}>
-        {displayedUsers.map((user, index) => (
-          <Card className={classes.cardRoot} key={index}>
-            <CardContent className={classes.cardContent}>
-              <Box className={classes.itemBlock}>
-                <Box className={classes.avatar}>
-                  <Avatar alt="Remy Sharp" src={user.image} />
-                </Box>
-                <Typography className={classes.listItem}>
-                  {user.name}
-                </Typography>
-                {user.sex ?
-                  <Typography className={classes.listItem}>
-                    男性
-                  </Typography>
-                  :
-                  <Typography className={classes.listItem}>
-                    女性
-                  </Typography>
-                }
-              </Box>
-              <Box className={classes.itemBlock}>
-                {user.roomNumber ?
-                  <Typography className={classes.listItem}>
-                    {user.roomNumber}
-                  </Typography>
-                  :
-                  <Typography className={classes.listItem}>
-                    未入力
-                  </Typography>
-                }
-                <Box className={classes.statusBox}>
-                  <Box className={classes.statusText}>
-                    状態
+  if (loading) {
+    return (
+      <Loading />
+    );
+  } else {
+    return (
+      <Box className={classes.root}>
+        <Typography variant="h5" component="h1" style={{ marginBottom: 30 }}>
+          患者様一覧
+        </Typography>
+        <Box className={classes.patientsBox}>
+          {displayedUsers.map((user, index) => (
+            <Card className={classes.cardRoot} key={index}>
+              <CardContent className={classes.cardContent}>
+                <Box className={classes.itemBlock}>
+                  <Box className={classes.avatar}>
+                    <Avatar alt="Remy Sharp" src={user.image} />
                   </Box>
-                  {(() => {
-                    if (user.status >= 5) {
-                      return <div className={classes.statusRed}></div>
-                    } else if (user.status >= 4) {
-                      return <div className={classes.statusOrange}></div>
-                    } else if (user.status >= 3) {
-                      return <div className={classes.statusYellow}></div>
-                    } else if (user.status >= 1) {
-                      return <div className={classes.statusGreen}></div>
-                    } else {
-                      return <div className={classes.statusColor}>未入力</div>
-                    }
-                  })()}
+                  <Typography className={classes.listItem}>
+                    {user.name}
+                  </Typography>
+                  {user.sex ?
+                    <Typography className={classes.listItem}>
+                      男性
+                    </Typography>
+                    :
+                    <Typography className={classes.listItem}>
+                      女性
+                    </Typography>
+                  }
                 </Box>
-                <CardActions>
-                  <Button
-                    className={classes.button}
-                    onClick={() => onClickPatient(user.id)}
-                  >
-                    詳細
-                  </Button>
-                </CardActions>
-              </Box>
-            </CardContent>
-          </Card>
-        ))}
+                <Box className={classes.itemBlock}>
+                  {user.roomNumber ?
+                    <Typography className={classes.listItem}>
+                      {user.roomNumber}
+                    </Typography>
+                    :
+                    <Typography className={classes.listItem}>
+                      未入力
+                    </Typography>
+                  }
+                  <Box className={classes.statusBox}>
+                    <Box className={classes.statusText}>
+                      状態
+                    </Box>
+                    {(() => {
+                      if (user.status >= 5) {
+                        return <div className={classes.statusRed}></div>
+                      } else if (user.status >= 4) {
+                        return <div className={classes.statusOrange}></div>
+                      } else if (user.status >= 3) {
+                        return <div className={classes.statusYellow}></div>
+                      } else if (user.status >= 1) {
+                        return <div className={classes.statusGreen}></div>
+                      } else {
+                        return <div className={classes.statusColor}>未入力</div>
+                      }
+                    })()}
+                  </Box>
+                  <CardActions>
+                    <Button
+                      className={classes.button}
+                      onClick={() => onClickPatient(user.id)}
+                    >
+                      詳細
+                    </Button>
+                  </CardActions>
+                </Box>
+              </CardContent>
+            </Card>
+          ))}
+        </Box>
+        <Box className={classes.paginationRoot}>
+          <Pagination
+            count={pageCount}
+            color="secondary"
+            onChange={handleChange}
+            page={page}
+          />
+        </Box>
+        <Box className={classes.boxBottom}></Box>
+        <Button
+          className={classes.downButton}
+          component={Link}
+          to="/mypage"
+        >
+          マイページへ
+        </Button>
       </Box>
-      <Box className={classes.paginationRoot}>
-        <Pagination
-          count={pageCount}
-          color="secondary"
-          onChange={handleChange}
-          page={page}
-        />
-      </Box>
-      <Box className={classes.boxBottom}></Box>
-      <Button
-        className={classes.downButton}
-        component={Link}
-        to="/mypage"
-      >
-        マイページへ
-      </Button>
-    </Box>
-  )
-})
+    );
+  };
+});
 
 export default Patients

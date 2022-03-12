@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "dayjs": "^1.10.7",
-    "react-hook-form": "^7.27.1"
+    "react-hook-form": "^7.27.1",
+    "react-loading-typescript": "^0.0.1"
   }
 }

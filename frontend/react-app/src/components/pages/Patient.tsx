@@ -1,6 +1,7 @@
 import React, { useCallback, useState, useEffect, } from "react";
 import { useParams, Link, useNavigate, } from "react-router-dom";
 import MultiLineBody from "components/layouts/MultiLineBody/MultiLineBody";
+import Loading from "components/layouts/loading/Loading";
 
 import { userShow } from "lib/api/patient";
 import {
@@ -113,6 +114,7 @@ const useStyles = makeStyles(() =>
 );
 
 const Patient: React.FC = () => {
+  const [loading, setLoading] = useState<boolean>(true);
   const classes = useStyles();
   const navigate = useNavigate();
   const [user, setUser] = useState<UserType>()
@@ -157,11 +159,12 @@ const Patient: React.FC = () => {
         console.log("get patients")
       } else {
         console.log("Failed to get the patients")
-      }
+      };
     } catch (err) {
       console.log(err)
-    }
-  }
+    };
+    setLoading(false)
+  };
 
   const fechAnswers = (questionId: number) => {
     for (let i = 0; i < answers.length; i++) {
@@ -178,204 +181,210 @@ const Patient: React.FC = () => {
               </Typography>
             }
           </>
-        )
-      }
-    }
-  }
+        );
+      };
+    };
+  };
 
-  return (
-    <Grid container spacing={3} justifyContent="center">
-      <Grid item xs={12} sm={6}>
-        <Card>
-          <Typography variant="h6" className={classes.cardTitle}>
-            基本情報
-          </Typography>
-          <CardHeader
-            avatar={
-              <Avatar alt="Remy Sharp" src={patientProfile?.image} />
-            }
-          />
-          <CardContent>
-            <Typography className={classes.title}>
-              名前
-            </Typography>
-            <Typography className={classes.item}>
-              {user?.name}様
-            </Typography>
-            <Typography className={classes.title}>
-              メールアドレス
-            </Typography>
-            <Typography className={classes.item}>
-              {user?.email}
-            </Typography>
-            <Typography className={classes.title}>
-              性別
-            </Typography>
-            {user?.sex ?
-              <Typography className={classes.item}>
-                男性
-              </Typography>
-              :
-              <Typography className={classes.item}>
-                女性
-              </Typography>
-            }
-          </CardContent>
-        </Card>
-      </Grid>
-
-      {patientProfile?.roomNumber !== null &&
+  if (loading) {
+    return (
+      <Loading />
+    );
+  } else {
+    return (
+      <Grid container spacing={3} justifyContent="center">
         <Grid item xs={12} sm={6}>
           <Card>
             <Typography variant="h6" className={classes.cardTitle}>
-              連絡先情報
+              基本情報
             </Typography>
+            <CardHeader
+              avatar={
+                <Avatar alt="Remy Sharp" src={patientProfile?.image} />
+              }
+            />
             <CardContent>
               <Typography className={classes.title}>
-                部屋番号
+                名前
               </Typography>
               <Typography className={classes.item}>
-                {patientProfile?.roomNumber}号室
+                {user?.name}様
               </Typography>
               <Typography className={classes.title}>
-                電話番号
+                メールアドレス
               </Typography>
               <Typography className={classes.item}>
-                {patientProfile?.phoneNumber}
+                {user?.email}
               </Typography>
               <Typography className={classes.title}>
-                緊急連絡先
+                性別
               </Typography>
-              <Typography className={classes.item}>
-                {patientProfile?.emergencyAddress}
-              </Typography>
-              <Typography className={classes.title}>
-                住所
-              </Typography>
-              <Typography className={classes.item}>
-                {patientProfile?.address}
-              </Typography>
-              <Typography className={classes.itemLast}>
-                {patientProfile?.building}
-              </Typography>
+              {user?.sex ?
+                <Typography className={classes.item}>
+                  男性
+                </Typography>
+                :
+                <Typography className={classes.item}>
+                  女性
+                </Typography>
+              }
             </CardContent>
           </Card>
         </Grid>
-      }
 
-      {interview?.id !== null &&
-        <Grid item xs={12} sm={6}>
-          <Card className={classes.card}>
-            <Typography variant="h6" className={classes.cardTitle}>
-              最新問診
-            </Typography>
-            <Grid container justifyContent="center">
-              <Grid item xs={6} sm={6}>
-                <CardContent className={classes.cardContent}>
-                  <Box className={classes.interviewBox}>
-                    <Typography className={classes.title}>
-                      体温
-                    </Typography>
-                    <Typography className={classes.itemInterview}>
-                      {interview?.temperature}
-                    </Typography>
-                  </Box>
-                  <Box className={classes.interviewBox}>
-                    <Typography className={classes.title}>
-                      酸素飽和度
-                    </Typography>
-                    <Typography className={classes.itemInterview}>
-                      {interview?.oxygenSaturation}
-                    </Typography>
-                  </Box>
-                  <Box className={classes.interviewBox}>
-                    <Typography className={classes.title}>
-                      計測時間
-                    </Typography>
-                    <Typography className={classes.itemInterview}>
-                      {dayjs(interview?.instrumentationTime).format('HH:mm')}
-                    </Typography>
-                  </Box>
-                  <Box className={classes.interviewBox}>
-                    <Box className={classes.statusText}>
-                      状態
-                    </Box>
-                    {(() => {
-                      if (interview.status >= 5) {
-                        return <div className={classes.statusRed}></div>
-                      } else if (interview.status >= 4) {
-                        return <div className={classes.statusOrange}></div>
-                      } else if (interview.status >= 3) {
-                        return <div className={classes.statusYellow}></div>
-                      } else if (interview.status >= 1) {
-                        return <div className={classes.statusGreen}></div>
-                      }
-                    })()}
-                  </Box>
-                </CardContent>
-              </Grid>
-              <Grid item xs={12}>
-                <CardContent className={classes.cardContent}>
-                  {questions.map((question, index) => (
-                    <Box className={classes.interviewBox} key={index}>
-                      <Typography className={classes.title}>
-                        {question.name}
-                      </Typography>
-                      {fechAnswers(question.id)}
-                    </Box>
-                  ))}
-                </CardContent>
-              </Grid>
-              {interview?.other === true &&
-                <Box className={classes.interviewBox}>
-                  <Typography variant="h6" className={classes.cardTitle}>
-                    その他症状
-                  </Typography>
+        {patientProfile?.roomNumber !== null &&
+          <Grid item xs={12} sm={6}>
+            <Card>
+              <Typography variant="h6" className={classes.cardTitle}>
+                連絡先情報
+              </Typography>
+              <CardContent>
+                <Typography className={classes.title}>
+                  部屋番号
+                </Typography>
+                <Typography className={classes.item}>
+                  {patientProfile?.roomNumber}号室
+                </Typography>
+                <Typography className={classes.title}>
+                  電話番号
+                </Typography>
+                <Typography className={classes.item}>
+                  {patientProfile?.phoneNumber}
+                </Typography>
+                <Typography className={classes.title}>
+                  緊急連絡先
+                </Typography>
+                <Typography className={classes.item}>
+                  {patientProfile?.emergencyAddress}
+                </Typography>
+                <Typography className={classes.title}>
+                  住所
+                </Typography>
+                <Typography className={classes.item}>
+                  {patientProfile?.address}
+                </Typography>
+                <Typography className={classes.itemLast}>
+                  {patientProfile?.building}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+        }
 
-                  <CardContent>
-                    <Box className={classes.otherBox}>
+        {interview?.id !== null &&
+          <Grid item xs={12} sm={6}>
+            <Card className={classes.card}>
+              <Typography variant="h6" className={classes.cardTitle}>
+                最新問診
+              </Typography>
+              <Grid container justifyContent="center">
+                <Grid item xs={6} sm={6}>
+                  <CardContent className={classes.cardContent}>
+                    <Box className={classes.interviewBox}>
                       <Typography className={classes.title}>
-                        痛みの程度
+                        体温
                       </Typography>
                       <Typography className={classes.itemInterview}>
-                        {otherSymptom?.painDegree}
+                        {interview?.temperature}
                       </Typography>
                     </Box>
-                    <Box className={classes.otherBox}>
+                    <Box className={classes.interviewBox}>
                       <Typography className={classes.title}>
-                        症状について
+                        酸素飽和度
                       </Typography>
-                      <MultiLineBody body={otherSymptom.concrete} />
+                      <Typography className={classes.itemInterview}>
+                        {interview?.oxygenSaturation}
+                      </Typography>
+                    </Box>
+                    <Box className={classes.interviewBox}>
+                      <Typography className={classes.title}>
+                        計測時間
+                      </Typography>
+                      <Typography className={classes.itemInterview}>
+                        {dayjs(interview?.instrumentationTime).format('HH:mm')}
+                      </Typography>
+                    </Box>
+                    <Box className={classes.interviewBox}>
+                      <Box className={classes.statusText}>
+                        状態
+                      </Box>
+                      {(() => {
+                        if (interview.status >= 5) {
+                          return <div className={classes.statusRed}></div>
+                        } else if (interview.status >= 4) {
+                          return <div className={classes.statusOrange}></div>
+                        } else if (interview.status >= 3) {
+                          return <div className={classes.statusYellow}></div>
+                        } else if (interview.status >= 1) {
+                          return <div className={classes.statusGreen}></div>
+                        }
+                      })()}
                     </Box>
                   </CardContent>
-                </Box>
-              }
-            </Grid>
-          </Card>
-        </Grid >
-      }
+                </Grid>
+                <Grid item xs={12}>
+                  <CardContent className={classes.cardContent}>
+                    {questions.map((question, index) => (
+                      <Box className={classes.interviewBox} key={index}>
+                        <Typography className={classes.title}>
+                          {question.name}
+                        </Typography>
+                        {fechAnswers(question.id)}
+                      </Box>
+                    ))}
+                  </CardContent>
+                </Grid>
+                {interview?.other === true &&
+                  <Box className={classes.interviewBox}>
+                    <Typography variant="h6" className={classes.cardTitle}>
+                      その他症状
+                    </Typography>
 
-      <Grid item xs={12} >
-        <Box className={classes.buttonBox}>
-          <Button
-            className={classes.button}
-            component={Link}
-            to="/patients"
-          >
-            患者様一覧
-          </Button>
-          {interview?.id !== null &&
-            user &&
+                    <CardContent>
+                      <Box className={classes.otherBox}>
+                        <Typography className={classes.title}>
+                          痛みの程度
+                        </Typography>
+                        <Typography className={classes.itemInterview}>
+                          {otherSymptom?.painDegree}
+                        </Typography>
+                      </Box>
+                      <Box className={classes.otherBox}>
+                        <Typography className={classes.title}>
+                          症状について
+                        </Typography>
+                        <MultiLineBody body={otherSymptom.concrete} />
+                      </Box>
+                    </CardContent>
+                  </Box>
+                }
+              </Grid>
+            </Card>
+          </Grid >
+        }
+
+        <Grid item xs={12} >
+          <Box className={classes.buttonBox}>
             <Button
               className={classes.button}
-              onClick={() => onClickInterviews(user.id)}
+              component={Link}
+              to="/patients"
             >
-              問診一覧
+              患者様一覧
             </Button>
-          }
-        </Box>
-      </Grid>
-    </Grid >
-  )
-}
+            {interview?.id !== null &&
+              user &&
+              <Button
+                className={classes.button}
+                onClick={() => onClickInterviews(user.id)}
+              >
+                問診一覧
+              </Button>
+            }
+          </Box>
+        </Grid>
+      </Grid >
+    );
+  };
+};
 export default Patient
