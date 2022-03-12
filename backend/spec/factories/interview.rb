@@ -6,4 +6,12 @@ FactoryBot.define do
     status { 9 }
     other { true }
   end
+
+  factory :interview_not_other, class: 'Interview' do
+    temperature { 36 }
+    oxygen_saturation { 100 }
+    instrumentation_time { "2000-01-01 06:58:19.000000000 +0900" }
+    status { 9 }
+    other { false }
+  end
 end
