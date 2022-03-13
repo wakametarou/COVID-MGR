@@ -1,0 +1,42 @@
+name: test
+on: [push]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    docker:
+      - image: circleci/ruby:3.0
+      - image: circleci/mysql:5.5
+        environment:
+          MYSQL_ROOT_PASSWORD: "password"
+          MYSQL_DATABASE: myapp_test
+          MYSQL_USER: root
+    working_directory: ~/COVID-MGR
+    steps:
+      # - uses: actions/checkout@v2
+      - name: test
+        run: bundle exec rspec
+
+  # test:
+    # docker:
+    #   - image: circleci/ruby:2.7
+    #   - image: circleci/mysql:5.5
+    #     environment:
+    #       MYSQL_ROOT_PASSWORD: "password"
+    #       MYSQL_DATABASE: app_test
+    #       MYSQL_USER: root
+    # environment:
+    #   BUNDLE_JOBS: "3"
+    #   BUNDLE_RETRY: "3"
+    #   APP_DATABASE_HOST: "127.0.0.1"
+    #   RAILS_ENV: test
+    # working_directory: ~/COVID-Mgr/src
+    # steps:
+    #   - checkout:
+    #       path: ~/COVID-Mgr
+    #   - ruby/install-deps
+    #   - run:
+    #       name: Database setup
+    #       command: bundle exec rails db:migrate
+    #   - run:
+    #       name: test
+    #       command: bundle exec rake test
