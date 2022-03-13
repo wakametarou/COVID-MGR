@@ -13,7 +13,7 @@ jobs:
     # working_directory: ~/COVID-MGR
     steps:
       - uses: actions/checkout@v2
-      - name: test
+      - name: Run rspec
         run: bundle exec rspec
 
   # test:
