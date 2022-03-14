@@ -11,7 +11,8 @@ jobs:
       shell: bash
       run: |
         docker-compose build
-        docker-compose run api rails db:create
+        docker-compose up
+        docker-compose exec api rails db:create
       env:
         RAILS_ENV: test
 

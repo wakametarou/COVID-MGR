@@ -20,7 +20,7 @@ services:
       - ./backend/vendor/bundle:/myapp/vendor/bundle
     environment:
       TZ: Asia/Tokyo
-      # RAILS_ENV: development
+      RAILS_ENV: development
     ports:
       - "3001:3000"
     depends_on:
