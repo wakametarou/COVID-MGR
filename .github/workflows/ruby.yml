@@ -7,10 +7,16 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Setup docker
+    - name: Setup docker build
       shell: bash
       run: |
         docker-compose build
+      env:
+        RAILS_ENV: test
+
+    - name: Setup docker db:create
+      shell: bash
+      run: |
         docker-compose run api rails db:create
       env:
         RAILS_ENV: test
