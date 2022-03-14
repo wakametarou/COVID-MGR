@@ -1,5 +1,6 @@
 name: Test
 on: [push]
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -9,8 +10,6 @@ jobs:
     - name: Setup docker
       shell: bash
       run: |
-        docker-compose run api yarn install --check-files
-        docker-compose run api yarn upgrade
         docker-compose build
         docker-compose run api rake db:create
       env:
@@ -22,6 +21,9 @@ jobs:
         docker-compose run api bundle exec rspec
       env:
         RAILS_ENV: test
+
+
+
       # - uses: ruby/setup-ruby@v1
       #   with:
       #     ruby-version: 3.0.3
