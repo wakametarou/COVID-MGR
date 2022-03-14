@@ -11,8 +11,8 @@ jobs:
       shell: bash
       run: |
         docker-compose build
-        docker-compose run mysql
         docker-compose run api rake db:create
+        docker-compose up
       env:
         RAILS_ENV: test
 
