@@ -8,6 +8,7 @@ ENV TZ Asia/Tokyo
 RUN mkdir $APP_PATH
 WORKDIR $APP_PATH
 
+RUN gem install rails
 COPY Gemfile $APP_PATH/Gemfile
 COPY Gemfile.lock $APP_PATH/Gemfile.lock
 RUN bundle install
