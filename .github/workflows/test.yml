@@ -3,9 +3,10 @@ on: [push]
 jobs:
   test:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2
-      - name: Setup docker
+    - uses: actions/checkout@v2
+    - name: Setup docker
       shell: bash
       run: |
         docker-compose run api yarn install --check-files
@@ -15,12 +16,12 @@ jobs:
       env:
         RAILS_ENV: test
 
-      - name: Run RSpec
-        shell: bash
-        run:  |
-          docker-compose run app bundle exec rspec
-        env:
-          RAILS_ENV: test
+    - name: Run RSpec
+      shell: bash
+      run:  |
+        docker-compose run app bundle exec rspec
+      env:
+        RAILS_ENV: test
       # - uses: ruby/setup-ruby@v1
       #   with:
       #     ruby-version: 3.0.3
