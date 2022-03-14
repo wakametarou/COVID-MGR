@@ -19,7 +19,7 @@ jobs:
     - name: Run RSpec
       shell: bash
       run:  |
-        docker-compose run app bundle exec rspec
+        docker-compose run api bundle exec rspec
       env:
         RAILS_ENV: test
       # - uses: ruby/setup-ruby@v1
