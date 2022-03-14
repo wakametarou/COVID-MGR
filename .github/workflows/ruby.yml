@@ -13,6 +13,7 @@ jobs:
         docker-compose build
         docker-compose up
         docker-compose exec api rails db:create
+        docker-compose down
       env:
         RAILS_ENV: test
 
