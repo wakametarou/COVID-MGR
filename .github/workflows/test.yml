@@ -1,27 +1,80 @@
 name: Test
 on: [push]
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
 
-    steps:
-    - uses: actions/checkout@v2
-    - name: Setup docker
-      shell: bash
-      run: |
-        docker-compose build
-        docker-compose run api yarn install --check-files
-        docker-compose run api yarn upgrade
-        docker-compose run api rake db:create
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_USER: root
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+    container:
+      image: ruby:3.0.3
       env:
         RAILS_ENV: test
 
-    - name: Run RSpec
-      shell: bash
-      run:  |
-        docker-compose run app bundle exec rspec
-      env:
-        RAILS_ENV: test
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/cache@v1
+        with:
+          path: vendor/bundle
+          key: bundle-${{ hashFiles('**/Gemfile.lock') }}
+      - uses: actions/cache@v1
+        with:
+          path: node_modules
+          key: yarn-${{ hashFiles('**/yarn.lock') }}
+      - name: Set up yarn and node
+        run: |
+          curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+          echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+          curl -sL https://deb.nodesource.com/setup_12.x | bash -
+          apt install -y yarn nodejs
+      - name: Install chrome
+        run: |
+          wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add -
+          echo 'deb http://dl.google.com/linux/chrome/deb/ stable main' | tee /etc/apt/sources.list.d/google-chrome.list
+          apt update -y
+          apt install -y google-chrome-stable
+      - name: bundle install
+        run: |
+          gem install bundler
+          bundle install --path vendor/bundle --quiet --jobs 4 --retry 3
+      - name: yarn install
+        run: yarn install
+      - name: set database.yml
+        run: cp -v config/database.ci.yml config/database.yml
+      - name: db create
+        run: bundle exec rails db:create db:schema:load --trace
+      - name: run rspec
+        run: bundle exec rspec
+
+      - name: Archive rspec result screenshots
+        if: failure()
+        uses: actions/upload-artifact@v1
+        with:
+          name: rspec result screenshots
+          path: tmp/screenshots/
+
+    # steps:
+    # - uses: actions/checkout@v2
+    # - name: Setup docker
+    #   shell: bash
+    #   run: |
+    #     docker-compose build
+    #     docker-compose run api yarn install --check-files
+    #     docker-compose run api yarn upgrade
+    #     docker-compose run api rake db:create
+    #   env:
+    #     RAILS_ENV: test
+
+    # - name: Run RSpec
+    #   shell: bash
+    #   run:  |
+    #     docker-compose run app bundle exec rspec
+    #   env:
+    #     RAILS_ENV: test
       # - uses: ruby/setup-ruby@v1
       #   with:
       #     ruby-version: 3.0.3
