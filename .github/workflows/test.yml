@@ -3,7 +3,6 @@ on: [push]
 jobs:
   test:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
       
@@ -16,7 +15,6 @@ jobs:
         docker-compose run app rake db:create
       env:
         RAILS_ENV: test
-
       - name: Run RSpec
         shell: bash
         run:  |
