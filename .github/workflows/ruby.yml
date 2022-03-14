@@ -10,9 +10,9 @@ jobs:
     - name: Setup docker
       shell: bash
       run: |
-        docker-compose.test build
-        docker-compose.test run api rake db:create
-        docker-compose.test up
+        docker-compose-test build
+        docker-compose-test run api rake db:create
+        docker-compose-test up
       env:
         RAILS_ENV: test
 
