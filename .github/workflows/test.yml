@@ -9,6 +9,8 @@ jobs:
     - name: Setup docker
       shell: bash
       run: |
+        docker-compose run api yarn install --check-files
+        docker-compose run api yarn upgrade
         docker-compose build
         docker-compose run api rake db:create
       env:
