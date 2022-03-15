@@ -7,13 +7,15 @@ jobs:
     services:
       db:
         image: mysql:8.0
+        ports:
+          - 3306:3306
         env:
-          MYSQL_ROOT_PASSWORD: password
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+          MYSQL_ROOT_PASSWORD:
+          MYSQL_DATABASE: my_app
+          MYSQL_USER: root
+          MYSQL_PASSWORD: 
+          MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+        options: --health-cmd "mysqladmin ping -h localhost" --health-interval 20s --health-timeout 10s --health-retries 10
 
     container:
       image: ruby:3.0.3
