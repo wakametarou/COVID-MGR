@@ -7,7 +7,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Setup docker 
-      shell: bash
       run: |
         docker-compose build
         docker-compose run api rails db:create
