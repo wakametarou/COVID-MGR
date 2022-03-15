@@ -55,10 +55,11 @@ jobs:
         echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
         apt update && apt install yarn
     - name: Install Bundler
-      # run: gem install bundler --no-document -v $(grep "BUNDLED WITH" -1 Gemfile.lock | tail -n 1)
-      uses: ruby/setup-ruby@359bebbc29cbe6c87da6bc9ea3bc930432750108
-      with:
-        ruby-version: '3.0.3'
+      run: gem install bundler
+      # --no-document -v $(grep "BUNDLED WITH" -1 Gemfile.lock | tail -n 1)
+      # uses: ruby/setup-ruby@359bebbc29cbe6c87da6bc9ea3bc930432750108
+      # with:
+      #   ruby-version: '3.0.3'
     - name: Bundle install
       run: bundle install --path=vendor/bundle --jobs 4 --retry 3
     - name: Yarn install
