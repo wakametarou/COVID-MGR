@@ -23,8 +23,8 @@ jobs:
     #     RAILS_ENV: test
         # DATABASE_HOST: mysql
 
-    # steps:
-    # - uses: actions/checkout@v2
+    steps:
+    - uses: actions/checkout@v2
     # - name: Cache node modules
     #   uses: actions/cache@v2
     #   env:
