@@ -19,10 +19,13 @@ jobs:
     container:
       using: 'docker'
       image: 'Dockerfile'
+      args:
+        - ${{ inputs.who-to-greet }}
+
       # image: ruby:3.0.3
-      env:
-        RAILS_ENV: test
-        DATABASE_HOST: mysql
+      # env:
+      #   RAILS_ENV: test
+      #   DATABASE_HOST: mysql
 
     steps:
     - uses: actions/checkout@v2
