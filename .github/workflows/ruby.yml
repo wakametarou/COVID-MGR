@@ -7,7 +7,7 @@ jobs:
     services:
       db:
         image: mysql:8.0
-        envi:
+        env:
           MYSQL_ROOT_PASSWORD: root_password
           # MYSQL_DATABASE: foo
           # MYSQL_USER: user1
@@ -16,7 +16,7 @@ jobs:
       image: ruby:3.0.3
       env:
         RAILS_ENV: test
-        DATABASE_HOST: mysql
+        DATABASE_HOST: db
 
     steps:
     - uses: actions/checkout@v2
