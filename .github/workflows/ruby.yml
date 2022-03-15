@@ -6,16 +6,18 @@ jobs:
     runs-on: ubuntu-latest
     services:
       mysql:
-        image: mysql:8.0
+        image: mysql:8
         ports:
           - 3306:3306
         env:
-          # MYSQL_ROOT_PASSWORD: password
+          MYSQL_ROOT_PASSWORD: root
           # MYSQL_DATABASE: myapp
           MYSQL_USER: root
-          # MYSQL_PASSWORD: password
-          MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
-        options: --health-cmd "mysqladmin ping -h localhost" --health-interval 20s --health-timeout 10s --health-retries 10
+          MYSQL_PASSWORD: password
+          MYSQL_DATABASE: db
+          TZ: "Asia/Tokyo"
+          # MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+        options: --health-cmd "mysqladmin ping -h 0.0.0.0" --health-interval 20s --health-timeout 10s --health-retries 10
 
     # container:
     #   image: ruby:3.0.3
