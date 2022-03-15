@@ -10,10 +10,19 @@ jobs:
       shell: bash
       run: |
         docker-compose build
-        docker-compose down
+      env:
+        RAILS_ENV: development
+
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v3
+
+    - name: Setup docker db:create
+      shell: bash
+      run: |
         docker-compose run api rails db:create
       env:
         RAILS_ENV: development
+
     - name: Run RSpec
       shell: bash
       run: |
