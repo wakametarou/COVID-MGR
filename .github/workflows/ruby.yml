@@ -13,8 +13,12 @@ jobs:
       env:
         RAILS_ENV: development
 
-    - name: Setup tmate session
-      uses: mxschmitt/action-tmate@v3
+    - name: Setup mysql
+      shell: bash
+      run: |
+        sudo /etc/init.d/mysql start
+      env:
+        RAILS_ENV: development
 
     - name: Setup docker db:create
       shell: bash
