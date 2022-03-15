@@ -11,19 +11,17 @@ jobs:
           - 3306:3306
         env:
           MYSQL_ROOT_PASSWORD: root
-          # MYSQL_DATABASE: myapp
           MYSQL_USER: user
           MYSQL_PASSWORD: password
           MYSQL_DATABASE: db
           TZ: "Asia/Tokyo"
-          # MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
         options: --health-cmd "mysqladmin ping -h 0.0.0.0" --health-interval 20s --health-timeout 10s --health-retries 10
 
-    # container:
-    #   image: ruby:3.0.3
-    #   env:
-    #     RAILS_ENV: test
-        # DATABASE_HOST: mysql
+    container:
+      image: ruby:3.0.3
+      env:
+        RAILS_ENV: test
+        DATABASE_HOST: mysql
 
     steps:
     - uses: actions/checkout@v2
