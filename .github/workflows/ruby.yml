@@ -6,26 +6,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Setup docker build
+    - name: Setup docker 
       shell: bash
       run: |
         docker-compose build
-      env:
-        RAILS_ENV: development
-
-    - name: Setup mysql
-      shell: bash
-      run: |
-        sudo /etc/init.d/mysql start
-      env:
-        RAILS_ENV: development
-
-    - name: Setup docker db:create
-      shell: bash
-      run: |
         docker-compose run api rails db:create
-      env:
-        RAILS_ENV: development
 
     - name: Run RSpec
       shell: bash
