@@ -55,7 +55,8 @@ jobs:
         apt update && apt install yarn
 
     - name: Install Bundler
-      run: gem install bundler --no-document -v $(grep "BUNDLED WITH" -1 Gemfile.lock | tail -n 1)
+      run: gem install bundler
+      # --no-document -v $(grep "BUNDLED WITH" -1 Gemfile.lock | tail -n 1)
     - name: Bundle install
       run: |
         cd backend
