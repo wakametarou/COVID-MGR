@@ -55,7 +55,7 @@ jobs:
         echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
         apt update && apt install yarn
     - name: Install Bundler
-      run: gem install bundler --no-document -v $(grep "BUNDLED WITH" -1 Gemfile.lock | tail -n 1)
+      run: docker-compose run api gem install bundler --no-document -v $(grep "BUNDLED WITH" -1 Gemfile.lock | tail -n 1)
     - name: Bundle install
       run: bundle install --path=vendor/bundle --jobs 4 --retry 3
     - name: Yarn install
