@@ -5,7 +5,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     services:
-      db:
+      mysql:
         image: mysql:8.0
         ports:
           - 3306:3306
@@ -21,7 +21,7 @@ jobs:
       image: ruby:3.0.3
       env:
         RAILS_ENV: test
-        DATABASE_HOST: db
+        DATABASE_HOST: mysql
 
     steps:
     - uses: actions/checkout@v2
