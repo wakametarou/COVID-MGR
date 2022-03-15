@@ -8,7 +8,10 @@ jobs:
       db:
         image: mysql:8.0
       envi:
-        MYSQL_ROOT_PASSWORD: password
+        MYSQL_ROOT_PASSWORD: root_password
+        # MYSQL_DATABASE: foo
+        # MYSQL_USER: user1
+        # MYSQL_PASSWORD: user1_password
     container:
       image: ruby:3.0.3
       env:
