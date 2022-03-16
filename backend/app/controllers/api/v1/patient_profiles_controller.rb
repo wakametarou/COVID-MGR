@@ -5,7 +5,7 @@ class Api::V1::PatientProfilesController < ApplicationController
     data = {}
     case current_api_v1_user.patient_or_doctor
     when true
-      if patient_profile = PatientProfile.find_by(user_id: current_api_v1_user.id)
+      if patient_profile == PatientProfile.find_by(user_id: current_api_v1_user.id)
         profile = {
           image: patient_profile.image.url,
           room_number: patient_profile.room_number,
@@ -16,13 +16,11 @@ class Api::V1::PatientProfilesController < ApplicationController
         }
         data[:profile] = profile
       end
-      if interview = Interview.find_by(user_id: current_api_v1_user.id)
-        data[:interview] = interview.user_id
-      end
-      data = { status: 404 } if data.empty?
-      render json: data
+      data[:interview] = interview.user_id
+      data = { status: 404 } if interview == Interview.find_by(user_id: current_api_v1_user.id)
+      render json: data if data.empty?
     when false
-      render json: data = { status: 401 }
+      render json: { status: 401 }
     else
       render json: { status: 404 }
     end
@@ -30,8 +28,8 @@ class Api::V1::PatientProfilesController < ApplicationController
 
   def create
     patient_profile = PatientProfile.new(patient_profile_params)
-    puts 'patient_profile_params'
-    puts patient_profile_params
+    Rails.logger.debug 'patient_profile_params'
+    Rails.logger.debug patient_profile_params
     if patient_profile.save
       render json: patient_profile
     else

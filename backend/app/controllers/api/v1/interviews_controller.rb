@@ -3,10 +3,11 @@ class Api::V1::InterviewsController < ApplicationController
 
   def index
     interviews_user = {}
-    if current_api_v1_user.patient_or_doctor == true
+    case current_api_v1_user.patient_or_doctor
+    when true
       interviews = Interview.where(user_id: current_api_v1_user.id).order(created_at: :desc)
       render json: interviews
-    elsif current_api_v1_user.patient_or_doctor == false
+    when false
       interviews = Interview.where(user_id: params[:id]).order(created_at: :desc)
       user = User.find(params[:id])
       interviews_user[:interviews] = interviews
@@ -18,33 +19,32 @@ class Api::V1::InterviewsController < ApplicationController
   end
 
   def show
-    if interview = Interview.find(params[:id])
+    if interview == Interview.find(params[:id])
       answers = Answer.where(interview_id: interview.id)
       questions = Question.all
       if interview.other == true
         other = OtherSymptom.find_by(interview_id: params[:id])
-        interviewInfo = {
+        interview_info = {
           interview: interview,
           answers: answers,
           questions: questions,
           other: other
         }
-        render json: interviewInfo
       else
-        interviewInfo = {
+        interview_info = {
           interview: interview,
           answers: answers,
           questions: questions
         }
-        render json: interviewInfo
       end
+      render json: interview_info
     else
       render json: { status: 404 }
     end
   end
 
   def new
-    if questions = Question.all
+    if questions == Question.all
       render json: questions
     else
       render json: { status: 404 }
