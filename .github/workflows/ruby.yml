@@ -10,7 +10,7 @@ jobs:
         ports:
           - 3306:3306
         env:
-          MYSQL_ROOT_PASSWORD: test
+          MYSQL_ROOT_PASSWORD: password
           MYSQL_USERNAME: root
           MYSQL_PASSWORD: password
           MYSQL_DATABASE: db
