@@ -1,26 +1,13 @@
-name: Rspec
+name: Rubocop
 on: [push]
 
 jobs:
-  spec:
+  rubocop:
     runs-on: ubuntu-latest
-    services:
-      db:
-        image: mysql:8
-        ports:
-          - 3306:3306
-        env:
-          MYSQL_ROOT_PASSWORD: password
-          MYSQL_USERNAME: root
-          MYSQL_PASSWORD: password
-          MYSQL_DATABASE: db
-          TZ: "Asia/Tokyo"
-        options: --health-cmd "mysqladmin ping -h 0.0.0.0" --health-interval 20s --health-timeout 10s --health-retries 10
     container:
       image: ruby:3.0.3
       env:
         RAILS_ENV: test
-        MYSQL_HOST: db
 
     steps:
     - uses: actions/checkout@v2
@@ -60,9 +47,6 @@ jobs:
       run: |
         bundle install
       working-directory: ./backend
-    - name: DB setup
-      run: bundle exec rails db:migrate:reset
-      working-directory: ./backend
-    - name: Run rspec
-      run: bundle exec rspec
+    - name: Run rubocop
+      run: bundle exec bundle exec rubocop
       working-directory: ./backend
