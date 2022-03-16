@@ -1,7 +1,5 @@
 name: Rspec
-on:
-  pull_request:  
-    types: [opened]
+on: [push]
 
 jobs:
   spec:

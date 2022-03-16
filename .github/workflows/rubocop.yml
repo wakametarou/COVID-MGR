@@ -1,7 +1,5 @@
 name: Rubocop
-on:
-  pull_request:  
-    types: [opened]
+on: [push]
 
 jobs:
   rubocop:
