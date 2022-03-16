@@ -1,8 +1,10 @@
 name: Rspec
-on: [push]
+on:
+  pull_request:  
+    types: [opened]
 
 jobs:
-  build:
+  spec:
     runs-on: ubuntu-latest
     services:
       db:
@@ -66,115 +68,3 @@ jobs:
     - name: Run rspec
       run: bundle exec rspec
       working-directory: ./backend
-
-
-
-    # steps:
-    #   - name: Checkout code
-    #     uses: actions/checkout@v2
-      # - name: Set up Ruby
-      #   uses: ruby/setup-ruby@v1
-      #   with:
-      #     bundler-cache: true
-      # - name: Cache node modules
-      #   uses: actions/cache@v2
-      #   with:
-      #     path: node_modules
-      #     key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-node-
-      # - name: Bundler and gem install
-      #   run: |
-      #     gem install bundler
-      #     bundle install --jobs 4 --retry 3 --path vendor/bundle
-      # - name: Yarn install
-      #   run: yarn install --check-files
-      # - name: Database create and migrate
-      #   run: |
-      #     cp config/database.yml.ci config/database.yml
-      #     bundle exec rails db:create RAILS_ENV=test
-      #     bundle exec rails db:migrate RAILS_ENV=test
-      # - name: Run rspec
-      #   run: bundle exec rspec
-
-  # rubocop:
-  #   runs-on: ubuntu-latest
-  #   timeout-minutes: 10
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v2
-
-  #     - name: Set up Ruby
-  #       uses: ruby/setup-ruby@v1
-  #       with:
-  #         bundler-cache: true
-
-  #     - name: Run rubocop
-  #       run: bundle exec rubocop
-
-    # container:
-    #   image: ruby:3.0.3
-    #   env:
-    #     RAILS_ENV: test
-    #     DATABASE_HOST: mysql
-
-    
-
-
-
-
-
-
-
-
-
-
-
-    # - name: Setup docker 
-    #   shell: bash
-    #   run: |
-    #     docker-compose build
-    #     docker-compose run api rails db:create
-
-    # - name: Run RSpec
-    #   shell: bash
-    #   run: |
-    #     docker-compose run api bundle exec rspec
-    #   env:
-    #     RAILS_ENV: test
-
-
-
-      # - uses: ruby/setup-ruby@v1
-      #   with:
-      #     ruby-version: 3.0.3
-
-      # - name: Run bundle install
-      #   run: |
-      #     bundle config --local path vendor/bundle
-      #     bundle config --local without production
-      #     bundle install
-
-      # - run: RAILS_ENV=test bundle exec rails assets:precompile
-
-      # - run: bundle exec rails rspec
-
-# - name: Setup docker
-#       shell: bash
-#       run: |
-#         # 必要なアップデート
-#         docker-compose run app yarn install --check-files
-#         docker-compose run app yarn upgrade
-#         # イメージのビルド
-#         docker-compose build
-#         # データベースの作成
-#         docker-compose run app rake db:create
-#       env:
-#         RAILS_ENV: test
-
-#     - name: Run RSpec
-#       shell: bash
-#       run:  |
-#         docker-compose run app bundle exec rspec
-#       env:
-#         RAILS_ENV: test
