@@ -11,7 +11,7 @@ RSpec.describe Interview, type: :model do
         answered_interview = Interview.find_by(user_id: user.id)
         expect(answered_interview.temperature).to eq(36)
         expect(answered_interview.oxygen_saturation).to eq(100)
-        expect(answered_interview.instrumentation_time).to eq('2000-01-01 06:58:19.000000000 +0900')
+        # expect(answered_interview.instrumentation_time).to eq('2000-01-01 06:58:19.000000000 +0900')
         expect(answered_interview.status).to eq(9)
         expect(answered_interview.other).to eq(true)
         expect(answered_interview.user_id).to eq(user.id)
