@@ -64,5 +64,5 @@ jobs:
     #   run: bundle exec rails db:migrate:reset
     #   working-directory: ./backend
     - name: Run rubocop
-      run: bundle exec bundle exec rubocop -a
+      run: bundle exec bundle exec rubocop
       # working-directory: ./backend
