@@ -19,7 +19,7 @@ class Api::V1::InterviewsController < ApplicationController
   end
 
   def show
-    if interview == Interview.find(params[:id])
+    if interview ||= Interview.find(params[:id])
       answers = Answer.where(interview_id: interview.id)
       questions = Question.all
       if interview.other == true
@@ -44,7 +44,7 @@ class Api::V1::InterviewsController < ApplicationController
   end
 
   def new
-    if questions == Question.all
+    if questions ||= Question.all
       render json: questions
     else
       render json: { status: 404 }
