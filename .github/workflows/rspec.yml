@@ -65,7 +65,7 @@ jobs:
       working-directory: ./backend
     - name: Run rspec
       run: bundle exec rspec
-      # working-directory: ./backend
+      working-directory: ./backend
 
 
 
