@@ -11,8 +11,8 @@ jobs:
           - 3306:3306
         env:
           # MYSQL_ROOT_PASSWORD: root
-          # MYSQL_USER: user
-          # MYSQL_PASSWORD: password
+          MYSQL_USERNAME: root
+          MYSQL_PASSWORD: password
           MYSQL_DATABASE: db
           TZ: "Asia/Tokyo"
         options: --health-cmd "mysqladmin ping -h 0.0.0.0" --health-interval 20s --health-timeout 10s --health-retries 10
