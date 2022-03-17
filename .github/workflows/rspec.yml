@@ -1,5 +1,5 @@
 name: Rspec
-on: [push]
+# on: [push]
 
 jobs:
   spec:
