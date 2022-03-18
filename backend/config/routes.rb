@@ -22,4 +22,5 @@ Rails.application.routes.draw do
       get 'users/show'
     end
   end
+  get '/health' => 'elb#health'
 end
