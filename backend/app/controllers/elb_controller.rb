@@ -1,5 +1,5 @@
 class ElbController < ApplicationController
   def health
-    render text:'ok'
+    render json: 'Health ok'
   end
 end
