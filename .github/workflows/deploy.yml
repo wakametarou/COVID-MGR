@@ -12,6 +12,9 @@ jobs:
       TAG: ${{ github.sha }}
     steps:
       - uses: actions/checkout@v2
+      - uses: kayac/ecspresso@v1
+        with:
+          version: v1.7.10
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -35,3 +38,7 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$TAG"
         working-directory: ./backend
+
+      - name: deploy
+        run: |
+          ecspresso deploy --config deploy/config.yaml
