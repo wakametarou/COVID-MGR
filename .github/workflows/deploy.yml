@@ -43,4 +43,3 @@ jobs:
       - name: deploy
         run: |
           ecspresso deploy --config deploy/config.yaml
-        working-directory: ./backend
