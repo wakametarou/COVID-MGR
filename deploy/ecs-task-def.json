@@ -65,7 +65,6 @@
       "volumesFrom": []
     }
   ],
-  "executionRoleArn": "arn:aws:iam::231200130686:role/sample-ecs-task-role",
   "family": "sample-service",
   "networkMode": "bridge",
   "placementConstraints": [],
