@@ -12,29 +12,7 @@
         "0.0.0.0"
       ],
       "cpu": 333,
-      "environment": [],
-      "essential": true,
-      "image": "231200130686.dkr.ecr.ap-northeast-1.amazonaws.com/sample-image:latest",
-      "logConfiguration": {
-        "logDriver": "awslogs",
-        "options": {
-          "awslogs-group": "sample-service",
-          "awslogs-region": "ap-northeast-1",
-          "awslogs-stream-prefix": "service"
-        }
-      },
-      "memoryReservation": 600,
-      "mountPoints": [],
-      "name": "sample-webapp",
-      "portMappings": [
-        {
-          "containerPort": 3000,
-          "hostPort": 0,
-          "protocol": "tcp"
-        }
-      ],
-      "volumesFrom": [],
-      "secrets": [
+      "environment": [
         {
           "name": "RAILS_MASTER_KEY",
           "valueFrom": "/sample/RAILS_MASTER_KEY"
@@ -63,7 +41,28 @@
           "name": "DB_HOST",
           "valueFrom": "/sample/DB_HOST"
         }
-      ]
+      ],
+      "essential": true,
+      "image": "231200130686.dkr.ecr.ap-northeast-1.amazonaws.com/sample-image:latest",
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "sample-service",
+          "awslogs-region": "ap-northeast-1",
+          "awslogs-stream-prefix": "service"
+        }
+      },
+      "memoryReservation": 600,
+      "mountPoints": [],
+      "name": "sample-webapp",
+      "portMappings": [
+        {
+          "containerPort": 3000,
+          "hostPort": 0,
+          "protocol": "tcp"
+        }
+      ],
+      "volumesFrom": []
     }
   ],
   "family": "sample-service",
