@@ -15,11 +15,31 @@
       "environment": [
         {
           "name": "RAILS_MASTER_KEY",
-          "value": "f3b59b39be91f577e6d279400d5a6f46"
+          "valueFrom": "/sample/RAILS_MASTER_KEY"
         },
         {
           "name": "RAILS_ENV",
-          "value": "production"
+          "valueFrom": "/sample/RAILS_ENV"
+        },
+        {
+          "name": "DB_NAME",
+          "valueFrom": "/sample/DB_NAME"
+        },
+        {
+          "name": "DB_USER",
+          "valueFrom": "/sample/DB_USER"
+        },
+        {
+          "name": "DB_PASSWORD",
+          "valueFrom": "/sample/DB_PASSWORD"
+        },
+        {
+          "name": "DB_PORT",
+          "valueFrom": "/sample/DB_PORT"
+        },
+        {
+          "name": "DB_HOST",
+          "valueFrom": "/sample/DB_HOST"
         }
       ],
       "essential": true,
@@ -44,6 +64,14 @@
       ],
       "secrets": [
         {
+          "name": "RAILS_MASTER_KEY",
+          "valueFrom": "/sample/RAILS_MASTER_KEY"
+        },
+        {
+          "name": "RAILS_ENV",
+          "valueFrom": "/sample/RAILS_ENV"
+        },
+        {
           "name": "DB_NAME",
           "valueFrom": "/sample/DB_NAME"
         },
@@ -67,7 +95,6 @@
       "volumesFrom": []
     }
   ],
-  "executionRoleArn": "arn:aws:iam::231200130686:role/sample-ecs-task-role",
   "family": "sample-service",
   "networkMode": "bridge",
   "placementConstraints": [],
