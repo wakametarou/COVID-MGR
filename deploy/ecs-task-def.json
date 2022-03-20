@@ -33,7 +33,6 @@
           "protocol": "tcp"
         }
       ],
-      "volumesFrom": [],
       "secrets": [
         {
           "name": "RAILS_MASTER_KEY",
@@ -63,13 +62,14 @@
           "name": "DB_HOST",
           "valueFrom": "/sample/DB_HOST"
         }
-      ]
+      ],
+      "volumesFrom": []
     }
   ],
+  "executionRoleArn": "arn:aws:iam::231200130686:role/sample-ecs-task-role",
   "family": "sample-service",
   "networkMode": "bridge",
   "placementConstraints": [],
   "taskRoleArn": "arn:aws:iam::231200130686:role/sample-ecs-task-role",
-  "executionRoleArn": "arn:aws:iam::231200130686:role/sample-ecs-task-role",
   "volumes": []
 }
