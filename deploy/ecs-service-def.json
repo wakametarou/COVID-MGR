@@ -8,8 +8,8 @@
     "minimumHealthyPercent": 100
   },
   "desiredCount": 1,
-  "enableECSManagedTags": false,
-  "enableExecuteCommand": false,
+  "enableECSManagedTags": true,
+  "enableExecuteCommand": true,
   "healthCheckGracePeriodSeconds": 0,
   "launchType": "EC2",
   "loadBalancers": [
