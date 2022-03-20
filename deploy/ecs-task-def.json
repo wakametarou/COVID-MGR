@@ -12,16 +12,7 @@
         "0.0.0.0"
       ],
       "cpu": 333,
-      "environment": [
-        {
-          "name": "RAILS_MASTER_KEY",
-          "valueFrom": "/sample/RAILS_MASTER_KEY"
-        },
-        {
-          "name": "RAILS_ENV",
-          "valueFrom": "/sample/RAILS_ENV"
-        }
-      ],
+      "environment": [],
       "essential": true,
       "image": "231200130686.dkr.ecr.ap-northeast-1.amazonaws.com/sample-image:latest",
       "logConfiguration": {
@@ -43,6 +34,14 @@
         }
       ],
       "secrets": [
+        {
+          "name": "RAILS_MASTER_KEY",
+          "valueFrom": "/sample/RAILS_MASTER_KEY"
+        },
+        {
+          "name": "RAILS_ENV",
+          "valueFrom": "/sample/RAILS_ENV"
+        },
         {
           "name": "DB_NAME",
           "valueFrom": "/sample/DB_NAME"
