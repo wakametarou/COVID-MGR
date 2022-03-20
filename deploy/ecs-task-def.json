@@ -15,31 +15,31 @@
       "environment": [
         {
           "name": "RAILS_MASTER_KEY",
-          "valueFrom": "/sample/RAILS_MASTER_KEY"
+          "value": "RAILS_MASTER_KEY"
         },
         {
           "name": "RAILS_ENV",
-          "valueFrom": "/sample/RAILS_ENV"
+          "valueFrom": "RAILS_ENV"
         },
         {
           "name": "DB_NAME",
-          "valueFrom": "/sample/DB_NAME"
+          "valueFrom": "DB_NAME"
         },
         {
           "name": "DB_USER",
-          "valueFrom": "/sample/DB_USER"
+          "valueFrom": "DB_USER"
         },
         {
           "name": "DB_PASSWORD",
-          "valueFrom": "/sample/DB_PASSWORD"
+          "valueFrom": "DB_PASSWORD"
         },
         {
           "name": "DB_PORT",
-          "valueFrom": "/sample/DB_PORT"
+          "valueFrom": "DB_PORT"
         },
         {
           "name": "DB_HOST",
-          "valueFrom": "/sample/DB_HOST"
+          "valueFrom": "DB_HOST"
         }
       ],
       "essential": true,
