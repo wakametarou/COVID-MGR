@@ -50,8 +50,8 @@ test:
 #
 production:
   <<: *default
-  database: <%= ENV['DB_NAME'] %>
-  username: <%= ENV['DB_USER'] %>
+  database: <%= ENV.fetch("DB_NAME") { "sample-db" } %>
+  username: <%= ENV.fetch("DB_USER") { "admin" } %>
   password: <%= ENV['DB_PASSWORD'] %>
   port: <%= ENV['DB_PORT'] %>
   host: <%= ENV['DB_HOST'] %>
