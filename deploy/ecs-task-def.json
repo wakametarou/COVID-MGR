@@ -12,7 +12,16 @@
         "0.0.0.0"
       ],
       "cpu": 333,
-      "environment": [],
+      "environment": [
+        {
+          "name": "RAILS_MASTER_KEY",
+          "value": "f3b59b39be91f577e6d279400d5a6f46"
+        },
+        {
+          "name": "RAILS_ENV",
+          "value": "production"
+        }
+      ],
       "essential": true,
       "image": "231200130686.dkr.ecr.ap-northeast-1.amazonaws.com/sample-image:latest",
       "logConfiguration": {
@@ -34,14 +43,6 @@
         }
       ],
       "secrets": [
-        {
-          "name": "RAILS_MASTER_KEY",
-          "valueFrom": "/sample/RAILS_MASTER_KEY"
-        },
-        {
-          "name": "RAILS_ENV",
-          "valueFrom": "/sample/RAILS_ENV"
-        },
         {
           "name": "DB_NAME",
           "valueFrom": "/sample/DB_NAME"
@@ -66,7 +67,6 @@
       "volumesFrom": []
     }
   ],
-  "executionRoleArn": "arn:aws:iam::231200130686:role/sample-ecs-task-role",
   "family": "sample-service",
   "networkMode": "bridge",
   "placementConstraints": [],
