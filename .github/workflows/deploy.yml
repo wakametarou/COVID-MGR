@@ -1,9 +1,10 @@
 name: Deploy
-on:
-  pull_request:
-    branches:
-      - main
-    types: [closed]
+# on:
+#   pull_request:
+#     branches:
+#       - main
+#     types: [closed]
+on: [push]
 
 jobs:
   deploy:
@@ -39,6 +40,6 @@ jobs:
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$TAG"
         working-directory: ./backend
 
-      - name: deploy
-        run: |
-          ecspresso deploy --config deploy/config.yaml
+      # - name: deploy
+      #   run: |
+      #     ecspresso deploy --config deploy/config.yaml
