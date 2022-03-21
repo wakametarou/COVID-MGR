@@ -19,6 +19,26 @@
 また医療従事者への取材を元に、問診や患者様の一覧を見た際に一目でどの患者様に対応すればいいかがわかるよう、
 最新の問診の結果から患者様の状態をレベル別で着色して判断できる状態確認機能を施しました。
 
+
+## 使用技術
+![My Skills](https://skillicons.dev/icons?i=ruby,rails,mysql,ts,react,materialui,docker,aws)
+### フロントエンド
+* React(17.0.2)
+* React hooks
+* TypeScript(4.5.5)
+* MaterialUI(v4)
+### バックエンド
+* Ruby on Rails(6.1.4.4)
+* Ruby (3.0.3)
+### DB
+* MySQL(8.0)
+### 開発環境、インフラ
+* Docker
+* Docker-compose
+* Github Actions
+* AWS(ECS(EC2), ECR, Route53, S3, CloudFront, RDS)
+* terraform(バックエンドの構成に使用)
+
 ## 機能紹介
 
 ### 患者様プロフィール機能 
@@ -50,3 +70,11 @@
 ### レスポンシブ対応
 
 患者様方は携帯電話での利用がメインになると考えられるのでレスポンシブ対応を行わせていただきました。
+
+## テスト
+
+## ER図
+
+## サイトマップ
+
+## インフラ構成図
