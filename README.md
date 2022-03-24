@@ -1,6 +1,9 @@
 # COVID-MGR
 ![1e9425494bae4f281694a577c83e7546](https://user-images.githubusercontent.com/60685052/159900254-3a0a98e4-72ac-48f7-800c-d8b61ef82003.jpeg)
 
+#### URL
+https://covid-mgr.com/
+
 ## COVID-MGRの目的
 
 当ページをご閲覧いただきありがとうございます。
