@@ -114,7 +114,7 @@
   * 私へのお問い合わせ機能(メール)
 
 ## ER図
-<img width="866" alt="04e8d339ebfce022e54d22809e255971" src="https://user-images.githubusercontent.com/60685052/159908692-e6b9f993-b919-4ff3-a812-b9b82947834d.png">
+<img width="864" alt="b5aa6cb722493ba95e537ebd362e06b5" src="https://user-images.githubusercontent.com/60685052/159911203-15444ead-5cc5-4b2d-ac6f-240373e662f3.png">
 
 ## サイトマップ
 <img width="698" alt="34421aebf0482ced637e06702a7e8b5f" src="https://user-images.githubusercontent.com/60685052/159908765-7f9ed50a-fd9e-45c9-b126-e95d84350dcf.png">
