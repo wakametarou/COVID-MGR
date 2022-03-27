@@ -127,4 +127,3 @@ https://covid-mgr.com/
 ## サイトマップ
 <img width="698" alt="34421aebf0482ced637e06702a7e8b5f" src="https://user-images.githubusercontent.com/60685052/159908765-7f9ed50a-fd9e-45c9-b126-e95d84350dcf.png">
 
-## インフラ構成図
