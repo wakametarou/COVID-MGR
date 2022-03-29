@@ -1,9 +1,8 @@
-import React, { useContext } from "react"
-import { useNavigate, Link } from "react-router-dom"
-import Cookies from "js-cookie"
+import React, { useContext } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import Cookies from "js-cookie";
 
-
-import { makeStyles, Theme } from "@material-ui/core/styles"
+import { makeStyles, Theme } from "@material-ui/core/styles";
 import {
   AppBar,
   Toolbar,
@@ -11,20 +10,20 @@ import {
   Button,
   Hidden,
   IconButton,
-} from "@material-ui/core"
-// import IconButton from "@material-ui/core/IconButton"
-import MenuIcon from "@material-ui/icons/Menu"
+  Menu,
+  MenuItem
+} from "@material-ui/core";
+import MenuIcon from "@material-ui/icons/Menu";
 
-import { theme } from "styles/layouts/Style"
-import { ThemeProvider } from "@material-ui/styles"
-import { HeaderButtons } from "./Button"
+import { theme } from "styles/layouts/Style";
+import { ThemeProvider } from "@material-ui/styles";
+import { HeaderButtons } from "./Button";
+// import { MenuContent } from "./Menu";
 
-import { signOut } from "lib/api/auth"
+import { signOut } from "lib/api/auth";
+import { AuthContext } from "App";
 
-import { AuthContext } from "App"
-
-
-import image from 'img/title-logo.png'
+import image from 'img/title-logo.png';
 
 const useStyles = makeStyles((theme: Theme) => ({
   iconButton: {
@@ -39,11 +38,19 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 
 const Header: React.FC = () => {
-  const { setIsSignedIn } = useContext(AuthContext)
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const { currentUser, isSignedIn, setIsSignedIn } = useContext(AuthContext)
   const classes = useStyles()
   const navigate = useNavigate()
 
-  const handleSignOut = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSignOut = async (e: React.MouseEvent<HTMLElement>) => {
     try {
       const res = await signOut()
 
@@ -87,14 +94,80 @@ const Header: React.FC = () => {
                 edge="start"
                 className={classes.iconButton}
                 color="inherit"
+                aria-controls="menu"
+                aria-haspopup="true"
+                onClick={handleClick}
               >
                 <MenuIcon />
               </IconButton>
+              <Menu
+                id="menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              >
+                {isSignedIn
+                  ?
+                  <>
+                    <MenuItem
+                      onClick={handleClose}
+                      component={Link}
+                      to="/mypage"
+                    >
+                      マイページ
+                    </MenuItem>
+                    {currentUser.patientOrDoctor
+                      ?
+                      <MenuItem
+                        onClick={handleClose}
+                        component={Link}
+                        to="/interview/create"
+                      >
+                        問診入力
+                      </MenuItem>
+                      :
+                      <MenuItem
+                        onClick={handleClose}
+                        component={Link}
+                        to="/patients"
+                      >
+                        患者一覧
+                      </MenuItem>
+                    }
+                    <MenuItem
+                      onClick={(e) => {
+                        handleSignOut(e);
+                        handleClose();
+                      }}
+                    >
+                      ログアウト
+                    </MenuItem>
+                  </>
+                  :
+                  <>
+                    <MenuItem
+                      onClick={handleClose}
+                      component={Link}
+                      to="/signin"
+                    >
+                      サインイン
+                    </MenuItem>
+                    <MenuItem
+                      component={Link}
+                      to="/signup"
+                      onClick={handleClose}
+                    >
+                      サインアップ
+                    </MenuItem>
+                  </>
+                }
+              </Menu>
             </Hidden>
-          </Box>
-        </Toolbar>
-      </AppBar>
-    </ThemeProvider>
+          </Box >
+        </Toolbar >
+      </AppBar >
+    </ThemeProvider >
   )
 }
 
