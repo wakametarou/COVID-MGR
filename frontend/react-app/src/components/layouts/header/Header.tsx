@@ -50,7 +50,7 @@ const Header: React.FC = () => {
   const classes = useStyles()
   const navigate = useNavigate()
 
-  const handleSignOut = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSignOut = async (e: React.MouseEvent<HTMLElement>) => {
     try {
       const res = await signOut()
 
@@ -100,60 +100,69 @@ const Header: React.FC = () => {
               >
                 <MenuIcon />
               </IconButton>
-              {/* <Menu
+              <Menu
                 id="menu"
                 anchorEl={anchorEl}
                 keepMounted
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
-              > */}
-              {isSignedIn
-                ?
-                <>
-                  <MenuItem
-                    onClick={handleClose}
-                  >
-                    マイページ
-                  </MenuItem>
-                  {currentUser.patientOrDoctor
-                    ?
-                    <>
+              >
+                {isSignedIn
+                  ?
+                  <>
+                    <MenuItem
+                      onClick={handleClose}
+                      component={Link}
+                      to="/mypage"
+                    >
+                      マイページ
+                    </MenuItem>
+                    {currentUser.patientOrDoctor
+                      ?
                       <MenuItem
-                      // onClick={handleClose}
+                        onClick={handleClose}
+                        component={Link}
+                        to="/interview/create"
                       >
-                        マイページ
+                        問診入力
                       </MenuItem>
+                      :
                       <MenuItem
-                      // onClick={handleSignOut}
+                        onClick={handleClose}
+                        component={Link}
+                        to="/patients"
                       >
-                        ログアウト
+                        患者一覧
                       </MenuItem>
-                    </>
-                    :
-                    <>
-                      <MenuItem onClick={handleClose}>Logout</MenuItem>
-                    </>
-                  }
-                </>
-                :
-                <>
-                  <MenuItem
-                    // onClick={handleClose}
-                    component={Link}
-                    to="/signin"
-                  >
-                    サインイン
-                  </MenuItem>
-                  <MenuItem
-                    component={Link}
-                    to="/signup"
-                  // onClick={handleClose}
-                  >
-                    サインアップ
-                  </MenuItem>
-                </>
-              }
-              {/* </Menu> */}
+                    }
+                    <MenuItem
+                      onClick={(e) => {
+                        handleSignOut(e);
+                        handleClose();
+                      }}
+                    >
+                      ログアウト
+                    </MenuItem>
+                  </>
+                  :
+                  <>
+                    <MenuItem
+                      onClick={handleClose}
+                      component={Link}
+                      to="/signin"
+                    >
+                      サインイン
+                    </MenuItem>
+                    <MenuItem
+                      component={Link}
+                      to="/signup"
+                      onClick={handleClose}
+                    >
+                      サインアップ
+                    </MenuItem>
+                  </>
+                }
+              </Menu>
             </Hidden>
           </Box >
         </Toolbar >

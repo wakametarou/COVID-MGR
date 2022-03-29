@@ -1,7 +1,6 @@
 import { useContext } from "react"
 import { Link } from "react-router-dom"
 import {
-  Button,
   IconButton,
 } from "@material-ui/core"
 import {
@@ -17,8 +16,6 @@ import { AuthContext } from "App"
 export const HeaderButtons = ({ classes, handleSignOut }: any) => {
   const { loading, currentUser, isSignedIn } = useContext(AuthContext)
 
-  // 認証完了後はサインアウト用のボタンを表示
-  // 未認証時は認証用のボタンを表示
   if (!loading) {
     if (isSignedIn) {
       return (
