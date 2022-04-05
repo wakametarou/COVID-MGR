@@ -6,9 +6,9 @@ https://covid-mgr.com/
 
 #### テスト用アカウント
 ##### メールアドレス
-sample@test.com
+・sample@test.com
 ##### パスワード
-sampletest
+・sampletest
 
 ## COVID-MGRの目的
 
