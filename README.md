@@ -4,6 +4,12 @@
 #### URL
 https://covid-mgr.com/
 
+#### テスト用アカウント
+##### メールアドレス
+sample@test.com
+##### パスワード
+sampletest
+
 ## COVID-MGRの目的
 
 当ページをご閲覧いただきありがとうございます。
