@@ -26,7 +26,8 @@ class Api::V1::PatientProfilesController < ApplicationController
     if patient_profile.save
       render json: patient_profile
     else
-      render status: :bad_request
+      #全エラーレスポンスを見直す必要あり
+      render json: { status: 400 }
     end
   end
 
