@@ -5,20 +5,11 @@ class Api::V1::UsersController < ApplicationController
     if current_api_v1_user.patient_or_doctor == false
       users = User.where(patient_or_doctor: true).order(created_at: :desc)
       users_array = users.map do |user|
-        {
-          id: user.id,
-          image: PatientProfile.find_by(user_id: user.id)&.image&.url,
-          name: user.name,
-          sex: user.sex,
-          room_number: PatientProfile.find_by(user_id: user.id)&.room_number,
-          status: Interview.order(created_at: :desc).find_by(user_id: user.id)&.status
-        }
+        user.users_format(user)
       end
       render json: users_array
     else
-      render json: {
-        error: 'You are not a doctor. Only a doctor can confirm it.'
-      }
+      render status: :unauthorized
     end
   end
 
@@ -28,12 +19,8 @@ class Api::V1::UsersController < ApplicationController
       patient_profile = PatientProfile.find_by(user_id: user.id)
       interview = Interview.order(created_at: :desc).find_by(user_id: user.id)
       user_info = {
-        user: {
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          sex: user.sex
-        },
+        user: user.user_format(user),
+        # リファクタリングしたいレスポンスのフォーマット
         patient_profile: {
           id: patient_profile&.id,
           image: patient_profile&.image&.url,
@@ -59,9 +46,7 @@ class Api::V1::UsersController < ApplicationController
       }
       render json: user_info
     else
-      render json: {
-        error: 'You are not a doctor. Only a doctor can confirm it.'
-      }
+      render status: :unauthorized
     end
   end
 end
