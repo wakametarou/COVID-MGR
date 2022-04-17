@@ -13,9 +13,9 @@ class Api::V1::PatientProfilesController < ApplicationController
       data = { status: 404 } if data.empty?
       render json: data
     when false
-      render json: { status: 401 }
+      render status: 401
     else
-      render json: { status: 404 }
+      render status: 404
     end
   end
 
@@ -26,7 +26,7 @@ class Api::V1::PatientProfilesController < ApplicationController
     if patient_profile.save
       render json: patient_profile
     else
-      render json: { status: 400 }
+      render status: 400
     end
   end
 
@@ -35,7 +35,7 @@ class Api::V1::PatientProfilesController < ApplicationController
     if patient_profile.update(patient_profile_params)
       render json: patient_profile
     else
-      render json: { status: 400 }
+      render status: 400
     end
   end
 
