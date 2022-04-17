@@ -6,15 +6,7 @@ class Api::V1::PatientProfilesController < ApplicationController
     case current_api_v1_user.patient_or_doctor
     when true
       if patient_profile ||= PatientProfile.find_by(user_id: current_api_v1_user.id)
-        profile = {
-          image: patient_profile.image.url,
-          room_number: patient_profile.room_number,
-          phone_number: patient_profile.phone_number,
-          emergency_address: patient_profile.emergency_address,
-          address: patient_profile.address,
-          building: patient_profile.building
-        }
-        data[:profile] = profile
+        data[:profile] = patient_profile.profile_format(patient_profile)
       end
       interview = Interview.find_by(user_id: current_api_v1_user.id)
       data[:interview] = interview.user_id if interview
